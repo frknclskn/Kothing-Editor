@@ -1043,7 +1043,7 @@ export default {
       ],
       save: [
         "_ke_command_save ke-resizing-enabled",
-        lang.toolbar.save +
+        lang.toolbar.save + " " +
           '<span class="ke-shortcut">' +
           (shortcutsDisable.indexOf("save") > -1
             ? ""
