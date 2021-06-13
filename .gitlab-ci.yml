@@ -1,0 +1,11 @@
+stages:
+  - lint
+
+before_script:
+  - git fetch --all
+  - npm install
+
+lint:
+  stage: lint
+  script:
+    - npm run lint

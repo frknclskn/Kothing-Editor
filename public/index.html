@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Kothing Editor</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+      body {
+        margin: 0;
+      }
+      .top-app-bar {
+        background-color: #6200ee;
+        color: white;
+        display: flex;
+        position: fixed;
+        flex-direction: column;
+        justify-content: space-between;
+        box-sizing: border-box;
+        width: 100%;
+        z-index: 4;
+      }
+
+      .top-app-bar__row {
+        display: flex;
+        position: relative;
+        box-sizing: border-box;
+        width: 100%;
+        height: 64px;
+      }
+      .top-app-bar__section {
+        display: inline-flex;
+        flex: 1 1 auto;
+        align-items: center;
+        min-width: 0;
+        padding: 8px 12px;
+        z-index: 1;
+      }
+      .top-app-bar__section--align-start {
+        justify-content: flex-start;
+        order: -1;
+      }
+      .top-app-bar__section--align-end {
+        justify-content: flex-end;
+        order: 1;
+      }
+      .top-app-bar__section .top-app-bar__action-item {
+        height: 36px;
+        min-width: 64px;
+        line-height: 36px;
+        text-align: center;
+        padding: 0 8px;
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 600;
+        color: #fff;
+      }
+      .top-app-bar__section .top-app-bar__action-item svg {
+        fill: #fff;
+      }
+      
+      .layout-grid {
+        box-sizing: border-box;
+        margin: 0 auto;
+      }
+      .main-content {
+        max-width: 1280px;
+        margin: 0 auto;
+        padding-top: 80px;
+      }
+      .main-content .section {
+        position: relative;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="kothing-editor__demo-bx">
+      <header class="top-app-bar top-app-bar--fixed">
+        <nav class="top-app-bar__row">
+          <section class="top-app-bar__section top-app-bar__section--align-start">
+            <strong>Kothing Editor</strong>
+          </section>
+          <section class="top-app-bar__section top-app-bar__section--align-end">
+            <a class="top-app-bar__action-item" href="#">Documents</a>
+            <a class="top-app-bar__action-item" href="https://github.com/kothing/kothing-editor" target="_blank">
+              <svg height="32" width="32" viewBox="0 0 16 16" aria-hidden="true"> <path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path></svg>
+            </a>
+          </section>
+        </nav>
+      </header>
+      <main class="main-content layout-grid">
+        <p>A powerful WYSIWYG rich text web editor by pure javascript</p>
+        <div class="section">
+          <textarea id="kt-editor"></textarea>
+          <br />
+          <button id="get-content">Get contents</button>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>

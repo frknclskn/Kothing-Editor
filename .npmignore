@@ -1,0 +1,25 @@
+# Created by .ignore support plugin (hsz.mobi)
+.DS_Store
+
+# project files
+.vscode/
+.idea/
+out
+gen
+
+# modules
+node_modules/
+*.log
+
+#build
+.travis.yml
+build/
+dist/
+
+#dev
+.git/
+test/
+.eslintrc.js
+.eslintignore
+package-lock.json
+yarn.lock
