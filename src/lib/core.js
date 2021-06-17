@@ -6528,7 +6528,7 @@ export default function (
         : this.convertContentsForEditor(
             typeof _initHTML === "string"
               ? _initHTML
-              : context.element.originElement.value
+              : context.element.originElement.value || ""
           );
     },
 
