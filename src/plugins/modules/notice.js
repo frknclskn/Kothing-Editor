@@ -18,8 +18,8 @@ export default {
 
     /** dialog */
     let notice_div = core.util.createElement("DIV");
-    let notice_span = core.util.createElement("SPAN");
-    let notice_button = core.util.createElement("BUTTON");
+    const notice_span = core.util.createElement("SPAN");
+    const notice_button = core.util.createElement("BUTTON");
 
     notice_div.className = "ke-notice";
     notice_button.className = "close";

@@ -42,28 +42,28 @@ export default {
       mention.focussed = 0;
       mention.term = term;
       promise = mention.getItems(term).then((items) => {
-        mention._items = items;
+        mention.items = items;
 
-        Object.keys(mention._itemElements).forEach((id) => {
+        Object.keys(mention.itemElements).forEach((id) => {
           if (!items.find((i) => mention.getId(i) === id)) {
-            const child = mention._itemElements[id];
+            const child = mention.itemElements[id];
             child.parentNode.removeChild(child);
-            delete mention._itemElements[id];
+            delete mention.itemElements[id];
           }
         });
 
         items.forEach((item, idx) => {
           const id = mention.getId(item);
-          if (!mention._itemElements[id]) {
+          if (!mention.itemElements[id]) {
             const el = this.util.createElement("LI");
             el.setAttribute("data-mention", id);
             this.util.addClass(el, "ke-mention-item");
             el.innerHTML = mention.renderItem(item);
             el.addEventListener("click", () => {
-              mention._addMention(item);
+              mention.addMention(item);
             });
-            insertAt(mention._list, el, idx);
-            mention._itemElements[id] = el;
+            insertAt(mention.list, el, idx);
+            mention.itemElements[id] = el;
           }
         });
       });
@@ -71,9 +71,9 @@ export default {
 
     promise.then(() => {
       const current =
-        mention._list.querySelectorAll(".ke-mention-item")[mention.focussed];
+        mention.list.querySelectorAll(".ke-mention-item")[mention.focussed];
       if (current && !this.util.hasClass(current, "ke-mention-active")) {
-        const prev = mention._list.querySelector(".ke-mention-active");
+        const prev = mention.list.querySelector(".ke-mention-active");
         if (prev) {
           this.util.removeClass(prev, "ke-mention-active");
         }
@@ -125,7 +125,7 @@ export default {
       "mention",
       "mention" === this.currentControllerName
     );
-    mention._search.focus();
+    mention.search.focus();
     mention.renderList("");
   },
 
@@ -138,11 +138,11 @@ export default {
 
   init: function () {
     const { mention } = this.context;
-    mention._search.value = "";
+    mention.search.value = "";
     mention.focussed = 0;
-    mention._items = [];
-    mention._itemElements = {};
-    mention._list.innerHTML = "";
+    mention.items = [];
+    mention.itemElements = {};
+    mention.list.innerHTML = "";
     delete mention.term;
   },
 
@@ -164,7 +164,7 @@ export default {
         break;
 
       case "Enter":
-        mention._addMention();
+        mention.addMention();
         e.preventDefault();
         e.stopPropagation();
         break;
@@ -188,9 +188,9 @@ export default {
     });
   },
 
-  _addMention: function (item) {
+  addMention: function (item) {
     const { mention } = this.context;
-    const new_mention = item || mention._items[mention.focussed];
+    const new_mention = item || mention.items[mention.focussed];
     if (new_mention) {
       if (
         !mention.mentions.find(
@@ -217,17 +217,17 @@ export default {
     const _dialog = this.setDialog(core);
     core.getMentions = this.getMentions(core);
 
-    const _search = _dialog.querySelector(".ke-mention-search");
-    _search.addEventListener("keyup", this.onKeyUp.bind(core));
-    _search.addEventListener("keydown", this.onKeyPress.bind(core));
-    const _list = _dialog.querySelector(".ke-mention-list");
+    const search = _dialog.querySelector(".ke-mention-search");
+    search.addEventListener("keyup", this.onKeyUp.bind(core));
+    search.addEventListener("keydown", this.onKeyPress.bind(core));
+    const list = _dialog.querySelector(".ke-mention-list");
 
     core.context.mention = {
-      _addMention: this._addMention.bind(core),
-      _itemElements: {},
-      _items: [],
-      _list,
-      _search,
+      addMention: this.addMention.bind(core),
+      itemElements: {},
+      items: [],
+      list,
+      search,
       focussed: 0,
       getId: this.getId.bind(core),
       getItems: this.getItems,

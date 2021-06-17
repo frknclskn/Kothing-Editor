@@ -15,7 +15,7 @@ export default {
     context.font = {
       targetText: targetElement.querySelector(".txt"),
       targetTooltip: targetElement.parentNode.querySelector(".ke-tooltip-text"),
-      _fontList: null,
+      fontList: null,
       currentFont: "",
       icon: icons.font,
     };
@@ -28,7 +28,7 @@ export default {
       .querySelector(".ke-list-inner")
       .addEventListener("click", this.pickup.bind(core));
 
-    context.font._fontList = listDiv.querySelectorAll("ul li button");
+    context.font.fontList = listDiv.querySelectorAll("ul li button");
 
     /** append target button menu */
     core.initMenuTarget(this.name, targetElement, listDiv);
@@ -45,7 +45,7 @@ export default {
     listDiv.className = "ke-submenu ke-list-layer ke-list-font-family";
 
     let font, text, i, len;
-    let fontList = !option.font
+    const fontList = !option.font
       ? [
           "Arial",
           "Comic Sans MS",
@@ -131,7 +131,7 @@ export default {
    */
   on: function () {
     const fontContext = this.context.font;
-    const fontList = fontContext._fontList;
+    const fontList = fontContext.fontList;
     const currentFont = fontContext.targetText.textContent;
 
     if (currentFont !== fontContext.currentFont) {

@@ -70,13 +70,13 @@ export default {
           name: target.parentNode.querySelector(".__ke__img_name").textContent,
           size: 0,
         };
-        this.context.image._altText = target.alt;
+        this.context.image.altText.value = target.alt;
         this.plugins.image.create_image.call(
           this,
           target.src,
           null,
-          this.context.image._origin_w,
-          this.context.image._origin_h,
+          this.context.image.origin_w,
+          this.context.image.origin_h,
           "none",
           file
         );

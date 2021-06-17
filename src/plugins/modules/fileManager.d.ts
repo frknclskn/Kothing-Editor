@@ -2,9 +2,9 @@ import { Module } from "../Module";
 
 /**
  * @description Require context properties when fileManager module
-    _infoList: [],
-    _infoIndex: 0,
-    _uploadFileLength: 0
+    infoList: [],
+    infoIndex: 0,
+    uploadFileLength: 0
 */
 declare interface fileManager extends Module {
   /**
@@ -48,7 +48,7 @@ declare interface fileManager extends Module {
   ): void;
 
   /**
-   * @description Create info object of file and add it to "_infoList" (this.context[pluginName]._infoList[])
+   * @description Create info object of file and add it to "infoList" (this.context[pluginName].infoList[])
    * @param  pluginName Plugin name
    * @param  element
    * @param  uploadEventHandler Event handler to process updated file info (created in setInfo)
@@ -67,9 +67,9 @@ declare interface fileManager extends Module {
   ): void;
 
   /**
-   * @description Delete info object at "_infoList"
+   * @description Delete info object at "infoList"
    * @param  pluginName Plugin name
-   * @param  index index of info object (this.context[pluginName]._infoList[].index)
+   * @param  index index of info object (this.context[pluginName].infoList[].index)
    * @param  uploadEventHandler Event handler to process updated file info (created in setInfo)
    */
   deleteInfo(
@@ -79,7 +79,7 @@ declare interface fileManager extends Module {
   ): void;
 
   /**
-   * @description Reset info object and "_infoList = []", "_infoIndex = 0"
+   * @description Reset info object and "infoList = []", "infoIndex = 0"
    * @param  pluginName Plugin name
    * @param  uploadEventHandler Event handler to process updated file info (created in setInfo)
    */

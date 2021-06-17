@@ -20,7 +20,7 @@ export default {
       previewElement: null,
       fontSizeElement: null,
       defaultFontSize: "",
-      _mathExp: null,
+      mathExp: null,
     };
 
     /** math dialog */
@@ -31,12 +31,12 @@ export default {
     context.math.fontSizeElement = math_dialog.querySelector(".ke-math-size");
     context.math.focusElement.addEventListener(
       "keyup",
-      this._renderMathExp.bind(core, context.math),
+      this.renderMathExp.bind(core, context.math),
       false
     );
     context.math.focusElement.addEventListener(
       "change",
-      this._renderMathExp.bind(core, context.math),
+      this.renderMathExp.bind(core, context.math),
       false
     );
     context.math.fontSizeElement.addEventListener(
@@ -50,7 +50,7 @@ export default {
     /** math controller */
     let math_controller = this.setController_MathButton(core);
     context.math.mathController = math_controller;
-    context.math._mathExp = null;
+    context.math.mathExp = null;
 
     /** add event listeners */
     math_dialog
@@ -67,7 +67,8 @@ export default {
     context.element.relative.appendChild(math_controller);
 
     /** empty memory */
-    (math_dialog = null), (math_controller = null);
+    math_dialog = null;
+    math_controller = null;
   },
 
   /** dialog */
@@ -193,10 +194,10 @@ export default {
         if (!element.getAttribute("data-exp") || !this.options.katex) {
           return;
         }
-        const dom = this._d
+        const dom = this._document
           .createRange()
           .createContextualFragment(
-            this.plugins.math._renderer.call(
+            this.plugins.math.renderer.call(
               this,
               this.util.HTMLDecoder(element.getAttribute("data-exp"))
             )
@@ -206,13 +207,13 @@ export default {
     };
   },
 
-  _renderer: function (exp) {
+  render: function (exp) {
     const katex = this.options.katex;
     return katex.src.renderToString(exp, katex.options);
   },
 
-  _renderMathExp: function (contextMath, e) {
-    contextMath.previewElement.innerHTML = this.plugins.math._renderer.call(
+  renderMathExp: function (contextMath, e) {
+    contextMath.previewElement.innerHTML = this.plugins.math.render.call(
       this,
       e.target.value
     );
@@ -262,7 +263,7 @@ export default {
         this.setRange(katexEl, 0, katexEl, 1);
       } else {
         const containerEl = this.util.getParentElement(
-          contextMath._mathExp,
+          contextMath.mathExp,
           ".katex"
         );
         containerEl.parentNode.replaceChild(katexEl, containerEl);
@@ -313,16 +314,16 @@ export default {
       this.plugins.math.init.call(this);
     } else {
       const contextMath = this.context.math;
-      if (contextMath._mathExp) {
+      if (contextMath.mathExp) {
         const exp = this.util.HTMLDecoder(
-          contextMath._mathExp.getAttribute("data-exp")
+          contextMath.mathExp.getAttribute("data-exp")
         );
         const fontSize =
-          contextMath._mathExp.getAttribute("data-font-size") || "1em";
+          contextMath.mathExp.getAttribute("data-font-size") || "1em";
         this.context.dialog.updateModal = true;
         contextMath.focusElement.value = exp;
         contextMath.fontSizeElement.value = fontSize;
-        contextMath.previewElement.innerHTML = this.plugins.math._renderer.call(
+        contextMath.previewElement.innerHTML = this.plugins.math.render.call(
           this,
           exp
         );
@@ -332,7 +333,7 @@ export default {
   },
 
   call_controller: function (mathTag) {
-    this.context.math._mathExp = mathTag;
+    this.context.math.mathExp = mathTag;
     const mathBtn = this.context.math.mathController;
 
     this.setControllerPosition(mathBtn, mathTag, "bottom", { left: 0, top: 0 });
@@ -353,13 +354,13 @@ export default {
 
     if (/update/.test(command)) {
       this.context.math.focusElement.value = this.util.HTMLDecoder(
-        this.context.math._mathExp.getAttribute("data-exp")
+        this.context.math.mathExp.getAttribute("data-exp")
       );
       this.plugins.dialog.open.call(this, "math", true);
     } else {
       /** delete */
-      this.util.removeItem(this.context.math._mathExp);
-      this.context.math._mathExp = null;
+      this.util.removeItem(this.context.math.mathExp);
+      this.context.math.mathExp = null;
       this.focus();
 
       // history stack
@@ -372,7 +373,7 @@ export default {
   init: function () {
     const contextMath = this.context.math;
     contextMath.mathController.style.display = "none";
-    contextMath._mathExp = null;
+    contextMath.mathExp = null;
     contextMath.focusElement.value = "";
     contextMath.previewElement.innerHTML = "";
   },

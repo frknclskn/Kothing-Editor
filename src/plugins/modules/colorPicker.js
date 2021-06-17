@@ -16,24 +16,24 @@ export default {
     const context = core.context;
     context.colorPicker = {
       colorListHTML: "",
-      _colorInput: "",
-      _defaultColor: "#000",
-      _styleProperty: "color",
-      _currentColor: "",
-      _colorList: [],
+      colorInput: "",
+      defaultColor: "#000",
+      styleProperty: "color",
+      currentColor: "",
+      colorList: [],
     };
 
     /** set submenu */
     context.colorPicker.colorListHTML = this.createColorList(
       core,
-      this._makeColorList
+      this.makeColorList
     );
   },
 
   /**
    * @description Create color list
    * @param {Object} core Core object
-   * @param {Function} makeColor this._makeColorList
+   * @param {Function} makeColor this.makeColorList
    * @returns {String} HTML string
    */
   createColorList: function (core, makeColor) {
@@ -147,7 +147,7 @@ export default {
    * @param {Array} colorList Color list
    * @private
    */
-  _makeColorList: function (colorList) {
+  makeColorList: function (colorList) {
     let list = "";
 
     list += '<ul class="ke-color-pallet">';
@@ -181,12 +181,12 @@ export default {
     let fillColor = color
       ? color
       : colorPicker.getColorInNode.call(this, node) ||
-        this.context.colorPicker._defaultColor;
+        this.context.colorPicker.defaultColor;
     fillColor = colorPicker.isHexColor(fillColor)
       ? fillColor
       : colorPicker.rgb2hex(fillColor) || fillColor;
 
-    const colorList = this.context.colorPicker._colorList;
+    const colorList = this.context.colorPicker.colorList;
     if (colorList) {
       for (let i = 0, len = colorList.length; i < len; i++) {
         if (
@@ -211,8 +211,8 @@ export default {
    * @param {String} hexColorStr Hax color value
    */
   setCurrentColor: function (hexColorStr) {
-    this.context.colorPicker._currentColor = hexColorStr;
-    this.context.colorPicker._colorInput.style.borderColor = hexColorStr;
+    this.context.colorPicker.currentColor = hexColorStr;
+    this.context.colorPicker.colorInput.style.borderColor = hexColorStr;
   },
 
   /**
@@ -221,7 +221,7 @@ export default {
    */
   setInputText: function (hexColorStr) {
     hexColorStr = /^#/.test(hexColorStr) ? hexColorStr : "#" + hexColorStr;
-    this.context.colorPicker._colorInput.value = hexColorStr;
+    this.context.colorPicker.colorInput.value = hexColorStr;
     this.plugins.colorPicker.setCurrentColor.call(this, hexColorStr);
   },
 
@@ -232,7 +232,7 @@ export default {
    */
   getColorInNode: function (node) {
     let findColor = "";
-    const styleProperty = this.context.colorPicker._styleProperty;
+    const styleProperty = this.context.colorPicker.styleProperty;
 
     while (node && !this.util.isWysiwygDiv(node) && findColor.length === 0) {
       if (node.nodeType === 1 && node.style[styleProperty]) {
@@ -279,11 +279,11 @@ export default {
     if (/^#/.test(colorName)) {
       return colorName;
     }
-    var temp = this.util.createElement("div");
+    const temp = this.util.createElement("div");
     temp.style.display = "none";
     temp.style.color = colorName;
-    var colors = this._w
-      .getComputedStyle(this._d.body.appendChild(temp))
+    const colors = this._window
+      .getComputedStyle(this._document.body.appendChild(temp))
       .color.match(/\d+/g)
       .map(function (a) {
         return parseInt(a, 10);

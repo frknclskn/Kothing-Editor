@@ -12,7 +12,7 @@ export default {
   add: function (core, targetElement) {
     const context = core.context;
     context.textStyle = {
-      _styleList: null,
+      styleList: null,
     };
 
     /** set submenu */
@@ -22,13 +22,14 @@ export default {
     /** add event listeners */
     listUl.addEventListener("click", this.pickup.bind(core));
 
-    context.textStyle._styleList = listDiv.querySelectorAll("li button");
+    context.textStyle.styleList = listDiv.querySelectorAll("li button");
 
     /** append target button menu */
     core.initMenuTarget(this.name, targetElement, listDiv);
 
     /** empty memory */
-    (listDiv = null), (listUl = null);
+    listDiv = null;
+    listUl = null;
   },
 
   setSubmenu: function (core) {
@@ -54,7 +55,7 @@ export default {
       },
     };
     const styleList = !option.textStyles
-      ? core._w.Object.keys(defaultList)
+      ? core._window.Object.keys(defaultList)
       : option.textStyles;
 
     let list = '<div class="ke-list-inner"><ul class="ke-list-basic">';
@@ -72,7 +73,9 @@ export default {
       i++
     ) {
       t = styleList[i];
-      (attrs = ""), (value = ""), (command = []);
+      attrs = "";
+      value = "";
+      command = [];
 
       if (typeof t === "string") {
         const defaultStyle = defaultList[t.toLowerCase()];
@@ -84,7 +87,7 @@ export default {
 
       name = t.name;
       tag = t.tag || "span";
-      _class = t._class;
+      _class = t.class;
 
       if (t.style) {
         attrs += ' style="' + t.style + '"';
@@ -133,7 +136,7 @@ export default {
   on: function () {
     const util = this.util;
     const textStyleContext = this.context.textStyle;
-    const styleToolbarItem = textStyleContext._styleList;
+    const styleToolbarItem = textStyleContext.styleList;
     const selectionNode = this.getSelectionNode();
 
     for (

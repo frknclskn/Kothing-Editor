@@ -15,7 +15,7 @@ export default {
     context.formatBlock = {
       targetText: targetElement.querySelector(".txt"),
       targetTooltip: targetElement.parentNode.querySelector(".ke-tooltip-text"),
-      _formatList: null,
+      formatList: null,
       currentFormat: "",
       icon: icons.format_block,
     };
@@ -27,7 +27,7 @@ export default {
     listDiv
       .querySelector("ul")
       .addEventListener("click", this.pickUp.bind(core));
-    context.formatBlock._formatList = listDiv.querySelectorAll("li button");
+    context.formatBlock.formatList = listDiv.querySelectorAll("li button");
 
     /** append target button menu */
     core.initMenuTarget(this.name, targetElement, listDiv);
@@ -137,7 +137,7 @@ export default {
       this.util.changeElement(target, icon);
     } else if (this.util.isFormatElement(element)) {
       const formatContext = this.context.formatBlock;
-      const formatList = formatContext._formatList;
+      const formatList = formatContext.formatList;
       const nodeName = element.nodeName.toLowerCase();
       const className = (element.className.match(
         /(\s|^)__ke__format__[^\s]+/
@@ -170,7 +170,7 @@ export default {
    */
   on: function () {
     const formatContext = this.context.formatBlock;
-    const formatList = formatContext._formatList;
+    const formatList = formatContext.formatList;
     const target = formatContext.targetText;
     const currentFormat =
       (target.getAttribute("data-value") || "") +

@@ -621,7 +621,7 @@
             <span class="pl-c1">focusElement</span>: null<span class="pl-kos">,</span> <span class="pl-c">// <span class="pl-k">@Override</span> // This element has focus when the dialog is opened.</span>
             <span class="pl-c1">targetSelect</span>: null<span class="pl-kos">,</span>
             <span class="pl-c1">linkAnchorText</span>: null<span class="pl-kos">,</span>
-            <span class="pl-c1">_linkAnchor</span>: null
+            <span class="pl-c1">linkAnchor</span>: null
         <span class="pl-kos">}</span><span class="pl-kos">;</span>
 
         <span class="pl-c">/** link dialog */</span>
@@ -634,7 +634,7 @@
         <span class="pl-c">/** link controller */</span>
         <span class="pl-k">let</span> <span class="pl-s1">link_controller</span> <span class="pl-c1">=</span> <span class="pl-smi">this</span><span class="pl-kos">.</span><span class="pl-en">setController_LinkButton</span><span class="pl-kos">(</span><span class="pl-s1">core</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
         <span class="pl-s1">context</span><span class="pl-kos">.</span><span class="pl-c1">customLink</span><span class="pl-kos">.</span><span class="pl-c1">linkController</span> <span class="pl-c1">=</span> <span class="pl-s1">link_controller</span><span class="pl-kos">;</span>
-        <span class="pl-s1">context</span><span class="pl-kos">.</span><span class="pl-c1">customLink</span><span class="pl-kos">.</span><span class="pl-c1">_linkAnchor</span> <span class="pl-c1">=</span> null<span class="pl-kos">;</span>
+        <span class="pl-s1">context</span><span class="pl-kos">.</span><span class="pl-c1">customLink</span><span class="pl-kos">.</span><span class="pl-c1">linkAnchor</span> <span class="pl-c1">=</span> null<span class="pl-kos">;</span>
 
         <span class="pl-c">/** add event listeners */</span>
         <span class="pl-s1">link_dialog</span><span class="pl-kos">.</span><span class="pl-en">querySelector</span><span class="pl-kos">(</span><span class="pl-s">'form'</span><span class="pl-kos">)</span><span class="pl-kos">.</span><span class="pl-en">addEventListener</span><span class="pl-kos">(</span><span class="pl-s">'submit'</span><span class="pl-kos">,</span> <span class="pl-smi">this</span><span class="pl-kos">.</span><span class="pl-c1">submit</span><span class="pl-kos">.</span><span class="pl-en">bind</span><span class="pl-kos">(</span><span class="pl-s1">core</span><span class="pl-kos">)</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
@@ -770,12 +770,12 @@
 
                 <span class="pl-smi">this</span><span class="pl-kos">.</span><span class="pl-en">setRange</span><span class="pl-kos">(</span><span class="pl-s1">oA</span><span class="pl-kos">.</span><span class="pl-c1">childNodes</span><span class="pl-kos">[</span><span class="pl-c1">0</span><span class="pl-kos">]</span><span class="pl-kos">,</span> <span class="pl-c1">0</span><span class="pl-kos">,</span> <span class="pl-s1">oA</span><span class="pl-kos">.</span><span class="pl-c1">childNodes</span><span class="pl-kos">[</span><span class="pl-c1">0</span><span class="pl-kos">]</span><span class="pl-kos">,</span> <span class="pl-s1">oA</span><span class="pl-kos">.</span><span class="pl-c1">textContent</span><span class="pl-kos">.</span><span class="pl-c1">length</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
             <span class="pl-kos">}</span> <span class="pl-k">else</span> <span class="pl-kos">{</span>
-                <span class="pl-s1">contextLink</span><span class="pl-kos">.</span><span class="pl-c1">_linkAnchor</span><span class="pl-kos">.</span><span class="pl-c1">href</span> <span class="pl-c1">=</span> <span class="pl-s1">url</span><span class="pl-kos">;</span>
-                <span class="pl-s1">contextLink</span><span class="pl-kos">.</span><span class="pl-c1">_linkAnchor</span><span class="pl-kos">.</span><span class="pl-c1">textContent</span> <span class="pl-c1">=</span> <span class="pl-s1">anchorText</span><span class="pl-kos">;</span>
-                <span class="pl-s1">contextLink</span><span class="pl-kos">.</span><span class="pl-c1">_linkAnchor</span><span class="pl-kos">.</span><span class="pl-c1">target</span> <span class="pl-c1">=</span> <span class="pl-s1">contextLink</span><span class="pl-kos">.</span><span class="pl-c1">targetSelect</span><span class="pl-kos">.</span><span class="pl-c1">selectedOptions</span><span class="pl-kos">[</span><span class="pl-c1">0</span><span class="pl-kos">]</span><span class="pl-kos">.</span><span class="pl-c1">value</span><span class="pl-kos">;</span>
+                <span class="pl-s1">contextLink</span><span class="pl-kos">.</span><span class="pl-c1">linkAnchor</span><span class="pl-kos">.</span><span class="pl-c1">href</span> <span class="pl-c1">=</span> <span class="pl-s1">url</span><span class="pl-kos">;</span>
+                <span class="pl-s1">contextLink</span><span class="pl-kos">.</span><span class="pl-c1">linkAnchor</span><span class="pl-kos">.</span><span class="pl-c1">textContent</span> <span class="pl-c1">=</span> <span class="pl-s1">anchorText</span><span class="pl-kos">;</span>
+                <span class="pl-s1">contextLink</span><span class="pl-kos">.</span><span class="pl-c1">linkAnchor</span><span class="pl-kos">.</span><span class="pl-c1">target</span> <span class="pl-c1">=</span> <span class="pl-s1">contextLink</span><span class="pl-kos">.</span><span class="pl-c1">targetSelect</span><span class="pl-kos">.</span><span class="pl-c1">selectedOptions</span><span class="pl-kos">[</span><span class="pl-c1">0</span><span class="pl-kos">]</span><span class="pl-kos">.</span><span class="pl-c1">value</span><span class="pl-kos">;</span>
 
                 <span class="pl-c">// set range</span>
-                <span class="pl-smi">this</span><span class="pl-kos">.</span><span class="pl-en">setRange</span><span class="pl-kos">(</span><span class="pl-s1">contextLink</span><span class="pl-kos">.</span><span class="pl-c1">_linkAnchor</span><span class="pl-kos">.</span><span class="pl-c1">childNodes</span><span class="pl-kos">[</span><span class="pl-c1">0</span><span class="pl-kos">]</span><span class="pl-kos">,</span> <span class="pl-c1">0</span><span class="pl-kos">,</span> <span class="pl-s1">contextLink</span><span class="pl-kos">.</span><span class="pl-c1">_linkAnchor</span><span class="pl-kos">.</span><span class="pl-c1">childNodes</span><span class="pl-kos">[</span><span class="pl-c1">0</span><span class="pl-kos">]</span><span class="pl-kos">,</span> <span class="pl-s1">contextLink</span><span class="pl-kos">.</span><span class="pl-c1">_linkAnchor</span><span class="pl-kos">.</span><span class="pl-c1">textContent</span><span class="pl-kos">.</span><span class="pl-c1">length</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
+                <span class="pl-smi">this</span><span class="pl-kos">.</span><span class="pl-en">setRange</span><span class="pl-kos">(</span><span class="pl-s1">contextLink</span><span class="pl-kos">.</span><span class="pl-c1">linkAnchor</span><span class="pl-kos">.</span><span class="pl-c1">childNodes</span><span class="pl-kos">[</span><span class="pl-c1">0</span><span class="pl-kos">]</span><span class="pl-kos">,</span> <span class="pl-c1">0</span><span class="pl-kos">,</span> <span class="pl-s1">contextLink</span><span class="pl-kos">.</span><span class="pl-c1">linkAnchor</span><span class="pl-kos">.</span><span class="pl-c1">childNodes</span><span class="pl-kos">[</span><span class="pl-c1">0</span><span class="pl-kos">]</span><span class="pl-kos">,</span> <span class="pl-s1">contextLink</span><span class="pl-kos">.</span><span class="pl-c1">linkAnchor</span><span class="pl-kos">.</span><span class="pl-c1">textContent</span><span class="pl-kos">.</span><span class="pl-c1">length</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
             <span class="pl-kos">}</span>
 
             <span class="pl-c">// history stack</span>
@@ -821,18 +821,18 @@
         <span class="pl-k">if</span> <span class="pl-kos">(</span>!<span class="pl-s1">update</span><span class="pl-kos">)</span> <span class="pl-kos">{</span>
             <span class="pl-smi">this</span><span class="pl-kos">.</span><span class="pl-c1">plugins</span><span class="pl-kos">.</span><span class="pl-c1">customLink</span><span class="pl-kos">.</span><span class="pl-c1">init</span><span class="pl-kos">.</span><span class="pl-en">call</span><span class="pl-kos">(</span><span class="pl-smi">this</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
             <span class="pl-smi">this</span><span class="pl-kos">.</span><span class="pl-c1">context</span><span class="pl-kos">.</span><span class="pl-c1">customLink</span><span class="pl-kos">.</span><span class="pl-c1">linkAnchorText</span><span class="pl-kos">.</span><span class="pl-c1">value</span> <span class="pl-c1">=</span> <span class="pl-smi">this</span><span class="pl-kos">.</span><span class="pl-en">getSelection</span><span class="pl-kos">(</span><span class="pl-kos">)</span><span class="pl-kos">.</span><span class="pl-en">toString</span><span class="pl-kos">(</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
-        <span class="pl-kos">}</span> <span class="pl-k">else</span> <span class="pl-k">if</span> <span class="pl-kos">(</span><span class="pl-smi">this</span><span class="pl-kos">.</span><span class="pl-c1">context</span><span class="pl-kos">.</span><span class="pl-c1">customLink</span><span class="pl-kos">.</span><span class="pl-c1">_linkAnchor</span><span class="pl-kos">)</span> <span class="pl-kos">{</span>
+        <span class="pl-kos">}</span> <span class="pl-k">else</span> <span class="pl-k">if</span> <span class="pl-kos">(</span><span class="pl-smi">this</span><span class="pl-kos">.</span><span class="pl-c1">context</span><span class="pl-kos">.</span><span class="pl-c1">customLink</span><span class="pl-kos">.</span><span class="pl-c1">linkAnchor</span><span class="pl-kos">)</span> <span class="pl-kos">{</span>
             <span class="pl-c">// "update" and "this.context.dialog.updateModal" are always the same value.</span>
             <span class="pl-c">// This code is an exception to the "link" plugin.</span>
             <span class="pl-smi">this</span><span class="pl-kos">.</span><span class="pl-c1">context</span><span class="pl-kos">.</span><span class="pl-c1">dialog</span><span class="pl-kos">.</span><span class="pl-c1">updateModal</span> <span class="pl-c1">=</span> <span class="pl-c1">true</span><span class="pl-kos">;</span>
-            <span class="pl-smi">this</span><span class="pl-kos">.</span><span class="pl-c1">context</span><span class="pl-kos">.</span><span class="pl-c1">customLink</span><span class="pl-kos">.</span><span class="pl-c1">focusElement</span><span class="pl-kos">.</span><span class="pl-c1">value</span> <span class="pl-c1">=</span> <span class="pl-smi">this</span><span class="pl-kos">.</span><span class="pl-c1">context</span><span class="pl-kos">.</span><span class="pl-c1">customLink</span><span class="pl-kos">.</span><span class="pl-c1">_linkAnchor</span><span class="pl-kos">.</span><span class="pl-c1">href</span><span class="pl-kos">;</span>
-            <span class="pl-smi">this</span><span class="pl-kos">.</span><span class="pl-c1">context</span><span class="pl-kos">.</span><span class="pl-c1">customLink</span><span class="pl-kos">.</span><span class="pl-c1">linkAnchorText</span><span class="pl-kos">.</span><span class="pl-c1">value</span> <span class="pl-c1">=</span> <span class="pl-smi">this</span><span class="pl-kos">.</span><span class="pl-c1">context</span><span class="pl-kos">.</span><span class="pl-c1">customLink</span><span class="pl-kos">.</span><span class="pl-c1">_linkAnchor</span><span class="pl-kos">.</span><span class="pl-c1">textContent</span><span class="pl-kos">;</span>
-            <span class="pl-smi">this</span><span class="pl-kos">.</span><span class="pl-c1">context</span><span class="pl-kos">.</span><span class="pl-c1">customLink</span><span class="pl-kos">.</span><span class="pl-c1">targetSelect</span><span class="pl-kos">.</span><span class="pl-c1">value</span> <span class="pl-c1">=</span> <span class="pl-smi">this</span><span class="pl-kos">.</span><span class="pl-c1">context</span><span class="pl-kos">.</span><span class="pl-c1">customLink</span><span class="pl-kos">.</span><span class="pl-c1">_linkAnchor</span><span class="pl-kos">.</span><span class="pl-c1">target</span> <span class="pl-c1">||</span> <span class="pl-s">''</span><span class="pl-kos">;</span>
+            <span class="pl-smi">this</span><span class="pl-kos">.</span><span class="pl-c1">context</span><span class="pl-kos">.</span><span class="pl-c1">customLink</span><span class="pl-kos">.</span><span class="pl-c1">focusElement</span><span class="pl-kos">.</span><span class="pl-c1">value</span> <span class="pl-c1">=</span> <span class="pl-smi">this</span><span class="pl-kos">.</span><span class="pl-c1">context</span><span class="pl-kos">.</span><span class="pl-c1">customLink</span><span class="pl-kos">.</span><span class="pl-c1">linkAnchor</span><span class="pl-kos">.</span><span class="pl-c1">href</span><span class="pl-kos">;</span>
+            <span class="pl-smi">this</span><span class="pl-kos">.</span><span class="pl-c1">context</span><span class="pl-kos">.</span><span class="pl-c1">customLink</span><span class="pl-kos">.</span><span class="pl-c1">linkAnchorText</span><span class="pl-kos">.</span><span class="pl-c1">value</span> <span class="pl-c1">=</span> <span class="pl-smi">this</span><span class="pl-kos">.</span><span class="pl-c1">context</span><span class="pl-kos">.</span><span class="pl-c1">customLink</span><span class="pl-kos">.</span><span class="pl-c1">linkAnchor</span><span class="pl-kos">.</span><span class="pl-c1">textContent</span><span class="pl-kos">;</span>
+            <span class="pl-smi">this</span><span class="pl-kos">.</span><span class="pl-c1">context</span><span class="pl-kos">.</span><span class="pl-c1">customLink</span><span class="pl-kos">.</span><span class="pl-c1">targetSelect</span><span class="pl-kos">.</span><span class="pl-c1">value</span> <span class="pl-c1">=</span> <span class="pl-smi">this</span><span class="pl-kos">.</span><span class="pl-c1">context</span><span class="pl-kos">.</span><span class="pl-c1">customLink</span><span class="pl-kos">.</span><span class="pl-c1">linkAnchor</span><span class="pl-kos">.</span><span class="pl-c1">target</span> <span class="pl-c1">||</span> <span class="pl-s">''</span><span class="pl-kos">;</span>
         <span class="pl-kos">}</span>
     <span class="pl-kos">}</span><span class="pl-kos">,</span>
 
     <span class="pl-en">call_controller</span>: <span class="pl-k">function</span> <span class="pl-kos">(</span><span class="pl-s1">selectionATag</span><span class="pl-kos">)</span> <span class="pl-kos">{</span>
-        <span class="pl-smi">this</span><span class="pl-kos">.</span><span class="pl-c1">editLink</span> <span class="pl-c1">=</span> <span class="pl-smi">this</span><span class="pl-kos">.</span><span class="pl-c1">context</span><span class="pl-kos">.</span><span class="pl-c1">customLink</span><span class="pl-kos">.</span><span class="pl-c1">_linkAnchor</span> <span class="pl-c1">=</span> <span class="pl-s1">selectionATag</span><span class="pl-kos">;</span>
+        <span class="pl-smi">this</span><span class="pl-kos">.</span><span class="pl-c1">editLink</span> <span class="pl-c1">=</span> <span class="pl-smi">this</span><span class="pl-kos">.</span><span class="pl-c1">context</span><span class="pl-kos">.</span><span class="pl-c1">customLink</span><span class="pl-kos">.</span><span class="pl-c1">linkAnchor</span> <span class="pl-c1">=</span> <span class="pl-s1">selectionATag</span><span class="pl-kos">;</span>
         <span class="pl-k">const</span> <span class="pl-s1">linkBtn</span> <span class="pl-c1">=</span> <span class="pl-smi">this</span><span class="pl-kos">.</span><span class="pl-c1">context</span><span class="pl-kos">.</span><span class="pl-c1">customLink</span><span class="pl-kos">.</span><span class="pl-c1">linkController</span><span class="pl-kos">;</span>
         <span class="pl-k">const</span> <span class="pl-s1">link</span> <span class="pl-c1">=</span> <span class="pl-s1">linkBtn</span><span class="pl-kos">.</span><span class="pl-en">querySelector</span><span class="pl-kos">(</span><span class="pl-s">'a'</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
 
@@ -868,21 +868,21 @@
 
         <span class="pl-k">if</span> <span class="pl-kos">(</span><span class="pl-pds">/update/</span><span class="pl-kos">.</span><span class="pl-en">test</span><span class="pl-kos">(</span><span class="pl-s1">command</span><span class="pl-kos">)</span><span class="pl-kos">)</span> <span class="pl-kos">{</span>
             <span class="pl-k">const</span> <span class="pl-s1">contextLink</span> <span class="pl-c1">=</span> <span class="pl-smi">this</span><span class="pl-kos">.</span><span class="pl-c1">context</span><span class="pl-kos">.</span><span class="pl-c1">customLink</span><span class="pl-kos">;</span>
-            <span class="pl-s1">contextLink</span><span class="pl-kos">.</span><span class="pl-c1">focusElement</span><span class="pl-kos">.</span><span class="pl-c1">value</span> <span class="pl-c1">=</span> <span class="pl-s1">contextLink</span><span class="pl-kos">.</span><span class="pl-c1">_linkAnchor</span><span class="pl-kos">.</span><span class="pl-c1">href</span><span class="pl-kos">;</span>
-            <span class="pl-s1">contextLink</span><span class="pl-kos">.</span><span class="pl-c1">linkAnchorText</span><span class="pl-kos">.</span><span class="pl-c1">value</span> <span class="pl-c1">=</span> <span class="pl-s1">contextLink</span><span class="pl-kos">.</span><span class="pl-c1">_linkAnchor</span><span class="pl-kos">.</span><span class="pl-c1">textContent</span><span class="pl-kos">;</span>
+            <span class="pl-s1">contextLink</span><span class="pl-kos">.</span><span class="pl-c1">focusElement</span><span class="pl-kos">.</span><span class="pl-c1">value</span> <span class="pl-c1">=</span> <span class="pl-s1">contextLink</span><span class="pl-kos">.</span><span class="pl-c1">linkAnchor</span><span class="pl-kos">.</span><span class="pl-c1">href</span><span class="pl-kos">;</span>
+            <span class="pl-s1">contextLink</span><span class="pl-kos">.</span><span class="pl-c1">linkAnchorText</span><span class="pl-kos">.</span><span class="pl-c1">value</span> <span class="pl-c1">=</span> <span class="pl-s1">contextLink</span><span class="pl-kos">.</span><span class="pl-c1">linkAnchor</span><span class="pl-kos">.</span><span class="pl-c1">textContent</span><span class="pl-kos">;</span>
             <span class="pl-s1">contextLink</span><span class="pl-kos">.</span><span class="pl-c1">targetSelect</span><span class="pl-kos">.</span><span class="pl-c1">value</span> <span class="pl-c1">=</span> <span class="pl-s1">contextLink</span><span class="pl-kos">.</span><span class="pl-c1">targetSelect</span><span class="pl-kos">.</span><span class="pl-c1">value</span><span class="pl-kos">;</span>
             <span class="pl-smi">this</span><span class="pl-kos">.</span><span class="pl-c1">plugins</span><span class="pl-kos">.</span><span class="pl-c1">dialog</span><span class="pl-kos">.</span><span class="pl-c1">open</span><span class="pl-kos">.</span><span class="pl-en">call</span><span class="pl-kos">(</span><span class="pl-smi">this</span><span class="pl-kos">,</span> <span class="pl-s">'customLink'</span><span class="pl-kos">,</span> <span class="pl-c1">true</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
         <span class="pl-kos">}</span>
         <span class="pl-k">else</span> <span class="pl-k">if</span> <span class="pl-kos">(</span><span class="pl-pds">/unlink/</span><span class="pl-kos">.</span><span class="pl-en">test</span><span class="pl-kos">(</span><span class="pl-s1">command</span><span class="pl-kos">)</span><span class="pl-kos">)</span> <span class="pl-kos">{</span>
-            <span class="pl-k">const</span> <span class="pl-s1">sc</span> <span class="pl-c1">=</span> <span class="pl-smi">this</span><span class="pl-kos">.</span><span class="pl-c1">util</span><span class="pl-kos">.</span><span class="pl-en">getChildElement</span><span class="pl-kos">(</span><span class="pl-smi">this</span><span class="pl-kos">.</span><span class="pl-c1">context</span><span class="pl-kos">.</span><span class="pl-c1">customLink</span><span class="pl-kos">.</span><span class="pl-c1">_linkAnchor</span><span class="pl-kos">,</span> <span class="pl-k">function</span> <span class="pl-kos">(</span><span class="pl-s1">current</span><span class="pl-kos">)</span> <span class="pl-kos">{</span> <span class="pl-k">return</span> <span class="pl-s1">current</span><span class="pl-kos">.</span><span class="pl-c1">childNodes</span><span class="pl-kos">.</span><span class="pl-c1">length</span> <span class="pl-c1">===</span> <span class="pl-c1">0</span> <span class="pl-c1">||</span> <span class="pl-s1">current</span><span class="pl-kos">.</span><span class="pl-c1">nodeType</span> <span class="pl-c1">===</span> <span class="pl-c1">3</span><span class="pl-kos">;</span> <span class="pl-kos">}</span><span class="pl-kos">,</span> <span class="pl-c1">false</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
-            <span class="pl-k">const</span> <span class="pl-s1">ec</span> <span class="pl-c1">=</span> <span class="pl-smi">this</span><span class="pl-kos">.</span><span class="pl-c1">util</span><span class="pl-kos">.</span><span class="pl-en">getChildElement</span><span class="pl-kos">(</span><span class="pl-smi">this</span><span class="pl-kos">.</span><span class="pl-c1">context</span><span class="pl-kos">.</span><span class="pl-c1">customLink</span><span class="pl-kos">.</span><span class="pl-c1">_linkAnchor</span><span class="pl-kos">,</span> <span class="pl-k">function</span> <span class="pl-kos">(</span><span class="pl-s1">current</span><span class="pl-kos">)</span> <span class="pl-kos">{</span> <span class="pl-k">return</span> <span class="pl-s1">current</span><span class="pl-kos">.</span><span class="pl-c1">childNodes</span><span class="pl-kos">.</span><span class="pl-c1">length</span> <span class="pl-c1">===</span> <span class="pl-c1">0</span> <span class="pl-c1">||</span> <span class="pl-s1">current</span><span class="pl-kos">.</span><span class="pl-c1">nodeType</span> <span class="pl-c1">===</span> <span class="pl-c1">3</span><span class="pl-kos">;</span> <span class="pl-kos">}</span><span class="pl-kos">,</span> <span class="pl-c1">true</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
+            <span class="pl-k">const</span> <span class="pl-s1">sc</span> <span class="pl-c1">=</span> <span class="pl-smi">this</span><span class="pl-kos">.</span><span class="pl-c1">util</span><span class="pl-kos">.</span><span class="pl-en">getChildElement</span><span class="pl-kos">(</span><span class="pl-smi">this</span><span class="pl-kos">.</span><span class="pl-c1">context</span><span class="pl-kos">.</span><span class="pl-c1">customLink</span><span class="pl-kos">.</span><span class="pl-c1">linkAnchor</span><span class="pl-kos">,</span> <span class="pl-k">function</span> <span class="pl-kos">(</span><span class="pl-s1">current</span><span class="pl-kos">)</span> <span class="pl-kos">{</span> <span class="pl-k">return</span> <span class="pl-s1">current</span><span class="pl-kos">.</span><span class="pl-c1">childNodes</span><span class="pl-kos">.</span><span class="pl-c1">length</span> <span class="pl-c1">===</span> <span class="pl-c1">0</span> <span class="pl-c1">||</span> <span class="pl-s1">current</span><span class="pl-kos">.</span><span class="pl-c1">nodeType</span> <span class="pl-c1">===</span> <span class="pl-c1">3</span><span class="pl-kos">;</span> <span class="pl-kos">}</span><span class="pl-kos">,</span> <span class="pl-c1">false</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
+            <span class="pl-k">const</span> <span class="pl-s1">ec</span> <span class="pl-c1">=</span> <span class="pl-smi">this</span><span class="pl-kos">.</span><span class="pl-c1">util</span><span class="pl-kos">.</span><span class="pl-en">getChildElement</span><span class="pl-kos">(</span><span class="pl-smi">this</span><span class="pl-kos">.</span><span class="pl-c1">context</span><span class="pl-kos">.</span><span class="pl-c1">customLink</span><span class="pl-kos">.</span><span class="pl-c1">linkAnchor</span><span class="pl-kos">,</span> <span class="pl-k">function</span> <span class="pl-kos">(</span><span class="pl-s1">current</span><span class="pl-kos">)</span> <span class="pl-kos">{</span> <span class="pl-k">return</span> <span class="pl-s1">current</span><span class="pl-kos">.</span><span class="pl-c1">childNodes</span><span class="pl-kos">.</span><span class="pl-c1">length</span> <span class="pl-c1">===</span> <span class="pl-c1">0</span> <span class="pl-c1">||</span> <span class="pl-s1">current</span><span class="pl-kos">.</span><span class="pl-c1">nodeType</span> <span class="pl-c1">===</span> <span class="pl-c1">3</span><span class="pl-kos">;</span> <span class="pl-kos">}</span><span class="pl-kos">,</span> <span class="pl-c1">true</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
             <span class="pl-smi">this</span><span class="pl-kos">.</span><span class="pl-en">setRange</span><span class="pl-kos">(</span><span class="pl-s1">sc</span><span class="pl-kos">,</span> <span class="pl-c1">0</span><span class="pl-kos">,</span> <span class="pl-s1">ec</span><span class="pl-kos">,</span> <span class="pl-s1">ec</span><span class="pl-kos">.</span><span class="pl-c1">textContent</span><span class="pl-kos">.</span><span class="pl-c1">length</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
             <span class="pl-smi">this</span><span class="pl-kos">.</span><span class="pl-en">nodeChange</span><span class="pl-kos">(</span>null<span class="pl-kos">,</span> null<span class="pl-kos">,</span> <span class="pl-kos">[</span><span class="pl-s">'A'</span><span class="pl-kos">]</span><span class="pl-kos">,</span> <span class="pl-c1">false</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
         <span class="pl-kos">}</span>
         <span class="pl-k">else</span> <span class="pl-kos">{</span>
             <span class="pl-c">/** delete */</span>
-            <span class="pl-smi">this</span><span class="pl-kos">.</span><span class="pl-c1">util</span><span class="pl-kos">.</span><span class="pl-en">removeItem</span><span class="pl-kos">(</span><span class="pl-smi">this</span><span class="pl-kos">.</span><span class="pl-c1">context</span><span class="pl-kos">.</span><span class="pl-c1">customLink</span><span class="pl-kos">.</span><span class="pl-c1">_linkAnchor</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
-            <span class="pl-smi">this</span><span class="pl-kos">.</span><span class="pl-c1">context</span><span class="pl-kos">.</span><span class="pl-c1">customLink</span><span class="pl-kos">.</span><span class="pl-c1">_linkAnchor</span> <span class="pl-c1">=</span> null<span class="pl-kos">;</span>
+            <span class="pl-smi">this</span><span class="pl-kos">.</span><span class="pl-c1">util</span><span class="pl-kos">.</span><span class="pl-en">removeItem</span><span class="pl-kos">(</span><span class="pl-smi">this</span><span class="pl-kos">.</span><span class="pl-c1">context</span><span class="pl-kos">.</span><span class="pl-c1">customLink</span><span class="pl-kos">.</span><span class="pl-c1">linkAnchor</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
+            <span class="pl-smi">this</span><span class="pl-kos">.</span><span class="pl-c1">context</span><span class="pl-kos">.</span><span class="pl-c1">customLink</span><span class="pl-kos">.</span><span class="pl-c1">linkAnchor</span> <span class="pl-c1">=</span> null<span class="pl-kos">;</span>
             <span class="pl-smi">this</span><span class="pl-kos">.</span><span class="pl-en">focus</span><span class="pl-kos">(</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
 
             <span class="pl-c">// history stack</span>
@@ -898,7 +898,7 @@
     <span class="pl-en">init</span>: <span class="pl-k">function</span> <span class="pl-kos">(</span><span class="pl-kos">)</span> <span class="pl-kos">{</span>
         <span class="pl-k">const</span> <span class="pl-s1">contextLink</span> <span class="pl-c1">=</span> <span class="pl-smi">this</span><span class="pl-kos">.</span><span class="pl-c1">context</span><span class="pl-kos">.</span><span class="pl-c1">customLink</span><span class="pl-kos">;</span>
         <span class="pl-s1">contextLink</span><span class="pl-kos">.</span><span class="pl-c1">linkController</span><span class="pl-kos">.</span><span class="pl-c1">style</span><span class="pl-kos">.</span><span class="pl-c1">display</span> <span class="pl-c1">=</span> <span class="pl-s">'none'</span><span class="pl-kos">;</span>
-        <span class="pl-s1">contextLink</span><span class="pl-kos">.</span><span class="pl-c1">_linkAnchor</span> <span class="pl-c1">=</span> null<span class="pl-kos">;</span>
+        <span class="pl-s1">contextLink</span><span class="pl-kos">.</span><span class="pl-c1">linkAnchor</span> <span class="pl-c1">=</span> null<span class="pl-kos">;</span>
         <span class="pl-s1">contextLink</span><span class="pl-kos">.</span><span class="pl-c1">focusElement</span><span class="pl-kos">.</span><span class="pl-c1">value</span> <span class="pl-c1">=</span> <span class="pl-s">''</span><span class="pl-kos">;</span>
         <span class="pl-s1">contextLink</span><span class="pl-kos">.</span><span class="pl-c1">linkAnchorText</span><span class="pl-kos">.</span><span class="pl-c1">value</span> <span class="pl-c1">=</span> <span class="pl-s">''</span><span class="pl-kos">;</span>
         <span class="pl-s1">contextLink</span><span class="pl-kos">.</span><span class="pl-c1">targetSelect</span><span class="pl-kos">.</span><span class="pl-c1">selectedIndex</span> <span class="pl-c1">=</span> <span class="pl-c1">0</span><span class="pl-kos">;</span>
@@ -976,11 +976,11 @@
 
     <span class="pl-k">if</span> <span class="pl-kos">(</span><span class="pl-s1">remainingFilesCount</span> <span class="pl-c1">===</span> <span class="pl-c1">0</span><span class="pl-kos">)</span> <span class="pl-kos">{</span>
         <span class="pl-smi">console</span><span class="pl-kos">.</span><span class="pl-en">log</span><span class="pl-kos">(</span><span class="pl-s">'audioList'</span><span class="pl-kos">,</span> <span class="pl-s1">audioList</span><span class="pl-kos">)</span>
-        <span class="pl-en">_setAudioList</span><span class="pl-kos">(</span><span class="pl-s1">audioList</span><span class="pl-kos">)</span>
+        <span class="pl-en">setAudioList</span><span class="pl-kos">(</span><span class="pl-s1">audioList</span><span class="pl-kos">)</span>
     <span class="pl-kos">}</span>
 <span class="pl-kos">}</span>
 
-<span class="pl-k">function</span> <span class="pl-en">_setAudioList</span> <span class="pl-kos">(</span><span class="pl-kos">)</span> <span class="pl-kos">{</span>
+<span class="pl-k">function</span> <span class="pl-en">setAudioList</span> <span class="pl-kos">(</span><span class="pl-kos">)</span> <span class="pl-kos">{</span>
     <span class="pl-k">let</span> <span class="pl-s1">list</span> <span class="pl-c1">=</span> <span class="pl-s">''</span><span class="pl-kos">;</span>
 
     <span class="pl-k">for</span> <span class="pl-kos">(</span><span class="pl-k">let</span> <span class="pl-s1">i</span> <span class="pl-c1">=</span> <span class="pl-c1">0</span><span class="pl-kos">,</span> <span class="pl-s1">info</span><span class="pl-kos">;</span> <span class="pl-s1">i</span> <span class="pl-c1">&lt;</span> <span class="pl-s1">audioList</span><span class="pl-kos">.</span><span class="pl-c1">length</span><span class="pl-kos">;</span> <span class="pl-s1">i</span><span class="pl-c1">++</span><span class="pl-kos">)</span> <span class="pl-kos">{</span>
@@ -1039,15 +1039,15 @@
 <span class="pl-c">         */</span>
         <span class="pl-k">const</span> <span class="pl-s1">context</span> <span class="pl-c1">=</span> <span class="pl-s1">core</span><span class="pl-kos">.</span><span class="pl-c1">context</span><span class="pl-kos">;</span>
         <span class="pl-s1">context</span><span class="pl-kos">.</span><span class="pl-c1">customAudio</span> <span class="pl-c1">=</span> <span class="pl-kos">{</span>
-            <span class="pl-c1">_infoList</span>: <span class="pl-kos">[</span><span class="pl-kos">]</span><span class="pl-kos">,</span> <span class="pl-c">// <span class="pl-k">@Override</span> fileManager</span>
-            <span class="pl-c1">_infoIndex</span>: <span class="pl-c1">0</span><span class="pl-kos">,</span> <span class="pl-c">// <span class="pl-k">@Override</span> fileManager</span>
-            <span class="pl-c1">_uploadFileLength</span>: <span class="pl-c1">0</span><span class="pl-kos">,</span> <span class="pl-c">// <span class="pl-k">@Override</span> fileManager</span>
+            <span class="pl-c1">infoList</span>: <span class="pl-kos">[</span><span class="pl-kos">]</span><span class="pl-kos">,</span> <span class="pl-c">// <span class="pl-k">@Override</span> fileManager</span>
+            <span class="pl-c1">infoIndex</span>: <span class="pl-c1">0</span><span class="pl-kos">,</span> <span class="pl-c">// <span class="pl-k">@Override</span> fileManager</span>
+            <span class="pl-c1">uploadFileLength</span>: <span class="pl-c1">0</span><span class="pl-kos">,</span> <span class="pl-c">// <span class="pl-k">@Override</span> fileManager</span>
             <span class="pl-c1">focusElement</span>: null<span class="pl-kos">,</span> <span class="pl-c">// <span class="pl-k">@Override</span> // This element has focus when the dialog is opened.</span>
             <span class="pl-c1">targetSelect</span>: null<span class="pl-kos">,</span>
             <span class="pl-c">// <span class="pl-k">@require</span> <span class="pl-k">@Override</span> component</span>
-            <span class="pl-c1">_element</span>: null<span class="pl-kos">,</span>
+            <span class="pl-c1">element</span>: null<span class="pl-kos">,</span>
             <span class="pl-c1">_cover</span>: null<span class="pl-kos">,</span>
-            <span class="pl-c1">_container</span>: null<span class="pl-kos">,</span>
+            <span class="pl-c1">container</span>: null<span class="pl-kos">,</span>
         <span class="pl-kos">}</span><span class="pl-kos">;</span>
 
         <span class="pl-c">// buton title</span>
@@ -1084,7 +1084,7 @@
         <span class="pl-s1">context</span><span class="pl-kos">.</span><span class="pl-c1">customAudio</span><span class="pl-kos">.</span><span class="pl-c1">controller</span> <span class="pl-c1">=</span> <span class="pl-s1">audio_controller</span><span class="pl-kos">;</span>
 
         <span class="pl-c">/** add event listeners */</span>
-        <span class="pl-s1">audio_dialog</span><span class="pl-kos">.</span><span class="pl-en">querySelector</span><span class="pl-kos">(</span><span class="pl-s">'.ke-dialog-files-edge-button'</span><span class="pl-kos">)</span><span class="pl-kos">.</span><span class="pl-en">addEventListener</span><span class="pl-kos">(</span><span class="pl-s">'click'</span><span class="pl-kos">,</span> <span class="pl-smi">this</span><span class="pl-kos">.</span><span class="pl-c1">_removeSelectedFiles</span><span class="pl-kos">.</span><span class="pl-en">bind</span><span class="pl-kos">(</span><span class="pl-s1">context</span><span class="pl-kos">.</span><span class="pl-c1">fileInput</span><span class="pl-kos">,</span> <span class="pl-s1">context</span><span class="pl-kos">.</span><span class="pl-c1">urlInput</span><span class="pl-kos">)</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
+        <span class="pl-s1">audio_dialog</span><span class="pl-kos">.</span><span class="pl-en">querySelector</span><span class="pl-kos">(</span><span class="pl-s">'.ke-dialog-files-edge-button'</span><span class="pl-kos">)</span><span class="pl-kos">.</span><span class="pl-en">addEventListener</span><span class="pl-kos">(</span><span class="pl-s">'click'</span><span class="pl-kos">,</span> <span class="pl-smi">this</span><span class="pl-kos">.</span><span class="pl-c1">removeSelectedFiles</span><span class="pl-kos">.</span><span class="pl-en">bind</span><span class="pl-kos">(</span><span class="pl-s1">context</span><span class="pl-kos">.</span><span class="pl-c1">fileInput</span><span class="pl-kos">,</span> <span class="pl-s1">context</span><span class="pl-kos">.</span><span class="pl-c1">urlInput</span><span class="pl-kos">)</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
         <span class="pl-s1">audio_dialog</span><span class="pl-kos">.</span><span class="pl-en">querySelector</span><span class="pl-kos">(</span><span class="pl-s">'form'</span><span class="pl-kos">)</span><span class="pl-kos">.</span><span class="pl-en">addEventListener</span><span class="pl-kos">(</span><span class="pl-s">'submit'</span><span class="pl-kos">,</span> <span class="pl-smi">this</span><span class="pl-kos">.</span><span class="pl-c1">submit</span><span class="pl-kos">.</span><span class="pl-en">bind</span><span class="pl-kos">(</span><span class="pl-s1">core</span><span class="pl-kos">)</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
         <span class="pl-s1">audio_controller</span><span class="pl-kos">.</span><span class="pl-en">addEventListener</span><span class="pl-kos">(</span><span class="pl-s">'click'</span><span class="pl-kos">,</span> <span class="pl-smi">this</span><span class="pl-kos">.</span><span class="pl-c1">onClick_controller</span><span class="pl-kos">.</span><span class="pl-en">bind</span><span class="pl-kos">(</span><span class="pl-s1">core</span><span class="pl-kos">)</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
 
@@ -1162,7 +1162,7 @@
     <span class="pl-kos">}</span><span class="pl-kos">,</span>
 
     <span class="pl-c">// Disable url input when uploading files</span>
-    <span class="pl-en">_removeSelectedFiles</span>: <span class="pl-k">function</span> <span class="pl-kos">(</span><span class="pl-s1">urlInput</span><span class="pl-kos">)</span> <span class="pl-kos">{</span>
+    <span class="pl-en">removeSelectedFiles</span>: <span class="pl-k">function</span> <span class="pl-kos">(</span><span class="pl-s1">urlInput</span><span class="pl-kos">)</span> <span class="pl-kos">{</span>
         <span class="pl-smi">this</span><span class="pl-kos">.</span><span class="pl-c1">value</span> <span class="pl-c1">=</span> <span class="pl-s">''</span><span class="pl-kos">;</span>
         <span class="pl-k">if</span> <span class="pl-kos">(</span><span class="pl-s1">urlInput</span><span class="pl-kos">)</span> <span class="pl-s1">urlInput</span><span class="pl-kos">.</span><span class="pl-en">removeAttribute</span><span class="pl-kos">(</span><span class="pl-s">'disabled'</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
     <span class="pl-kos">}</span><span class="pl-kos">,</span>
@@ -1186,7 +1186,7 @@
 <span class="pl-c">     * <span class="pl-k">@param</span> {<span class="pl-smi">Element</span>} element Target element</span>
 <span class="pl-c">     */</span>
     <span class="pl-en">destroy</span>: <span class="pl-k">function</span> <span class="pl-kos">(</span><span class="pl-s1">element</span><span class="pl-kos">)</span> <span class="pl-kos">{</span>
-        <span class="pl-s1">element</span> <span class="pl-c1">=</span> <span class="pl-s1">element</span> <span class="pl-c1">||</span> <span class="pl-smi">this</span><span class="pl-kos">.</span><span class="pl-c1">context</span><span class="pl-kos">.</span><span class="pl-c1">customAudio</span><span class="pl-kos">.</span><span class="pl-c1">_element</span><span class="pl-kos">;</span>
+        <span class="pl-s1">element</span> <span class="pl-c1">=</span> <span class="pl-s1">element</span> <span class="pl-c1">||</span> <span class="pl-smi">this</span><span class="pl-kos">.</span><span class="pl-c1">context</span><span class="pl-kos">.</span><span class="pl-c1">customAudio</span><span class="pl-kos">.</span><span class="pl-c1">element</span><span class="pl-kos">;</span>
         <span class="pl-k">const</span> <span class="pl-s1">container</span> <span class="pl-c1">=</span> <span class="pl-smi">this</span><span class="pl-kos">.</span><span class="pl-c1">util</span><span class="pl-kos">.</span><span class="pl-en">getParentElement</span><span class="pl-kos">(</span><span class="pl-s1">element</span><span class="pl-kos">,</span> <span class="pl-smi">this</span><span class="pl-kos">.</span><span class="pl-c1">util</span><span class="pl-kos">.</span><span class="pl-c1">isComponent</span><span class="pl-kos">)</span> <span class="pl-c1">||</span> <span class="pl-s1">element</span><span class="pl-kos">;</span>
         <span class="pl-k">const</span> <span class="pl-s1">dataIndex</span> <span class="pl-c1">=</span> <span class="pl-s1">element</span><span class="pl-kos">.</span><span class="pl-en">getAttribute</span><span class="pl-kos">(</span><span class="pl-s">'data-index'</span><span class="pl-kos">)</span> * <span class="pl-c1">1</span><span class="pl-kos">;</span>
         <span class="pl-k">const</span> <span class="pl-s1">focusEl</span> <span class="pl-c1">=</span> <span class="pl-kos">(</span><span class="pl-s1">container</span><span class="pl-kos">.</span><span class="pl-c1">previousElementSibling</span> <span class="pl-c1">||</span> <span class="pl-s1">container</span><span class="pl-kos">.</span><span class="pl-c1">nextElementSibling</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
@@ -1233,11 +1233,11 @@
     <span class="pl-en">on</span>: <span class="pl-k">function</span> <span class="pl-kos">(</span><span class="pl-s1">update</span><span class="pl-kos">)</span> <span class="pl-kos">{</span>
         <span class="pl-k">if</span> <span class="pl-kos">(</span>!<span class="pl-s1">update</span><span class="pl-kos">)</span> <span class="pl-kos">{</span>
             <span class="pl-smi">this</span><span class="pl-kos">.</span><span class="pl-c1">plugins</span><span class="pl-kos">.</span><span class="pl-c1">customAudio</span><span class="pl-kos">.</span><span class="pl-c1">init</span><span class="pl-kos">.</span><span class="pl-en">call</span><span class="pl-kos">(</span><span class="pl-smi">this</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
-        <span class="pl-kos">}</span> <span class="pl-k">else</span> <span class="pl-k">if</span> <span class="pl-kos">(</span><span class="pl-smi">this</span><span class="pl-kos">.</span><span class="pl-c1">context</span><span class="pl-kos">.</span><span class="pl-c1">customAudio</span><span class="pl-kos">.</span><span class="pl-c1">_element</span><span class="pl-kos">)</span> <span class="pl-kos">{</span>
+        <span class="pl-kos">}</span> <span class="pl-k">else</span> <span class="pl-k">if</span> <span class="pl-kos">(</span><span class="pl-smi">this</span><span class="pl-kos">.</span><span class="pl-c1">context</span><span class="pl-kos">.</span><span class="pl-c1">customAudio</span><span class="pl-kos">.</span><span class="pl-c1">element</span><span class="pl-kos">)</span> <span class="pl-kos">{</span>
             <span class="pl-c">// "update" and "this.context.dialog.updateModal" are always the same value.</span>
             <span class="pl-c">// This code is an exception to the "link" plugin.</span>
             <span class="pl-smi">this</span><span class="pl-kos">.</span><span class="pl-c1">context</span><span class="pl-kos">.</span><span class="pl-c1">dialog</span><span class="pl-kos">.</span><span class="pl-c1">updateModal</span> <span class="pl-c1">=</span> <span class="pl-c1">true</span><span class="pl-kos">;</span>
-            <span class="pl-smi">this</span><span class="pl-kos">.</span><span class="pl-c1">context</span><span class="pl-kos">.</span><span class="pl-c1">customAudio</span><span class="pl-kos">.</span><span class="pl-c1">urlInput</span><span class="pl-kos">.</span><span class="pl-c1">value</span> <span class="pl-c1">=</span> <span class="pl-smi">this</span><span class="pl-kos">.</span><span class="pl-c1">context</span><span class="pl-kos">.</span><span class="pl-c1">customAudio</span><span class="pl-kos">.</span><span class="pl-c1">_element</span><span class="pl-kos">.</span><span class="pl-c1">src</span><span class="pl-kos">;</span>
+            <span class="pl-smi">this</span><span class="pl-kos">.</span><span class="pl-c1">context</span><span class="pl-kos">.</span><span class="pl-c1">customAudio</span><span class="pl-kos">.</span><span class="pl-c1">urlInput</span><span class="pl-kos">.</span><span class="pl-c1">value</span> <span class="pl-c1">=</span> <span class="pl-smi">this</span><span class="pl-kos">.</span><span class="pl-c1">context</span><span class="pl-kos">.</span><span class="pl-c1">customAudio</span><span class="pl-kos">.</span><span class="pl-c1">element</span><span class="pl-kos">.</span><span class="pl-c1">src</span><span class="pl-kos">;</span>
         <span class="pl-kos">}</span>
     <span class="pl-kos">}</span><span class="pl-kos">,</span>
 
@@ -1289,11 +1289,11 @@
         <span class="pl-k">const</span> <span class="pl-s1">context</span> <span class="pl-c1">=</span> <span class="pl-smi">this</span><span class="pl-kos">.</span><span class="pl-c1">context</span><span class="pl-kos">.</span><span class="pl-c1">customAudio</span><span class="pl-kos">;</span>
         <span class="pl-k">const</span> <span class="pl-s1">audioPlugin</span> <span class="pl-c1">=</span> <span class="pl-smi">this</span><span class="pl-kos">.</span><span class="pl-c1">plugins</span><span class="pl-kos">.</span><span class="pl-c1">customAudio</span><span class="pl-kos">;</span>
 
-        <span class="pl-s1">context</span><span class="pl-kos">.</span><span class="pl-c1">_uploadFileLength</span> <span class="pl-c1">=</span> <span class="pl-s1">files</span><span class="pl-kos">.</span><span class="pl-c1">length</span><span class="pl-kos">;</span>
+        <span class="pl-s1">context</span><span class="pl-kos">.</span><span class="pl-c1">uploadFileLength</span> <span class="pl-c1">=</span> <span class="pl-s1">files</span><span class="pl-kos">.</span><span class="pl-c1">length</span><span class="pl-kos">;</span>
         <span class="pl-k">const</span> <span class="pl-s1">filesLen</span> <span class="pl-c1">=</span> <span class="pl-smi">this</span><span class="pl-kos">.</span><span class="pl-c1">context</span><span class="pl-kos">.</span><span class="pl-c1">dialog</span><span class="pl-kos">.</span><span class="pl-c1">updateModal</span> ? <span class="pl-c1">1</span> : <span class="pl-s1">files</span><span class="pl-kos">.</span><span class="pl-c1">length</span><span class="pl-kos">;</span>
         <span class="pl-k">const</span> <span class="pl-s1">info</span> <span class="pl-c1">=</span> <span class="pl-kos">{</span>
             <span class="pl-c1">isUpdate</span>: <span class="pl-smi">this</span><span class="pl-kos">.</span><span class="pl-c1">context</span><span class="pl-kos">.</span><span class="pl-c1">dialog</span><span class="pl-kos">.</span><span class="pl-c1">updateModal</span><span class="pl-kos">,</span>
-            <span class="pl-c1">element</span>: <span class="pl-s1">context</span><span class="pl-kos">.</span><span class="pl-c1">_element</span>
+            <span class="pl-c1">element</span>: <span class="pl-s1">context</span><span class="pl-kos">.</span><span class="pl-c1">element</span>
         <span class="pl-kos">}</span><span class="pl-kos">;</span>
 
         <span class="pl-c">// create formData</span>
@@ -1368,7 +1368,7 @@
             <span class="pl-smi">this</span><span class="pl-kos">.</span><span class="pl-en">insertComponent</span><span class="pl-kos">(</span><span class="pl-s1">container</span><span class="pl-kos">,</span> <span class="pl-c1">false</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
         <span class="pl-kos">}</span> <span class="pl-c">// update</span>
         <span class="pl-k">else</span> <span class="pl-k">if</span> <span class="pl-kos">(</span><span class="pl-c1">element</span><span class="pl-s1"> && </span><span class="pl-c1">element</span><span class="pl-kos">.</span><span class="pl-c1">src</span> !== <span class="pl-s1">src</span><span class="pl-kos">)</span> <span class="pl-kos">{</span>
-            <span class="pl-s1">element</span> <span class="pl-c1">=</span> <span class="pl-s1">context</span><span class="pl-kos">.</span><span class="pl-c1">_element</span><span class="pl-kos">;</span>
+            <span class="pl-s1">element</span> <span class="pl-c1">=</span> <span class="pl-s1">context</span><span class="pl-kos">.</span><span class="pl-c1">element</span><span class="pl-kos">;</span>
             <span class="pl-s1">element</span><span class="pl-kos">.</span><span class="pl-c1">src</span> <span class="pl-c1">=</span> <span class="pl-s1">src</span>
         <span class="pl-kos">}</span> <span class="pl-c">// not changed</span>
         <span class="pl-k">else</span> <span class="pl-kos">{</span>
@@ -1393,7 +1393,7 @@
             <span class="pl-kos">}</span><span class="pl-kos">.</span><span class="pl-en">bind</span><span class="pl-kos">(</span><span class="pl-smi">this</span><span class="pl-kos">.</span><span class="pl-c1">util</span><span class="pl-kos">)</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
 
         <span class="pl-c">// clone element</span>
-        <span class="pl-s1">context</span><span class="pl-kos">.</span><span class="pl-c1">_element</span> <span class="pl-c1">=</span> <span class="pl-s1">element</span> <span class="pl-c1">=</span> <span class="pl-s1">element</span><span class="pl-kos">.</span><span class="pl-en">cloneNode</span><span class="pl-kos">(</span><span class="pl-c1">false</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
+        <span class="pl-s1">context</span><span class="pl-kos">.</span><span class="pl-c1">element</span> <span class="pl-c1">=</span> <span class="pl-s1">element</span> <span class="pl-c1">=</span> <span class="pl-s1">element</span><span class="pl-kos">.</span><span class="pl-en">cloneNode</span><span class="pl-kos">(</span><span class="pl-c1">false</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
         <span class="pl-k">const</span> <span class="pl-s1">cover</span> <span class="pl-c1">=</span> <span class="pl-smi">this</span><span class="pl-kos">.</span><span class="pl-c1">plugins</span><span class="pl-kos">.</span><span class="pl-c1">component</span><span class="pl-kos">.</span><span class="pl-c1">set_cover</span><span class="pl-kos">.</span><span class="pl-en">call</span><span class="pl-kos">(</span><span class="pl-smi">this</span><span class="pl-kos">,</span> <span class="pl-s1">element</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
         <span class="pl-k">const</span> <span class="pl-s1">container</span> <span class="pl-c1">=</span> <span class="pl-smi">this</span><span class="pl-kos">.</span><span class="pl-c1">plugins</span><span class="pl-kos">.</span><span class="pl-c1">component</span><span class="pl-kos">.</span><span class="pl-c1">set_container</span><span class="pl-kos">.</span><span class="pl-en">call</span><span class="pl-kos">(</span><span class="pl-smi">this</span><span class="pl-kos">,</span> <span class="pl-s1">cover</span><span class="pl-kos">,</span> <span class="pl-s">'ke-video-container'</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
 
@@ -1432,16 +1432,16 @@
 
         <span class="pl-c">// set modify mode context</span>
         <span class="pl-s1">selectionTag</span><span class="pl-kos">.</span><span class="pl-c1">style</span><span class="pl-kos">.</span><span class="pl-c1">border</span> <span class="pl-c1">=</span> <span class="pl-s">'1px solid #80bdff'</span><span class="pl-kos">;</span>
-        <span class="pl-s1">context</span><span class="pl-kos">.</span><span class="pl-c1">_element</span> <span class="pl-c1">=</span> <span class="pl-s1">selectionTag</span><span class="pl-kos">;</span>
+        <span class="pl-s1">context</span><span class="pl-kos">.</span><span class="pl-c1">element</span> <span class="pl-c1">=</span> <span class="pl-s1">selectionTag</span><span class="pl-kos">;</span>
         <span class="pl-s1">context</span><span class="pl-kos">.</span><span class="pl-c1">_cover</span> <span class="pl-c1">=</span> <span class="pl-smi">this</span><span class="pl-kos">.</span><span class="pl-c1">util</span><span class="pl-kos">.</span><span class="pl-en">getParentElement</span><span class="pl-kos">(</span><span class="pl-s1">selectionTag</span><span class="pl-kos">,</span> <span class="pl-s">'FIGURE'</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
-        <span class="pl-s1">context</span><span class="pl-kos">.</span><span class="pl-c1">_container</span> <span class="pl-c1">=</span> <span class="pl-smi">this</span><span class="pl-kos">.</span><span class="pl-c1">util</span><span class="pl-kos">.</span><span class="pl-en">getParentElement</span><span class="pl-kos">(</span><span class="pl-s1">selectionTag</span><span class="pl-kos">,</span> <span class="pl-smi">this</span><span class="pl-kos">.</span><span class="pl-c1">util</span><span class="pl-kos">.</span><span class="pl-c1">isComponent</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
+        <span class="pl-s1">context</span><span class="pl-kos">.</span><span class="pl-c1">container</span> <span class="pl-c1">=</span> <span class="pl-smi">this</span><span class="pl-kos">.</span><span class="pl-c1">util</span><span class="pl-kos">.</span><span class="pl-en">getParentElement</span><span class="pl-kos">(</span><span class="pl-s1">selectionTag</span><span class="pl-kos">,</span> <span class="pl-smi">this</span><span class="pl-kos">.</span><span class="pl-c1">util</span><span class="pl-kos">.</span><span class="pl-c1">isComponent</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
     <span class="pl-kos">}</span><span class="pl-kos">,</span>
 
     <span class="pl-c">/**</span>
 <span class="pl-c">     * <span class="pl-k">@Required</span> <span class="pl-k">@Override</span> fileManager, resizing</span>
 <span class="pl-c">     */</span>
     <span class="pl-en">openModify</span>: <span class="pl-k">function</span> <span class="pl-kos">(</span><span class="pl-s1">notOpen</span><span class="pl-kos">)</span> <span class="pl-kos">{</span>
-        <span class="pl-smi">this</span><span class="pl-kos">.</span><span class="pl-c1">context</span><span class="pl-kos">.</span><span class="pl-c1">customAudio</span><span class="pl-kos">.</span><span class="pl-c1">urlInput</span><span class="pl-kos">.</span><span class="pl-c1">value</span> <span class="pl-c1">=</span> <span class="pl-smi">this</span><span class="pl-kos">.</span><span class="pl-c1">context</span><span class="pl-kos">.</span><span class="pl-c1">customAudio</span><span class="pl-kos">.</span><span class="pl-c1">_element</span><span class="pl-kos">.</span><span class="pl-c1">src</span><span class="pl-kos">;</span>
+        <span class="pl-smi">this</span><span class="pl-kos">.</span><span class="pl-c1">context</span><span class="pl-kos">.</span><span class="pl-c1">customAudio</span><span class="pl-kos">.</span><span class="pl-c1">urlInput</span><span class="pl-kos">.</span><span class="pl-c1">value</span> <span class="pl-c1">=</span> <span class="pl-smi">this</span><span class="pl-kos">.</span><span class="pl-c1">context</span><span class="pl-kos">.</span><span class="pl-c1">customAudio</span><span class="pl-kos">.</span><span class="pl-c1">element</span><span class="pl-kos">.</span><span class="pl-c1">src</span><span class="pl-kos">;</span>
         <span class="pl-k">if</span> <span class="pl-kos">(</span>!<span class="pl-s1">notOpen</span><span class="pl-kos">)</span> <span class="pl-smi">this</span><span class="pl-kos">.</span><span class="pl-c1">plugins</span><span class="pl-kos">.</span><span class="pl-c1">dialog</span><span class="pl-kos">.</span><span class="pl-c1">open</span><span class="pl-kos">.</span><span class="pl-en">call</span><span class="pl-kos">(</span><span class="pl-smi">this</span><span class="pl-kos">,</span> <span class="pl-s">'customAudio'</span><span class="pl-kos">,</span> <span class="pl-c1">true</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
     <span class="pl-kos">}</span><span class="pl-kos">,</span>
 
@@ -1457,7 +1457,7 @@
             <span class="pl-smi">this</span><span class="pl-kos">.</span><span class="pl-c1">plugins</span><span class="pl-kos">.</span><span class="pl-c1">customAudio</span><span class="pl-kos">.</span><span class="pl-c1">openModify</span><span class="pl-kos">.</span><span class="pl-en">call</span><span class="pl-kos">(</span><span class="pl-smi">this</span><span class="pl-kos">,</span> <span class="pl-c1">false</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
         <span class="pl-kos">}</span>
         <span class="pl-k">else</span> <span class="pl-kos">{</span> <span class="pl-c">/** delete */</span>
-            <span class="pl-smi">this</span><span class="pl-kos">.</span><span class="pl-c1">plugins</span><span class="pl-kos">.</span><span class="pl-c1">customAudio</span><span class="pl-kos">.</span><span class="pl-c1">destroy</span><span class="pl-kos">.</span><span class="pl-en">call</span><span class="pl-kos">(</span><span class="pl-smi">this</span><span class="pl-kos">,</span> <span class="pl-smi">this</span><span class="pl-kos">.</span><span class="pl-c1">context</span><span class="pl-kos">.</span><span class="pl-c1">customAudio</span><span class="pl-kos">.</span><span class="pl-c1">_element</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
+            <span class="pl-smi">this</span><span class="pl-kos">.</span><span class="pl-c1">plugins</span><span class="pl-kos">.</span><span class="pl-c1">customAudio</span><span class="pl-kos">.</span><span class="pl-c1">destroy</span><span class="pl-kos">.</span><span class="pl-en">call</span><span class="pl-kos">(</span><span class="pl-smi">this</span><span class="pl-kos">,</span> <span class="pl-smi">this</span><span class="pl-kos">.</span><span class="pl-c1">context</span><span class="pl-kos">.</span><span class="pl-c1">customAudio</span><span class="pl-kos">.</span><span class="pl-c1">element</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
         <span class="pl-kos">}</span>
 
         <span class="pl-smi">this</span><span class="pl-kos">.</span><span class="pl-en">controllersOff</span><span class="pl-kos">(</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
@@ -1472,9 +1472,9 @@
         <span class="pl-k">if</span> <span class="pl-kos">(</span><span class="pl-smi">this</span><span class="pl-kos">.</span><span class="pl-c1">context</span><span class="pl-kos">.</span><span class="pl-c1">dialog</span><span class="pl-kos">.</span><span class="pl-c1">updateModal</span><span class="pl-kos">)</span> <span class="pl-k">return</span><span class="pl-kos">;</span>
 
         <span class="pl-k">const</span> <span class="pl-s1">context</span> <span class="pl-c1">=</span> <span class="pl-smi">this</span><span class="pl-kos">.</span><span class="pl-c1">context</span><span class="pl-kos">.</span><span class="pl-c1">customAudio</span><span class="pl-kos">;</span>
-        <span class="pl-k">if</span> <span class="pl-kos">(</span><span class="pl-s1">context</span><span class="pl-kos">.</span><span class="pl-c1">_element</span><span class="pl-kos">)</span> <span class="pl-s1">context</span><span class="pl-kos">.</span><span class="pl-c1">_element</span><span class="pl-kos">.</span><span class="pl-c1">style</span><span class="pl-kos">.</span><span class="pl-c1">border</span> <span class="pl-c1">=</span> <span class="pl-s">''</span><span class="pl-kos">;</span>
+        <span class="pl-k">if</span> <span class="pl-kos">(</span><span class="pl-s1">context</span><span class="pl-kos">.</span><span class="pl-c1">element</span><span class="pl-kos">)</span> <span class="pl-s1">context</span><span class="pl-kos">.</span><span class="pl-c1">element</span><span class="pl-kos">.</span><span class="pl-c1">style</span><span class="pl-kos">.</span><span class="pl-c1">border</span> <span class="pl-c1">=</span> <span class="pl-s">''</span><span class="pl-kos">;</span>
         <span class="pl-s1">context</span><span class="pl-kos">.</span><span class="pl-c1">controller</span><span class="pl-kos">.</span><span class="pl-c1">style</span><span class="pl-kos">.</span><span class="pl-c1">display</span> <span class="pl-c1">=</span> <span class="pl-s">'none'</span><span class="pl-kos">;</span>
-        <span class="pl-s1">context</span><span class="pl-kos">.</span><span class="pl-c1">_element</span> <span class="pl-c1">=</span> null<span class="pl-kos">;</span>
+        <span class="pl-s1">context</span><span class="pl-kos">.</span><span class="pl-c1">element</span> <span class="pl-c1">=</span> null<span class="pl-kos">;</span>
         <span class="pl-s1">context</span><span class="pl-kos">.</span><span class="pl-c1">fileInput</span><span class="pl-kos">.</span><span class="pl-c1">value</span> <span class="pl-c1">=</span> <span class="pl-s">''</span><span class="pl-kos">;</span>
         <span class="pl-s1">context</span><span class="pl-kos">.</span><span class="pl-c1">urlInput</span><span class="pl-kos">.</span><span class="pl-c1">value</span> <span class="pl-c1">=</span> <span class="pl-s">''</span><span class="pl-kos">;</span>
     <span class="pl-kos">}</span>
@@ -1890,7 +1890,7 @@
                 focusElement: null, // @Override // This element has focus when the dialog is opened.
                 targetSelect: null,
                 linkAnchorText: null,
-                _linkAnchor: null
+                linkAnchor: null
             };
 
             /** link dialog */
@@ -1903,7 +1903,7 @@
             /** link controller */
             let link_controller = this.setController_LinkButton(core);
             context.customLink.linkController = link_controller;
-            context.customLink._linkAnchor = null;
+            context.customLink.linkAnchor = null;
 
             /** add event listeners */
             link_dialog.querySelector('form').addEventListener('submit', this.submit.bind(core));
@@ -1916,7 +1916,8 @@
             context.element.relative.appendChild(link_controller);
 
             /** empty memory */
-            link_dialog = null, link_controller = null;
+            link_dialog = null;
+            link_controller = null;
         },
 
         /** dialog */
@@ -2039,12 +2040,12 @@
 
                     this.setRange(oA.childNodes[0], 0, oA.childNodes[0], oA.textContent.length);
                 } else {
-                    contextLink._linkAnchor.href = url;
-                    contextLink._linkAnchor.textContent = anchorText;
-                    contextLink._linkAnchor.target = contextLink.targetSelect.selectedOptions[0].value;
+                    contextLink.linkAnchor.href = url;
+                    contextLink.linkAnchor.textContent = anchorText;
+                    contextLink.linkAnchor.target = contextLink.targetSelect.selectedOptions[0].value;
 
                     // set range
-                    this.setRange(contextLink._linkAnchor.childNodes[0], 0, contextLink._linkAnchor.childNodes[0], contextLink._linkAnchor.textContent.length);
+                    this.setRange(contextLink.linkAnchor.childNodes[0], 0, contextLink.linkAnchor.childNodes[0], contextLink.linkAnchor.textContent.length);
                 }
 
                 // history stack
@@ -2090,18 +2091,18 @@
             if (!update) {
                 this.plugins.customLink.init.call(this);
                 this.context.customLink.linkAnchorText.value = this.getSelection().toString();
-            } else if (this.context.customLink._linkAnchor) {
+            } else if (this.context.customLink.linkAnchor) {
                 // "update" and "this.context.dialog.updateModal" are always the same value.
                 // This code is an exception to the "link" plugin.
                 this.context.dialog.updateModal = true;
-                this.context.customLink.focusElement.value = this.context.customLink._linkAnchor.href;
-                this.context.customLink.linkAnchorText.value = this.context.customLink._linkAnchor.textContent;
-                this.context.customLink.targetSelect.value = this.context.customLink._linkAnchor.target || '';
+                this.context.customLink.focusElement.value = this.context.customLink.linkAnchor.href;
+                this.context.customLink.linkAnchorText.value = this.context.customLink.linkAnchor.textContent;
+                this.context.customLink.targetSelect.value = this.context.customLink.linkAnchor.target || '';
             }
         },
 
         call_controller: function (selectionATag) {
-            this.editLink = this.context.customLink._linkAnchor = selectionATag;
+            this.editLink = this.context.customLink.linkAnchor = selectionATag;
             const linkBtn = this.context.customLink.linkController;
             const link = linkBtn.querySelector('a');
 
@@ -2137,21 +2138,21 @@
 
             if (/update/.test(command)) {
                 const contextLink = this.context.customLink;
-                contextLink.focusElement.value = contextLink._linkAnchor.href;
-                contextLink.linkAnchorText.value = contextLink._linkAnchor.textContent;
+                contextLink.focusElement.value = contextLink.linkAnchor.href;
+                contextLink.linkAnchorText.value = contextLink.linkAnchor.textContent;
                 contextLink.targetSelect.value = contextLink.targetSelect.value;
                 this.plugins.dialog.open.call(this, 'customLink', true);
             }
             else if (/unlink/.test(command)) {
-                const sc = this.util.getChildElement(this.context.customLink._linkAnchor, function (current) { return current.childNodes.length === 0 || current.nodeType === 3; }, false);
-                const ec = this.util.getChildElement(this.context.customLink._linkAnchor, function (current) { return current.childNodes.length === 0 || current.nodeType === 3; }, true);
+                const sc = this.util.getChildElement(this.context.customLink.linkAnchor, function (current) { return current.childNodes.length === 0 || current.nodeType === 3; }, false);
+                const ec = this.util.getChildElement(this.context.customLink.linkAnchor, function (current) { return current.childNodes.length === 0 || current.nodeType === 3; }, true);
                 this.setRange(sc, 0, ec, ec.textContent.length);
                 this.nodeChange(null, null, ['A'], false);
             }
             else {
                 /** delete */
-                this.util.removeItem(this.context.customLink._linkAnchor);
-                this.context.customLink._linkAnchor = null;
+                this.util.removeItem(this.context.customLink.linkAnchor);
+                this.context.customLink.linkAnchor = null;
                 this.focus();
 
                 // history stack
@@ -2167,7 +2168,7 @@
         init: function () {
             const contextLink = this.context.customLink;
             contextLink.linkController.style.display = 'none';
-            contextLink._linkAnchor = null;
+            contextLink.linkAnchor = null;
             contextLink.focusElement.value = '';
             contextLink.linkAnchorText.value = '';
             contextLink.targetSelect.selectedIndex = 0;
@@ -2193,11 +2194,11 @@
 
         if (remainingFilesCount === 0) {
             console.log('audioList', audioList)
-            _setAudioList(audioList)
+            setAudioList(audioList)
         }
     }
 
-    function _setAudioList () {
+    function setAudioList () {
         let list = '';
 
         for (let i = 0, info; i < audioList.length; i++) {
@@ -2256,16 +2257,16 @@
              */
             const context = core.context;
             context.customAudio = {
-                _infoList: [], // @Override fileManager
-                _infoIndex: 0, // @Override fileManager
-                _uploadFileLength: 0, // @Override fileManager
+                infoList: [], // @Override fileManager
+                infoIndex: 0, // @Override fileManager
+                uploadFileLength: 0, // @Override fileManager
                 focusElement: null, // @Override // This element has focus when the dialog is opened.
                 targetSelect: null,
                 linkAnchorText: null,
                 // @require @Override component
-                _element: null,
-                _cover: null,
-                _container: null,
+                element: null,
+                cover: null,
+                container: null,
             };
 
             // buton title
@@ -2302,7 +2303,7 @@
             context.customAudio.controller = audio_controller;
 
             /** add event listeners */
-            audio_dialog.querySelector('.ke-dialog-files-edge-button').addEventListener('click', this._removeSelectedFiles.bind(context.fileInput, context.urlInput));
+            audio_dialog.querySelector('.ke-dialog-files-edge-button').addEventListener('click', this.removeSelectedFiles.bind(context.fileInput, context.urlInput));
             audio_dialog.querySelector('form').addEventListener('submit', this.submit.bind(core));
             audio_controller.addEventListener('click', this.onClick_controller.bind(core));
 
@@ -2313,7 +2314,8 @@
             context.element.relative.appendChild(audio_controller);
 
             /** empty memory */
-            audio_dialog = null, audio_controller = null;
+            audio_dialog = null;
+            audio_controller = null;
         },
 
         /** HTML - dialog */
@@ -2380,7 +2382,7 @@
         },
 
         // Disable url input when uploading files
-        _removeSelectedFiles: function (urlInput) {
+        removeSelectedFiles: function (urlInput) {
             this.value = '';
             if (urlInput) urlInput.removeAttribute('disabled');
         },
@@ -2404,7 +2406,7 @@
          * @param {Element} element Target element
          */
         destroy: function (element) {
-            element = element || this.context.customAudio._element;
+            element = element || this.context.customAudio.element;
             const container = this.util.getParentElement(element, this.util.isComponent) || element;
             const dataIndex = element.getAttribute('data-index') * 1;
             const focusEl = (container.previousElementSibling || container.nextElementSibling);
@@ -2451,11 +2453,11 @@
         on: function (update) {
             if (!update) {
                 this.plugins.customAudio.init.call(this);
-            } else if (this.context.customAudio._element) {
+            } else if (this.context.customAudio.element) {
                 // "update" and "this.context.dialog.updateModal" are always the same value.
                 // This code is an exception to the "link" plugin.
                 this.context.dialog.updateModal = true;
-                this.context.customAudio.urlInput.value = this.context.customAudio._element.src;
+                this.context.customAudio.urlInput.value = this.context.customAudio.element.src;
             }
         },
 
@@ -2507,11 +2509,11 @@
             const context = this.context.customAudio;
             const audioPlugin = this.plugins.customAudio;
 
-            context._uploadFileLength = files.length;
+            context.uploadFileLength = files.length;
             const filesLen = this.context.dialog.updateModal ? 1 : files.length;
             const info = {
                 isUpdate: this.context.dialog.updateModal,
-                element: context._element
+                element: context.element
             };
 
             // create formData
@@ -2584,9 +2586,10 @@
                 const cover = this.plugins.component.set_cover.call(this, element);
                 const container = this.plugins.component.set_container.call(this, cover, '');
                 this.insertComponent(container, false);
-            } // update
-            else {
-                if (context._element) element = context._element;
+            } else {
+                if (context.element) {
+                    element = context.element;
+                }
                 if (element && element.src !== src) {
                     element.src = src
                 } else {
@@ -2612,7 +2615,7 @@
                 }.bind(this.util));
 
             // clone element
-            context._element = element = element.cloneNode(false);
+            context.element = element = element.cloneNode(false);
             const cover = this.plugins.component.set_cover.call(this, element);
             const container = this.plugins.component.set_container.call(this, cover, 'ke-video-container');
 
@@ -2651,17 +2654,19 @@
 
             // set modify mode context
             selectionTag.style.border = '1px solid #80bdff';
-            context._element = selectionTag;
-            context._cover = this.util.getParentElement(selectionTag, 'FIGURE');
-            context._container = this.util.getParentElement(selectionTag, this.util.isComponent);
+            context.element = selectionTag;
+            context.cover = this.util.getParentElement(selectionTag, 'FIGURE');
+            context.container = this.util.getParentElement(selectionTag, this.util.isComponent);
         },
 
         /**
          * @Required @Override fileManager, resizing
          */
         openModify: function (notOpen) {
-            this.context.customAudio.urlInput.value = this.context.customAudio._element.src;
-            if (!notOpen) this.plugins.dialog.open.call(this, 'customAudio', true);
+            this.context.customAudio.urlInput.value = this.context.customAudio.element.src;
+            if (!notOpen) {
+                this.plugins.dialog.open.call(this, 'customAudio', true);
+            }
         },
 
         onClick_controller: function (e) {
@@ -2674,9 +2679,9 @@
 
             if (/update/.test(command)) {
                 this.plugins.customAudio.openModify.call(this, false);
-            }
-            else { /** delete */
-                this.plugins.customAudio.destroy.call(this, this.context.customAudio._element);
+            } else {
+                /** delete */
+                this.plugins.customAudio.destroy.call(this, this.context.customAudio.element);
             }
 
             this.controllersOff();
@@ -2688,12 +2693,16 @@
          * Initialize the properties.
          */
         init: function () {
-            if (this.context.dialog.updateModal) return;
+            if (this.context.dialog.updateModal) {
+                return;
+            }
 
             const context = this.context.customAudio;
-            if (context._element) context._element.style.border = '';
+            if (context.element) {
+                context.element.style.border = '';
+            }
             context.controller.style.display = 'none';
-            context._element = null;
+            context.element = null;
             context.fileInput.value = '';
             context.urlInput.value = '';
         }

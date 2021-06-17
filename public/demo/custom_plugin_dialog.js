@@ -32,7 +32,7 @@ export default {
       focusElement: null, // @Override // This element has focus when the dialog is opened.
       targetSelect: null,
       linkAnchorText: null,
-      _linkAnchor: null,
+      linkAnchor: null,
     };
 
     /** link dialog */
@@ -45,7 +45,7 @@ export default {
     /** link controller */
     let link_controller = this.setController_LinkButton.call(core);
     context.customLink.linkController = link_controller;
-    context.customLink._linkAnchor = null;
+    context.customLink.linkAnchor = null;
     // @Required
     // You must register the event propagation stop code in the "mousedown" event of the controller.
     link_controller.addEventListener('mousedown', function (e) { e.stopPropagation(); }, false);
@@ -184,12 +184,12 @@ export default {
 
         this.setRange(oA.childNodes[0], 0, oA.childNodes[0], oA.textContent.length);
       } else {
-        contextLink._linkAnchor.href = url;
-        contextLink._linkAnchor.textContent = anchorText;
-        contextLink._linkAnchor.target = contextLink.targetSelect.selectedOptions[0].value;
+        contextLink.linkAnchor.href = url;
+        contextLink.linkAnchor.textContent = anchorText;
+        contextLink.linkAnchor.target = contextLink.targetSelect.selectedOptions[0].value;
 
         // set range
-        this.setRange(contextLink._linkAnchor.childNodes[0], 0, contextLink._linkAnchor.childNodes[0], contextLink._linkAnchor.textContent.length);
+        this.setRange(contextLink.linkAnchor.childNodes[0], 0, contextLink.linkAnchor.childNodes[0], contextLink.linkAnchor.textContent.length);
       }
 
       // history stack
@@ -235,17 +235,17 @@ export default {
     if (!update) {
       this.plugins.customLink.init.call(this);
       this.context.customLink.linkAnchorText.value = this.getSelection().toString();
-    } else if (this.context.customLink._linkAnchor) {
+    } else if (this.context.customLink.linkAnchor) {
       this.context.dialog.updateModal = true;
-      this.context.customLink.focusElement.value = this.context.customLink._linkAnchor.href;
-      this.context.customLink.linkAnchorText.value = this.context.customLink._linkAnchor.textContent;
-      this.context.customLink.targetSelect.value = this.context.customLink._linkAnchor.target || '';
+      this.context.customLink.focusElement.value = this.context.customLink.linkAnchor.href;
+      this.context.customLink.linkAnchorText.value = this.context.customLink.linkAnchor.textContent;
+      this.context.customLink.targetSelect.value = this.context.customLink.linkAnchor.target || '';
     }
   },
 
   call_controller: function (selectionATag) {
     this.editLink = selectionATag;
-    this.context.customLink._linkAnchor = selectionATag;
+    this.context.customLink.linkAnchor = selectionATag;
     const linkBtn = this.context.customLink.linkController;
     const link = linkBtn.querySelector('a');
 
@@ -281,19 +281,19 @@ export default {
 
     if (/update/.test(command)) {
       const contextLink = this.context.customLink;
-      contextLink.focusElement.value = contextLink._linkAnchor.href;
-      contextLink.linkAnchorText.value = contextLink._linkAnchor.textContent;
+      contextLink.focusElement.value = contextLink.linkAnchor.href;
+      contextLink.linkAnchorText.value = contextLink.linkAnchor.textContent;
       contextLink.targetSelect.value = contextLink.targetSelect.value;
       this.plugins.dialog.open.call(this, 'customLink', true);
     } else if (/unlink/.test(command)) {
-      const sc = this.util.getChildElement(this.context.customLink._linkAnchor, function (current) { return current.childNodes.length === 0 || current.nodeType === 3; }, false);
-      const ec = this.util.getChildElement(this.context.customLink._linkAnchor, function (current) { return current.childNodes.length === 0 || current.nodeType === 3; }, true);
+      const sc = this.util.getChildElement(this.context.customLink.linkAnchor, function (current) { return current.childNodes.length === 0 || current.nodeType === 3; }, false);
+      const ec = this.util.getChildElement(this.context.customLink.linkAnchor, function (current) { return current.childNodes.length === 0 || current.nodeType === 3; }, true);
       this.setRange(sc, 0, ec, ec.textContent.length);
       this.nodeChange(null, null, ['A'], false);
     } else {
       /** delete */
-      this.util.removeItem(this.context.customLink._linkAnchor);
-      this.context.customLink._linkAnchor = null;
+      this.util.removeItem(this.context.customLink.linkAnchor);
+      this.context.customLink.linkAnchor = null;
       this.focus();
 
       // history stack
@@ -309,7 +309,7 @@ export default {
   init: function () {
     const contextLink = this.context.customLink;
     contextLink.linkController.style.display = 'none';
-    contextLink._linkAnchor = null;
+    contextLink.linkAnchor = null;
     contextLink.focusElement.value = '';
     contextLink.linkAnchorText.value = '';
     contextLink.targetSelect.selectedIndex = 0;

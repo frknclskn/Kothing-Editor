@@ -110,7 +110,7 @@ export interface KothingEditorOptions {
      The class name of the element must be 'kothing-editor'.
      Element or querySelector argument.
      */
-  toolbarContainer?: HTMLElement | string;
+  toolbarContainer?: Element | string;
   /**
    * Top offset value of "sticky toolbar".
    */
@@ -299,7 +299,7 @@ export interface KothingEditorOptions {
    * It is determined by "imageSizeOnlyPercentage".
    * @pivate
    */
-  _videoSizeUnit?: "%" | "px";
+  videoSizeUnit?: "%" | "px";
   /**
    * Choose whether to image rotation buttons display.
    * When "imageSizeOnlyPercentage" is "true" or  or "imageHeightShow" is "false" the default value is false.
@@ -553,5 +553,5 @@ export interface KothingEditorOptions {
   /**
    * private options
    */
-  _printClass?: string;
+  printClass?: string;
 }

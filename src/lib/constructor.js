@@ -6,8 +6,8 @@
  * MIT license.
  */
 
-import _icons from "../assets/defaultIcons";
-import _defaultLang from "../lang/en";
+import defaultIcons from "../assets/defaultIcons";
+import defaultLang from "../lang/en";
 import util from "./util";
 
 export default {
@@ -18,54 +18,57 @@ export default {
    * @returns {Object}
    */
   init: function (element, options) {
-    if (typeof options !== "object") options = {};
-
-    const doc = document;
+    if (typeof options !== "object") {
+      options = {};
+    }
 
     /** --- init options --- */
-    this._initOptions(element, options);
+    this.initOptions(element, options);
 
     // KothingEditor div
-    const top_div = doc.createElement("DIV");
+    const top_div = document.createElement("DIV");
     top_div.className = "kothing-editor" + (options.rtl ? " ke-rtl" : "");
-    if (element.id) top_div.id = "kothing-editor_" + element.id;
+    if (element.id) {
+      top_div.id = "kothing-editor_" + element.id;
+    }
 
     // relative div
-    const relative = doc.createElement("DIV");
+    const relative = document.createElement("DIV");
     relative.className = "ke-container";
 
     // toolbar
-    const tool_bar = this._createToolBar(
-      doc,
+    const tool_bar = this.createToolBar(
       options.toolbarItem,
       options.plugins,
       options
     );
     tool_bar.element.style.visibility = "hidden";
-    if (tool_bar.pluginCallButtons.math) this._checkKatexMath(options.katex);
-    const arrow = doc.createElement("DIV");
+    if (tool_bar.pluginCallButtons.math) {
+      this.checkKatexMath(options.katex);
+    }
+    const arrow = document.createElement("DIV");
     arrow.className = "ke-arrow";
 
     // sticky toolbar dummy
-    const sticky_dummy = doc.createElement("DIV");
+    const sticky_dummy = document.createElement("DIV");
     sticky_dummy.className = "ke-toolbar-sticky-dummy";
 
     // inner editor div
-    const editor_div = doc.createElement("DIV");
+    const editor_div = document.createElement("DIV");
     editor_div.className = "ke-wrapper";
 
     /** --- init elements and create bottom bar --- */
-    const initElements = this._initElements(
+    const init_elements = this.initElements(
       options,
       top_div,
       tool_bar.element,
       arrow
     );
 
-    const bottomBar = initElements.bottomBar;
-    const wysiwyg_div = initElements.wysiwygFrame;
-    const placeholder_span = initElements.placeholder;
-    let textarea = initElements.codeView;
+    const bottomBar = init_elements.bottomBar;
+    const wysiwyg_div = init_elements.wysiwygFrame;
+    const placeholder_span = init_elements.placeholder;
+    let textarea = init_elements.codeView;
 
     // resizing bar
     const resizing_bar = bottomBar.resizingBar;
@@ -74,23 +77,23 @@ export default {
     const char_counter = bottomBar.charCounter;
 
     // loading box
-    const loading_box = doc.createElement("DIV");
+    const loading_box = document.createElement("DIV");
     loading_box.className = "ke-loading-box kothing-editor-common";
     loading_box.innerHTML = '<div class="ke-loading-effect"></div>';
 
     // enter line
-    const line_breaker = doc.createElement("DIV");
+    const line_breaker = document.createElement("DIV");
     line_breaker.className = "ke-line-breaker";
     line_breaker.innerHTML =
       '<button class="ke-btn">' + options.icons.line_break + "</button>";
-    const line_breaker_t = doc.createElement("DIV");
+    const line_breaker_t = document.createElement("DIV");
     line_breaker_t.className += "ke-line-breaker-component";
     const line_breaker_b = line_breaker_t.cloneNode(true);
     line_breaker_t.innerHTML = line_breaker_b.innerHTML =
       options.icons.line_break;
 
     // resize operation background
-    const resize_back = doc.createElement("DIV");
+    const resize_back = document.createElement("DIV");
     resize_back.className = "ke-resizing-back";
 
     // toolbar container
@@ -101,8 +104,12 @@ export default {
 
     /** append html */
     editor_div.appendChild(textarea);
-    if (placeholder_span) editor_div.appendChild(placeholder_span);
-    if (!toolbarContainer) relative.appendChild(tool_bar.element);
+    if (placeholder_span) {
+      editor_div.appendChild(placeholder_span);
+    }
+    if (!toolbarContainer) {
+      relative.appendChild(tool_bar.element);
+    }
     relative.appendChild(sticky_dummy);
     relative.appendChild(editor_div);
     relative.appendChild(resize_back);
@@ -110,10 +117,12 @@ export default {
     relative.appendChild(line_breaker);
     relative.appendChild(line_breaker_t);
     relative.appendChild(line_breaker_b);
-    if (resizing_bar) relative.appendChild(resizing_bar);
+    if (resizing_bar) {
+      relative.appendChild(resizing_bar);
+    }
     top_div.appendChild(relative);
 
-    textarea = this._checkCodeMirror(options, textarea);
+    textarea = this.checkCodeMirror(options, textarea);
 
     return {
       constructed: {
@@ -140,7 +149,7 @@ export default {
       options: options,
       plugins: tool_bar.plugins,
       pluginCallButtons: tool_bar.pluginCallButtons,
-      _responsiveButtons: tool_bar.responsiveButtons,
+      responsiveButtons: tool_bar.responsiveButtons,
     };
   },
 
@@ -150,7 +159,7 @@ export default {
    * @param {Element} textarea textarea element
    * @private
    */
-  _checkCodeMirror: function (options, textarea) {
+  checkCodeMirror: function (options, textarea) {
     if (options.codeMirror) {
       const cmOptions = [
         {
@@ -162,7 +171,9 @@ export default {
         options.codeMirror.options || {},
       ].reduce(function (init, option) {
         for (let key in option) {
-          if (util.hasOwn(option, key)) init[key] = option[key];
+          if (util.hasOwn(option, key)) {
+            init[key] = option[key];
+          }
         }
         return init;
       }, {});
@@ -188,7 +199,7 @@ export default {
    * @param {Object} katex katex object
    * @private
    */
-  _checkKatexMath: function (katex) {
+  checkKatexMath: function (katex) {
     if (!katex)
       throw Error(
         '[KothingEditor.create.fail] To use the math button you need to add a "katex" object to the options.'
@@ -201,7 +212,9 @@ export default {
       katex.options || {},
     ].reduce(function (init, option) {
       for (let key in option) {
-        if (util.hasOwn(option, key)) init[key] = option[key];
+        if (util.hasOwn(option, key)) {
+          init[key] = option[key];
+        }
       }
       return init;
     }, {});
@@ -217,8 +230,8 @@ export default {
    * @returns {Object} pluginCallButtons
    * @private
    */
-  _setOptions: function (mergeOptions, context, originOptions) {
-    this._initOptions(context.element.originElement, mergeOptions);
+  setOptions: function (mergeOptions, context, originOptions) {
+    this.initOptions(context.element.originElement, mergeOptions);
 
     const el = context.element;
     const relative = el.relative;
@@ -232,14 +245,15 @@ export default {
       mergeOptions.mode !== originOptions.mode ||
       isNewToolbarContainer;
 
-    const tool_bar = this._createToolBar(
-      document,
+    const tool_bar = this.createToolBar(
       isNewToolbar ? mergeOptions.toolbarItem : originOptions.toolbarItem,
       mergeOptions.plugins,
       mergeOptions
     );
-    if (tool_bar.pluginCallButtons.math)
-      this._checkKatexMath(mergeOptions.katex);
+    if (tool_bar.pluginCallButtons.math) {
+      this.checkKatexMath(mergeOptions.katex);
+    }
+
     const arrow = document.createElement("DIV");
     arrow.className = "ke-arrow";
 
@@ -258,26 +272,32 @@ export default {
       el.arrow = arrow;
     }
 
-    const initElements = this._initElements(
+    const init_elements = this.initElements(
       mergeOptions,
       el.topArea,
       isNewToolbar ? tool_bar.element : el.toolbar,
       arrow
     );
 
-    const bottomBar = initElements.bottomBar;
-    const wysiwygFrame = initElements.wysiwygFrame;
-    const placeholder_span = initElements.placeholder;
-    let code = initElements.codeView;
+    const bottomBar = init_elements.bottomBar;
+    const wysiwygFrame = init_elements.wysiwygFrame;
+    const placeholder_span = init_elements.placeholder;
+    let code = init_elements.codeView;
 
-    if (el.resizingBar) relative.removeChild(el.resizingBar);
-    if (bottomBar.resizingBar) relative.appendChild(bottomBar.resizingBar);
+    if (el.resizingBar) {
+      relative.removeChild(el.resizingBar);
+    }
+    if (bottomBar.resizingBar) {
+      relative.appendChild(bottomBar.resizingBar);
+    }
 
     editorArea.innerHTML = "";
     editorArea.appendChild(code);
-    if (placeholder_span) editorArea.appendChild(placeholder_span);
+    if (placeholder_span) {
+      editorArea.appendChild(placeholder_span);
+    }
 
-    code = this._checkCodeMirror(mergeOptions, code);
+    code = this.checkCodeMirror(mergeOptions, code);
 
     el.resizingBar = bottomBar.resizingBar;
     el.navigation = bottomBar.navigation;
@@ -287,8 +307,11 @@ export default {
     el.code = code;
     el.placeholder = placeholder_span;
 
-    if (mergeOptions.rtl) util.addClass(el.topArea, "ke-rtl");
-    else util.removeClass(el.topArea, "ke-rtl");
+    if (mergeOptions.rtl) {
+      util.addClass(el.topArea, "ke-rtl");
+    } else {
+      util.removeClass(el.topArea, "ke-rtl");
+    }
 
     return {
       callButtons: tool_bar.pluginCallButtons,
@@ -306,9 +329,9 @@ export default {
    * @returns {Object} Bottom bar elements (resizingBar, navigation, charWrapper, charCounter)
    * @private
    */
-  _initElements: function (options, topDiv, toolBar, toolBarArrow) {
+  initElements: function (options, topDiv, toolBar, toolBarArrow) {
     /** top div */
-    topDiv.style.cssText = options._editorStyles.top;
+    topDiv.style.cssText = options.editorStyles.top;
 
     /** toolbar */
     if (/inline/i.test(options.mode)) {
@@ -328,23 +351,25 @@ export default {
     wysiwygDiv.className = "ke-wrapper-inner ke-wrapper-wysiwyg";
 
     if (!options.iframe) {
-      wysiwygDiv.setAttribute("contenteditable", true);
+      wysiwygDiv.setAttribute("contenteditable", "true");
       wysiwygDiv.setAttribute("scrolling", "auto");
-      wysiwygDiv.className += " " + options._editableClass;
+      wysiwygDiv.className += " " + options.editableClass;
       wysiwygDiv.style.cssText =
-        options._editorStyles.frame + options._editorStyles.editor;
+        options.editorStyles.frame + options.editorStyles.editor;
     } else {
       wysiwygDiv.allowFullscreen = true;
       wysiwygDiv.frameBorder = 0;
-      wysiwygDiv.style.cssText = options._editorStyles.frame;
+      wysiwygDiv.style.cssText = options.editorStyles.frame;
     }
 
     // textarea for code view
     const textarea = document.createElement("TEXTAREA");
     textarea.className = "ke-wrapper-inner ke-wrapper-code";
-    textarea.style.cssText = options._editorStyles.frame;
+    textarea.style.cssText = options.editorStyles.frame;
     textarea.style.display = "none";
-    if (options.height === "auto") textarea.style.overflow = "hidden";
+    if (options.height === "auto") {
+      textarea.style.overflow = "hidden";
+    }
 
     /** resize bar */
     let resizingBar = null;
@@ -428,9 +453,9 @@ export default {
    * @param {Object} options Options object
    * @private
    */
-  _initOptions: function (element, options) {
+  initOptions: function (element, options) {
     /** Values */
-    options.lang = options.lang || _defaultLang;
+    options.lang = options.lang || defaultLang;
     options.defaultTag =
       typeof options.defaultTag === "string" ? options.defaultTag : "p";
     const textTags = (options.textTags = [
@@ -449,7 +474,7 @@ export default {
       }
       return _default;
     }, {}));
-    options._textTagsMap = {
+    options.textTagsMap = {
       strong: textTags.bold.toLowerCase(),
       b: textTags.bold.toLowerCase(),
       u: textTags.underline.toLowerCase(),
@@ -470,22 +495,22 @@ export default {
     /** Whitelist */
     const whitelist =
       "br|p|div|pre|blockquote|h1|h2|h3|h4|h5|h6|ol|ul|li|hr|figure|figcaption|img|iframe|audio|video|source|table|thead|tbody|tr|th|td|a|b|strong|var|i|em|u|ins|s|span|strike|del|sub|sup|code|svg|path";
-    options._defaultTagsWhitelist =
-      typeof options._defaultTagsWhitelist === "string"
-        ? options._defaultTagsWhitelist
+    options.defaultTagsWhitelist =
+      typeof options.defaultTagsWhitelist === "string"
+        ? options.defaultTagsWhitelist
         : whitelist;
-    options._editorTagsWhitelist = this._setWhitelist(
-      options._defaultTagsWhitelist +
+    options.editorTagsWhitelist = this.setWhitelist(
+      options.defaultTagsWhitelist +
         (typeof options.addTagsWhitelist === "string" &&
         options.addTagsWhitelist.length > 0
           ? "|" + options.addTagsWhitelist
           : ""),
       options.tagsBlacklist
     );
-    options.pasteTagsWhitelist = this._setWhitelist(
+    options.pasteTagsWhitelist = this.setWhitelist(
       typeof options.pasteTagsWhitelist === "string"
         ? options.pasteTagsWhitelist
-        : options._editorTagsWhitelist,
+        : options.editorTagsWhitelist,
       options.pasteTagsBlacklist
     );
     options.attributesWhitelist =
@@ -496,10 +521,10 @@ export default {
     /** Layout */
     options.mode = options.mode || "classic"; // classic, inline, balloon, balloon-always
     options.rtl = !!options.rtl;
-    options._editableClass =
+    options.editableClass =
       "kothing-editor-editable" + (options.rtl ? " ke-rtl" : "");
-    options._printClass =
-      typeof options._printClass === "string" ? options._printClass : null;
+    options.printClass =
+      typeof options.printClass === "string" ? options.printClass : null;
     options.toolbarWidth = options.toolbarWidth
       ? util.isNumber(options.toolbarWidth)
         ? options.toolbarWidth + "px"
@@ -661,7 +686,7 @@ export default {
       ? options.imageHeight + "px"
       : options.imageHeight;
     options.imageSizeOnlyPercentage = !!options.imageSizeOnlyPercentage;
-    options._imageSizeUnit = options.imageSizeOnlyPercentage ? "%" : "px";
+    options.imageSizeUnit = options.imageSizeOnlyPercentage ? "%" : "px";
     options.imageRotation =
       options.imageRotation !== undefined
         ? options.imageRotation
@@ -712,7 +737,7 @@ export default {
         ? options.videoHeight + "px"
         : options.videoHeight;
     options.videoSizeOnlyPercentage = !!options.videoSizeOnlyPercentage;
-    options._videoSizeUnit = options.videoSizeOnlyPercentage ? "%" : "px";
+    options.videoSizeUnit = options.videoSizeOnlyPercentage ? "%" : "px";
     options.videoRotation =
       options.videoRotation !== undefined
         ? options.videoRotation
@@ -821,8 +846,8 @@ export default {
     // custom icons
     options.icons =
       !options.icons || typeof options.icons !== "object"
-        ? _icons
-        : [_icons, options.icons].reduce(function (_default, _new) {
+        ? defaultIcons
+        : [defaultIcons, options.icons].reduce(function (_default, _new) {
             for (let key in _new) {
               if (util.hasOwn(_new, key)) _default[key] = _new[key];
             }
@@ -833,25 +858,31 @@ export default {
       ? options.icons
       : [options.icons, options.icons.rtl].reduce(function (_default, _new) {
           for (let key in _new) {
-            if (util.hasOwn(_new, key)) _default[key] = _new[key];
+            if (util.hasOwn(_new, key)) {
+              _default[key] = _new[key];
+            }
           }
           return _default;
         }, {});
 
-    /** _init options */
-    options._editorStyles = util._setDefaultOptionStyle(
+    /** init options */
+    options.editorStyles = util.setDefaultOptionStyle(
       options,
       options.defaultStyle
     );
   },
 
-  _setWhitelist: function (whitelist, blacklist) {
-    if (typeof blacklist !== "string") return whitelist;
+  setWhitelist: function (whitelist, blacklist) {
+    if (typeof blacklist !== "string") {
+      return whitelist;
+    }
     blacklist = blacklist.split("|");
     whitelist = whitelist.split("|");
     for (let i = 0, len = blacklist.length, index; i < len; i++) {
       index = whitelist.indexOf(blacklist[i]);
-      if (index > -1) whitelist.splice(index, 1);
+      if (index > -1) {
+        whitelist.splice(index, 1);
+      }
     }
     return whitelist.join("|");
   },
@@ -861,7 +892,7 @@ export default {
    * @param {Object} options options
    * @private
    */
-  _defaultButtons: function (options) {
+  createDefaultToolbarItems: function (options) {
     const icons = options.icons;
     const lang = options.lang;
     const cmd = util.isOSX_IOS ? "⌘" : "CTRL";
@@ -1043,7 +1074,8 @@ export default {
       ],
       save: [
         "_ke_command_save ke-resizing-enabled",
-        lang.toolbar.save + " " +
+        lang.toolbar.save +
+          " " +
           '<span class="ke-shortcut">' +
           (shortcutsDisable.indexOf("save") > -1
             ? ""
@@ -1163,7 +1195,7 @@ export default {
    * @returns {Object}
    * @private
    */
-  _createModuleGroup: function () {
+  createModuleGroup: function () {
     const oDiv = util.createElement("DIV");
     oDiv.className = "ke-btn-module ke-btn-module-border";
 
@@ -1184,19 +1216,19 @@ export default {
    * @param {string} dataCommand The data-command property of the button
    * @param {string} dataDisplay The data-display property of the button ('dialog', 'submenu', 'command')
    * @param {string} innerHTML Html in button
-   * @param {string} _disabled Button disabled
-   * @param {Object} _icons Icons
+   * @param {string} disabled Button disabled
+   * @param {Object} defaultIcons Icons
    * @returns {Object}
    * @private
    */
-  _createButton: function (
+  createButton: function (
     buttonClass,
     title,
     dataCommand,
     dataDisplay,
     innerHTML,
-    _disabled,
-    _icons
+    disabled,
+    defaultIcons
   ) {
     const oLi = util.createElement("LI");
     const oButton = util.createElement("BUTTON");
@@ -1210,9 +1242,11 @@ export default {
     oButton.setAttribute("data-display", dataDisplay);
     oButton.setAttribute("tabindex", "-1");
 
-    if (!innerHTML) innerHTML = '<span class="ke-icon-text">!</span>';
+    if (!innerHTML) {
+      innerHTML = '<span class="ke-icon-text">!</span>';
+    }
     if (/^default\./i.test(innerHTML)) {
-      innerHTML = _icons[innerHTML.replace(/^default\./i, "")];
+      innerHTML = defaultIcons[innerHTML.replace(/^default\./i, "")];
     }
     if (/^text\./i.test(innerHTML)) {
       innerHTML = innerHTML.replace(/^text\./i, "");
@@ -1224,8 +1258,8 @@ export default {
       (title || dataCommand) +
       "</span></span>";
 
-    if (_disabled) {
-      oButton.setAttribute("disabled", true);
+    if (disabled) {
+      oButton.setAttribute("disabled", "true");
     }
 
     oButton.innerHTML = innerHTML;
@@ -1246,21 +1280,21 @@ export default {
    * @returns {Object} { element: (Element) Toolbar element, plugins: (Array|null) Plugins Array, pluginCallButtons: (Object), responsiveButtons: (Array) }
    * @private
    */
-  _createToolBar: function (doc, toolbarItem, _plugins, options) {
-    const separator_vertical = doc.createElement("DIV");
+  createToolBar: function (toolbarItem, _plugins, options) {
+    const separator_vertical = document.createElement("DIV");
     separator_vertical.className = "ke-toolbar-separator-vertical";
 
-    const tool_bar = doc.createElement("DIV");
+    const tool_bar = document.createElement("DIV");
     tool_bar.className = "ke-toolbar kothing-editor-common";
 
-    const buttonTray = doc.createElement("DIV");
+    const buttonTray = document.createElement("DIV");
     buttonTray.className = "ke-btn-tray";
     tool_bar.appendChild(buttonTray);
 
     /** create button list */
     toolbarItem = JSON.parse(JSON.stringify(toolbarItem));
     const icons = options.icons;
-    const defaultToolbarItem = this._defaultButtons(options);
+    const defaultToolbarItem = this.createDefaultToolbarItems(options);
     const pluginCallButtons = {};
     const responsiveButtons = [];
     const plugins = {};
@@ -1285,7 +1319,7 @@ export default {
     const moreLayer = util.createElement("DIV");
     moreLayer.className = "ke-toolbar-more-layer";
 
-    buttonGroupLoop: for (
+    for (
       let i = 0, more, moreContainer, moreCommand, buttonGroup, align;
       i < toolbarItem.length;
       i++
@@ -1293,7 +1327,7 @@ export default {
       more = false;
       align = "";
       buttonGroup = toolbarItem[i];
-      moduleElement = this._createModuleGroup();
+      moduleElement = this.createModuleGroup();
 
       // button object
       if (typeof buttonGroup === "object") {
@@ -1306,10 +1340,10 @@ export default {
             buttonGroup[0] = button.replace(/[^\d]/g, "");
             responsiveButtons.push(buttonGroup);
             toolbarItem.splice(i--, 1);
-            continue buttonGroupLoop;
+            continue;
           }
 
-          if (typeof button === "object") {
+          if (util.typeOf(button) === "object") {
             if (typeof button.add === "function") {
               pluginName = button.name;
               module = defaultToolbarItem[pluginName];
@@ -1322,7 +1356,7 @@ export default {
                 button.name,
                 button.dataDisplay,
                 button.innerHTML,
-                button._disabled,
+                button.disabled,
               ];
             }
           } else {
@@ -1362,12 +1396,12 @@ export default {
                 custom.name,
                 custom.display,
                 custom.innerHTML,
-                custom._disabled,
+                custom.disabled,
               ];
             }
           }
 
-          buttonElement = this._createButton(
+          buttonElement = this.createButton(
             module[0],
             module[1],
             module[2],
@@ -1407,7 +1441,7 @@ export default {
         vertical = true;
       } else if (/^\/$/.test(buttonGroup)) {
         /** line break  */
-        const enterDiv = doc.createElement("DIV");
+        const enterDiv = document.createElement("DIV");
         enterDiv.className = "ke-btn-module-enter";
         buttonTray.appendChild(enterDiv);
         vertical = false;
@@ -1429,16 +1463,20 @@ export default {
         }
     }
 
-    if (responsiveButtons.length > 0) responsiveButtons.unshift(toolbarItem);
-    if (moreLayer.children.length > 0) buttonTray.appendChild(moreLayer);
+    if (responsiveButtons.length > 0) {
+      responsiveButtons.unshift(toolbarItem);
+    }
+    if (moreLayer.children.length > 0) {
+      buttonTray.appendChild(moreLayer);
+    }
 
     // menu tray
-    const menuTray = doc.createElement("DIV");
+    const menuTray = document.createElement("DIV");
     menuTray.className = "ke-menu-tray";
     tool_bar.appendChild(menuTray);
 
     // cover
-    const tool_cover = doc.createElement("DIV");
+    const tool_cover = document.createElement("DIV");
     tool_cover.className = "ke-toolbar-cover";
     tool_bar.appendChild(tool_cover);
 

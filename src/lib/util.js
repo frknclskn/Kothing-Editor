@@ -10,24 +10,112 @@
  * @description utility function
  */
 const util = {
-  _d: null,
-  _w: null,
-  isIE: null,
-  isIE_Edge: null,
-  isOSX_IOS: null,
-  _propertiesInit: function () {
-    if (this._d) return;
-    this._d = document;
-    this._w = window;
-    this.isIE = navigator.userAgent.indexOf("Trident") > -1;
-    this.isIE_Edge =
-      navigator.userAgent.indexOf("Trident") > -1 ||
-      navigator.appVersion.indexOf("Edge") > -1;
-    this.isOSX_IOS = /(Mac|iPhone|iPod|iPad)/.test(navigator.platform);
+  _document: document,
+  _window: window,
+  isIE: navigator.userAgent.indexOf("Trident") > -1,
+  isIE_Edge:
+    navigator.userAgent.indexOf("Trident") > -1 ||
+    navigator.appVersion.indexOf("Edge") > -1,
+  isOSX_IOS: /(Mac|iPhone|iPod|iPad)/.test(navigator.platform),
+
+  allowedEmptyNodeList:
+    ".ke-component, pre, blockquote, hr, li, table, img, iframe, video, audio, canvas",
+
+  /**
+   * @description Returns a string indicating the type of the unevaluated operand
+   * @param {Any} value unevaluated
+   * @returns {String}
+   */
+  typeOf: function (value) {
+    const types = {
+      "[object String]": "string",
+      "[object Number]": "number",
+      "[object Boolean]": "boolean",
+      "[object Array]": "array",
+      "[object Object]": "object",
+      "[object Function]": "function",
+      "[object Undefined]": "undefined",
+      "[object Null]": "null",
+      "[object Date]": "date",
+      "[object Symbol]": "symbol",
+      "[object RegExp]": "regExp",
+      "[object Error]": "error",
+      "[object HTMLDocument]": "document",
+      "[object Window]": "window",
+    };
+    return types[Object.prototype.toString.call(value)];
   },
 
-  _allowedEmptyNodeList:
-    ".ke-component, pre, blockquote, hr, li, table, img, iframe, video, audio, canvas",
+  /**
+   * @description Gets XMLHttpRequest object
+   * @returns {XMLHttpRequest | ActiveXObject}
+   */
+  getXMLHttpRequest: function () {
+    /** IE */
+    if (this._window.ActiveXObject) {
+      try {
+        return new this._window.ActiveXObject("Msxml2.XMLHTTP");
+      } catch (e) {
+        try {
+          return new this._window.ActiveXObject("Microsoft.XMLHTTP");
+        } catch (e1) {
+          return null;
+        }
+      }
+    } else if (this._window.XMLHttpRequest) {
+      /** netscape */
+      return new XMLHttpRequest();
+    } else {
+      /** fail */
+      return null;
+    }
+  },
+
+  /**
+   * @description Create Element node
+   * @param {String} elementName Element name
+   * @returns {Element}
+   */
+  createElement: function (elementName) {
+    return this._document.createElement(elementName);
+  },
+
+  /**
+   * @description Create text node
+   * @param {String} text text contents
+   * @returns {Element}
+   */
+  createTextNode: function (text) {
+    return this._document.createTextNode(text || "");
+  },
+
+  /**
+   * @description The editor checks tags by string.
+   * If there is "<" or ">" in the attribute of tag, HTML is broken when checking the tag.
+   * When using an attribute with "<" or ">", use "HTMLEncoder" to save. (ex: math(katex))
+   * @param {String} contents HTML or Text string
+   * @returns {String}
+   */
+  HTMLEncoder: function (contents) {
+    const ec = { "<": "$lt;", ">": "$gt;" };
+    return contents.replace(/<|>/g, function (m) {
+      return typeof ec[m] === "string" ? ec[m] : m;
+    });
+  },
+
+  /**
+   * @description The editor checks tags by string.
+   * If there is "<" or ">" in the attribute of tag, HTML is broken when checking the tag.
+   * Decoder of data stored as "HTMLEncoder" (ex: math(katex))
+   * @param {String} contents HTML or Text string
+   * @returns {String}
+   */
+  HTMLDecoder: function (contents) {
+    const ec = { "$lt;": "<", "$gt;": ">" };
+    return contents.replace(/\$lt;|\$gt;/g, function (m) {
+      return typeof ec[m] === "string" ? ec[m] : m;
+    });
+  },
 
   /**
    * @description HTML Reserved Word Converter.
@@ -35,7 +123,7 @@ const util = {
    * @returns {String} HTML string
    * @private
    */
-  _HTMLConvertor: function (contents) {
+  HTMLConvertor: function (contents) {
     const ec = {
       "&": "&amp;",
       "\u00A0": "&nbsp;",
@@ -70,79 +158,10 @@ const util = {
    * @returns {Boolean}
    */
   onlyZeroWidthSpace: function (text) {
-    if (typeof text !== "string") text = text.textContent;
-    return text === "" || this.onlyZeroWidthRegExp.test(text);
-  },
-
-  /**
-   * @description Gets XMLHttpRequest object
-   * @returns {XMLHttpRequest|ActiveXObject}
-   */
-  getXMLHttpRequest: function () {
-    /** IE */
-    if (this._w.ActiveXObject) {
-      try {
-        return new ActiveXObject("Msxml2.XMLHTTP");
-      } catch (e) {
-        try {
-          return new ActiveXObject("Microsoft.XMLHTTP");
-        } catch (e1) {
-          return null;
-        }
-      }
-    } else if (this._w.XMLHttpRequest) {
-      /** netscape */
-      return new XMLHttpRequest();
-    } else {
-      /** fail */
-      return null;
+    if (typeof text !== "string") {
+      text = text.textContent;
     }
-  },
-
-  /**
-   * @description Create Element node
-   * @param {String} elementName Element name
-   * @returns {Element}
-   */
-  createElement: function (elementName) {
-    return this._d.createElement(elementName);
-  },
-
-  /**
-   * @description Create text node
-   * @param {String} text text contents
-   * @returns {Node}
-   */
-  createTextNode: function (text) {
-    return this._d.createTextNode(text || "");
-  },
-
-  /**
-   * @description The editor checks tags by string.
-   * If there is "<" or ">" in the attribute of tag, HTML is broken when checking the tag.
-   * When using an attribute with "<" or ">", use "HTMLEncoder" to save. (ex: math(katex))
-   * @param {String} contents HTML or Text string
-   * @returns {String}
-   */
-  HTMLEncoder: function (contents) {
-    const ec = { "<": "$lt;", ">": "$gt;" };
-    return contents.replace(/<|>/g, function (m) {
-      return typeof ec[m] === "string" ? ec[m] : m;
-    });
-  },
-
-  /**
-   * @description The editor checks tags by string.
-   * If there is "<" or ">" in the attribute of tag, HTML is broken when checking the tag.
-   * Decoder of data stored as "HTMLEncoder" (ex: math(katex))
-   * @param {String} contents HTML or Text string
-   * @returns {String}
-   */
-  HTMLDecoder: function (contents) {
-    const ec = { "$lt;": "<", "$gt;": ">" };
-    return contents.replace(/\$lt;|\$gt;/g, function (m) {
-      return typeof ec[m] === "string" ? ec[m] : m;
-    });
+    return text === "" || this.onlyZeroWidthRegExp.test(text);
   },
 
   /**
@@ -152,9 +171,8 @@ const util = {
    * @returns {Boolean}
    */
   hasOwn: function (obj, key) {
-    return this._hasOwn.call(obj, key);
+    return Object.prototype.hasOwnProperty.call(obj, key);
   },
-  _hasOwn: Object.prototype.hasOwnProperty,
 
   /**
    * @deprecated
@@ -170,26 +188,26 @@ const util = {
     const tagName = extension === "js" ? "script" : "link";
     const src = extension === "js" ? "src" : "href";
 
-    let fileName = "(?:";
+    let fileName = "(:";
     for (let i = 0, len = nameArray.length; i < len; i++) {
       fileName += nameArray[i] + (i < len - 1 ? "|" : ")");
     }
 
-    const regExp = new this._w.RegExp(
+    const regExp = new this._window.RegExp(
       "(^|.*[\\/])" +
         fileName +
         "(\\.[^\\/]+)?." +
         extension +
-        "(?:\\?.*|;.*)?$",
+        "(:\\?.*|;.*)?$",
       "i"
     );
-    const extRegExp = new this._w.RegExp(
-      ".+\\." + extension + "(?:\\?.*|;.*)?$",
+    const extRegExp = new this._window.RegExp(
+      ".+\\." + extension + "(:\\?.*|;.*)?$",
       "i"
     );
 
     for (
-      let c = this._d.getElementsByTagName(tagName), i = 0;
+      let c = this._document.getElementsByTagName(tagName), i = 0;
       i < c.length;
       i++
     ) {
@@ -212,8 +230,8 @@ const util = {
       "//" !== path.slice(0, 2) &&
       (path =
         0 === path.indexOf("/")
-          ? location.href.match(/^.*?:\/\/[^\/]*/)[0] + path
-          : location.href.match(/^[^\?]*\/(?:)/)[0] + path);
+          ? location.href.match(/^.*:\/\/[^\/]*/)[0] + path
+          : location.href.match(/^[^\?]*\/(:)/)[0] + path);
 
     if (!path)
       throw (
@@ -235,7 +253,7 @@ const util = {
    */
   getPageStyle: function (doc) {
     let cssText = "";
-    const sheets = (doc || this._d).styleSheets;
+    const sheets = (doc || this._document).styleSheets;
 
     for (let i = 0, len = sheets.length, rules; i < len; i++) {
       try {
@@ -261,7 +279,9 @@ const util = {
    */
   getIframeDocument: function (iframe) {
     let wDocument = iframe.contentWindow || iframe.contentDocument;
-    if (wDocument.document) wDocument = wDocument.document;
+    if (wDocument.document) {
+      wDocument = wDocument.document;
+    }
     return wDocument;
   },
 
@@ -278,7 +298,9 @@ const util = {
     let attrString = "";
 
     for (let i = 0, len = attrs.length; i < len; i++) {
-      if (exceptAttrs && exceptAttrs.indexOf(attrs[i].name) > -1) continue;
+      if (exceptAttrs && exceptAttrs.indexOf(attrs[i].name) > -1) {
+        continue;
+      }
       attrString += attrs[i].name + '="' + attrs[i].value + '" ';
     }
 
@@ -295,10 +317,10 @@ const util = {
     if (!text || !text.toString) return 0;
     text = text.toString();
 
-    const encoder = this._w.encodeURIComponent;
+    const encoder = this._window.encodeURIComponent;
     let cr, cl;
     if (this.isIE_Edge) {
-      cl = this._w.unescape(encoder(text)).length;
+      cl = this._window.unescape(encoder(text)).length;
       cr = 0;
 
       if (encoder(text).match(/(%0A|%0D)/gi) !== null) {
@@ -307,7 +329,7 @@ const util = {
 
       return cl + cr;
     } else {
-      cl = new this._w.TextEncoder("utf-8").encode(text).length;
+      cl = new this._window.TextEncoder("utf-8").encode(text).length;
       cr = 0;
 
       if (encoder(text).match(/(%0A|%0D)/gi) !== null) {
@@ -495,12 +517,14 @@ const util = {
 
   /**
    * @description If a parent node that contains an argument node finds a format node (util.isFormatElement), it returns that node.
-   * @param {Node} element Reference node.
+   * @param {Element} element Reference node.
    * @param {Function|null} validation Additional validation function.
    * @returns {Element|null}
    */
   getFormatElement: function (element, validation) {
-    if (!element) return null;
+    if (!element) {
+      return null;
+    }
     if (!validation) {
       validation = function () {
         return true;
@@ -508,9 +532,15 @@ const util = {
     }
 
     while (element) {
-      if (this.isWysiwygDiv(element)) return null;
-      if (this.isRangeFormatElement(element)) element.firstElementChild;
-      if (this.isFormatElement(element) && validation(element)) return element;
+      if (this.isWysiwygDiv(element)) {
+        return null;
+      }
+      if (this.isRangeFormatElement(element)) {
+        element.firstElementChild;
+      }
+      if (this.isFormatElement(element) && validation(element)) {
+        return element;
+      }
 
       element = element.parentNode;
     }
@@ -525,7 +555,9 @@ const util = {
    * @returns {Element|null}
    */
   getRangeFormatElement: function (element, validation) {
-    if (!element) return null;
+    if (!element) {
+      return null;
+    }
     if (!validation) {
       validation = function () {
         return true;
@@ -533,13 +565,16 @@ const util = {
     }
 
     while (element) {
-      if (this.isWysiwygDiv(element)) return null;
+      if (this.isWysiwygDiv(element)) {
+        return null;
+      }
       if (
         this.isRangeFormatElement(element) &&
         !/^(THEAD|TBODY|TR)$/i.test(element.nodeName) &&
         validation(element)
-      )
+      ) {
         return element;
+      }
       element = element.parentNode;
     }
 
@@ -553,7 +588,9 @@ const util = {
    * @returns {Element|null}
    */
   getFreeFormatElement: function (element, validation) {
-    if (!element) return null;
+    if (!element) {
+      return null;
+    }
     if (!validation) {
       validation = function () {
         return true;
@@ -561,10 +598,12 @@ const util = {
     }
 
     while (element) {
-      if (this.isWysiwygDiv(element)) return null;
-      if (this.isFreeFormatElement(element) && validation(element))
+      if (this.isWysiwygDiv(element)) {
+        return null;
+      }
+      if (this.isFreeFormatElement(element) && validation(element)) {
         return element;
-
+      }
       element = element.parentNode;
     }
 
@@ -578,7 +617,9 @@ const util = {
    * @returns {Element|null}
    */
   getClosureFreeFormatElement: function (element, validation) {
-    if (!element) return null;
+    if (!element) {
+      return null;
+    }
     if (!validation) {
       validation = function () {
         return true;
@@ -586,10 +627,12 @@ const util = {
     }
 
     while (element) {
-      if (this.isWysiwygDiv(element)) return null;
-      if (this.isClosureFreeFormatElement(element) && validation(element))
+      if (this.isWysiwygDiv(element)) {
+        return null;
+      }
+      if (this.isClosureFreeFormatElement(element) && validation(element)) {
         return element;
-
+      }
       element = element.parentNode;
     }
 
@@ -638,7 +681,9 @@ const util = {
    * @returns {Array|Node|null}
    */
   getArrayItem: function (array, validation, multi) {
-    if (!array || array.length === 0) return null;
+    if (!array || array.length === 0) {
+      return null;
+    }
 
     validation =
       validation ||
@@ -650,8 +695,11 @@ const util = {
     for (let i = 0, len = array.length, a; i < len; i++) {
       a = array[i];
       if (validation(a)) {
-        if (!multi) return a;
-        else arr.push(a);
+        if (!multi) {
+          return a;
+        } else {
+          arr.push(a);
+        }
       }
     }
 
@@ -684,7 +732,9 @@ const util = {
    */
   nextIdx: function (array, item) {
     let idx = this.getArrayIndex(array, item);
-    if (idx === -1) return -1;
+    if (idx === -1) {
+      return -1;
+    }
     return idx + 1;
   },
 
@@ -696,7 +746,9 @@ const util = {
    */
   prevIdx: function (array, item) {
     let idx = this.getArrayIndex(array, item);
-    if (idx === -1) return -1;
+    if (idx === -1) {
+      return -1;
+    }
     return idx - 1;
   },
 
@@ -707,7 +759,7 @@ const util = {
    */
   getPositionIndex: function (node) {
     let idx = 0;
-    while ((node = node.previousSibling)) {
+    while (node == node.previousSibling) {
       idx += 1;
     }
     return idx;
@@ -718,12 +770,12 @@ const util = {
    * ex) <p><span>aa</span><span>bb</span></p> : getNodePath(node: "bb", parentNode: "<P>") -> [1, 0]
    * @param {Node} node The Node to find position path
    * @param {Node|null} parentNode Parent node. If null, wysiwyg div area
-   * @param {Object|null} _newOffsets If you send an object of the form "{s: 0, e: 0}", the text nodes that are attached together are merged into one, centered on the "node" argument.
-   * "_newOffsets.s" stores the length of the combined characters after "node" and "_newOffsets.e" stores the length of the combined characters before "node".
+   * @param {Object|null} newOffsets If you send an object of the form "{s: 0, e: 0}", the text nodes that are attached together are merged into one, centered on the "node" argument.
+   * "newOffsets.s" stores the length of the combined characters after "node" and "newOffsets.e" stores the length of the combined characters before "node".
    * Do not use unless absolutely necessary.
    * @returns {Array}
    */
-  getNodePath: function (node, parentNode, _newOffsets) {
+  getNodePath: function (node, parentNode, newOffsets) {
     const path = [];
     let finds = true;
 
@@ -733,15 +785,15 @@ const util = {
         if (el === parentNode) finds = false;
         if (finds && !this.isWysiwygDiv(el)) {
           // merge text nodes
-          if (_newOffsets && el.nodeType === 3) {
+          if (newOffsets && el.nodeType === 3) {
             let temp = null,
               tempText = null;
-            _newOffsets.s = _newOffsets.e = 0;
+            newOffsets.s = newOffsets.e = 0;
 
             let previous = el.previousSibling;
             while (previous && previous.nodeType === 3) {
               tempText = previous.textContent.replace(this.zeroWidthRegExp, "");
-              _newOffsets.s += tempText.length;
+              newOffsets.s += tempText.length;
               el.textContent = tempText + el.textContent;
               temp = previous;
               previous = previous.previousSibling;
@@ -751,7 +803,7 @@ const util = {
             let next = el.nextSibling;
             while (next && next.nodeType === 3) {
               tempText = next.textContent.replace(this.zeroWidthRegExp, "");
-              _newOffsets.e += tempText.length;
+              newOffsets.e += tempText.length;
               el.textContent += tempText;
               temp = next;
               next = next.nextSibling;
@@ -766,7 +818,7 @@ const util = {
       }.bind(this)
     );
 
-    return path.map(this.getPositionIndex).reverse();
+    return path.map((item) => this.getPositionIndex(item)).reverse();
   },
 
   /**
@@ -781,7 +833,9 @@ const util = {
 
     for (let i = 0, len = offsets.length; i < len; i++) {
       nodes = current.childNodes;
-      if (nodes.length === 0) break;
+      if (nodes.length === 0) {
+        break;
+      }
       if (nodes.length <= offsets[i]) {
         current = nodes[nodes.length - 1];
       } else {
@@ -795,29 +849,37 @@ const util = {
   /**
    * @description Compares the style and class for equal values.
    * Returns true if both are text nodes.
-   * @param {Node} a Node to compare
-   * @param {Node} b Node to compare
+   * @param {Element} a Element to compare
+   * @param {Element} b Element to compare
    * @returns {Boolean}
    */
   isSameAttributes: function (a, b) {
-    if (a.nodeType === 3 && b.nodeType === 3) return true;
-    if (a.nodeType === 3 || b.nodeType === 3) return false;
+    if (a.nodeType === 3 && b.nodeType === 3) {
+      return true;
+    }
+    if (a.nodeType === 3 || b.nodeType === 3) {
+      return false;
+    }
 
     const style_a = a.style;
     const style_b = b.style;
     let compStyle = 0;
 
     for (let i = 0, len = style_a.length; i < len; i++) {
-      if (style_a[style_a[i]] === style_b[style_a[i]]) compStyle++;
+      if (style_a[style_a[i]] === style_b[style_a[i]]) {
+        compStyle++;
+      }
     }
 
     const class_a = a.classList;
     const class_b = b.classList;
-    const reg = this._w.RegExp;
+    const reg = this._window.RegExp;
     let compClass = 0;
 
     for (let i = 0, len = class_a.length; i < len; i++) {
-      if (reg("(s|^)" + class_a[i] + "(s|$)").test(class_b.value)) compClass++;
+      if (reg("(s|^)" + class_a[i] + "(s|$)").test(class_b.value)) {
+        compClass++;
+      }
     }
 
     return (
@@ -934,22 +996,26 @@ const util = {
 
   /**
    * @description Get a number.
-   * @param {String|Number} text Text string or number
+   * @param {String | Number} text Text string or number
    * @param {Number} maxDec Maximum number of decimal places (-1 : Infinity)
    * @returns {Number}
    */
   getNumber: function (text, maxDec) {
-    if (!text) return 0;
+    if (!text) {
+      return 0;
+    }
 
-    let number = (text + "").match(/-?\d+(\.\d+)?/);
-    if (!number || !number[0]) return 0;
+    let match = (text + "").match(/-?\d+(\.\d+)?/);
+    if (!match || !match[0]) {
+      return 0;
+    }
 
-    number = number[0];
+    let number = Number(match[0]);
     return maxDec < 0
       ? number * 1
       : maxDec === 0
-      ? this._w.Math.round(number * 1)
-      : (number * 1).toFixed(maxDec) * 1;
+      ? this._window.Math.round(number * 1)
+      : (number * 1).toFixed(maxDec);
   },
 
   /**
@@ -992,7 +1058,9 @@ const util = {
    */
   getListChildNodes: function (element, validation) {
     const children = [];
-    if (!element || element.childNodes.length === 0) return children;
+    if (!element || element.childNodes.length === 0) {
+      return children;
+    }
 
     validation =
       validation ||
@@ -1021,7 +1089,9 @@ const util = {
    * @returns {Number}
    */
   getElementDepth: function (element) {
-    if (!element || this.isWysiwygDiv(element)) return -1;
+    if (!element || this.isWysiwygDiv(element)) {
+      return -1;
+    }
 
     let depth = 0;
     element = element.parentNode;
@@ -1036,8 +1106,8 @@ const util = {
 
   /**
    * @description Compares two elements to find a common ancestor, and returns the order of the two elements.
-   * @param {Node} a Node to compare.
-   * @param {Node} b Node to compare.
+   * @param {Element} a Element to compare.
+   * @param {Element} b Element to compare.
    * @returns {Object} { ancesstor, a, b, result: (a > b ? 1 : a < b ? -1 : 0) };
    */
   compareElements: function (a, b) {
@@ -1048,7 +1118,14 @@ const util = {
       bNode = bNode.parentNode;
     }
 
-    if (!aNode || !bNode) return { ancestor: null, a: a, b: b, result: 0 };
+    if (!aNode || !bNode) {
+      return {
+        ancestor: null,
+        a: a,
+        b: b,
+        result: 0,
+      };
+    }
 
     const children = aNode.parentNode.childNodes;
     const aIndex = this.getArrayIndex(children, aNode);
@@ -1093,7 +1170,7 @@ const util = {
         query = "^" + query + "$";
       }
 
-      const regExp = new this._w.RegExp(query, "i");
+      const regExp = new this._window.RegExp(query, "i");
       check = function (el) {
         return regExp.test(el[attr]);
       };
@@ -1141,7 +1218,7 @@ const util = {
         query = "^" + (query === "text" ? "#" + query : query) + "$";
       }
 
-      const regExp = new this._w.RegExp(query, "i");
+      const regExp = new this._window.RegExp(query, "i");
       check = function (el) {
         return regExp.test(el[attr]);
       };
@@ -1164,8 +1241,12 @@ const util = {
    * @returns {Object}
    */
   getEdgeChildNodes: function (first, last) {
-    if (!first) return;
-    if (!last) last = first;
+    if (!first) {
+      return;
+    }
+    if (!last) {
+      last = first;
+    }
 
     while (
       first &&
@@ -1235,7 +1316,9 @@ const util = {
    * @returns {Number}
    */
   getOverlapRangeAtIndex: function (aStart, aEnd, bStart, bEnd) {
-    if (aStart <= bEnd ? aEnd < bStart : aEnd > bStart) return 0;
+    if (aStart <= bEnd ? aEnd < bStart : aEnd > bStart) {
+      return 0;
+    }
 
     const overlap =
       (aStart > bStart ? aStart : bStart) - (aEnd < bEnd ? aEnd : bEnd);
@@ -1248,7 +1331,9 @@ const util = {
    * @param {String} txt Text to be applied
    */
   changeTxt: function (element, txt) {
-    if (!element || !txt) return;
+    if (!element || !txt) {
+      return;
+    }
     element.textContent = txt;
   },
 
@@ -1264,8 +1349,7 @@ const util = {
       } else {
         const doc = this.createElement("DIV");
         doc.innerHTML = newElement;
-        newElement = doc.firstChild;
-        element.parentNode.replaceChild(newElement, element);
+        element.parentNode.replaceChild(doc.firstChild, element);
       }
     } else if (newElement.nodeType === 1) {
       element.parentNode.replaceChild(newElement, element);
@@ -1293,9 +1377,10 @@ const util = {
    * @returns {Boolean}
    */
   hasClass: function (element, className) {
-    if (!element) return;
-
-    return new this._w.RegExp(className).test(element.className);
+    if (!element) {
+      return;
+    }
+    return new this._window.RegExp(className).test(element.className);
   },
 
   /**
@@ -1304,10 +1389,14 @@ const util = {
    * @param {String} className Class name to be add
    */
   addClass: function (element, className) {
-    if (!element) return;
+    if (!element) {
+      return;
+    }
 
-    const check = new this._w.RegExp("(\\s|^)" + className + "(\\s|$)");
-    if (check.test(element.className)) return;
+    const check = new this._window.RegExp("(\\s|^)" + className + "(\\s|$)");
+    if (check.test(element.className)) {
+      return;
+    }
 
     element.className += (element.className.length > 0 ? " " : "") + className;
   },
@@ -1318,12 +1407,16 @@ const util = {
    * @param {String} className Class name to be remove
    */
   removeClass: function (element, className) {
-    if (!element) return;
+    if (!element) {
+      return;
+    }
 
-    const check = new this._w.RegExp("(\\s|^)" + className + "(\\s|$)");
+    const check = new this._window.RegExp("(\\s|^)" + className + "(\\s|$)");
     element.className = element.className.replace(check, " ").trim();
 
-    if (!element.className.trim()) element.removeAttribute("class");
+    if (!element.className.trim()) {
+      element.removeAttribute("class");
+    }
   },
 
   /**
@@ -1333,10 +1426,12 @@ const util = {
    * @returns {Boolean|undefined}
    */
   toggleClass: function (element, className) {
-    if (!element) return;
+    if (!element) {
+      return;
+    }
     let result = false;
 
-    const check = new this._w.RegExp("(\\s|^)" + className + "(\\s|$)");
+    const check = new this._window.RegExp("(\\s|^)" + className + "(\\s|$)");
     if (check.test(element.className)) {
       element.className = element.className.replace(check, " ").trim();
     } else {
@@ -1344,7 +1439,9 @@ const util = {
       result = true;
     }
 
-    if (!element.className.trim()) element.removeAttribute("class");
+    if (!element.className.trim()) {
+      element.removeAttribute("class");
+    }
 
     return result;
   },
@@ -1367,26 +1464,34 @@ const util = {
    * @param {Node} item Node to be remove
    */
   removeItem: function (item) {
-    if (!item) return;
-
-    if (typeof item.remove === "function") item.remove();
-    else if (item.parentNode) item.parentNode.removeChild(item);
+    if (!item) {
+      return;
+    }
+    if (typeof item.remove === "function") {
+      item.remove();
+    } else if (item.parentNode) {
+      item.parentNode.removeChild(item);
+    }
   },
 
   /**
    * @description Delete all parent nodes that match the condition.
    * Returns an {sc: previousSibling, ec: nextSibling}(the deleted node reference) or null.
-   * @param {Node} item Node to be remove
+   * @param {Element} item Node to be remove
    * @param {Function|null} validation Validation function. default(Deleted if it only have breakLine and blanks)
    * @param {Element|null} stopParent Stop when the parent node reaches stopParent
    * @returns {Object|null} {sc: previousSibling, ec: nextSibling}
    */
   removeItemAllParents: function (item, validation, stopParent) {
-    if (!item) return null;
+    if (!item) {
+      return null;
+    }
     let cc = null;
     if (!validation) {
       validation = function (current) {
-        if (current === stopParent || this.isComponent(current)) return false;
+        if (current === stopParent || this.isComponent(current)) {
+          return false;
+        }
         const text = current.textContent.trim();
         return text.length === 0 || /^(\n|\u200B)+$/.test(text);
       }.bind(this);
@@ -1417,7 +1522,7 @@ const util = {
    * @returns {Element}
    */
   detachNestedList: function (baseNode, all) {
-    const rNode = this._deleteNestedList(baseNode);
+    const rNode = this.deleteNestedList(baseNode);
     let rangeElement, cNodes;
 
     if (rNode) {
@@ -1454,7 +1559,7 @@ const util = {
     }
 
     for (let i = 0, len = rChildren.length; i < len; i++) {
-      this._deleteNestedList(rChildren[i]);
+      this.deleteNestedList(rChildren[i]);
     }
 
     if (rNode) {
@@ -1469,7 +1574,7 @@ const util = {
    * @description Sub function of util.detachNestedList method.
    * @private
    */
-  _deleteNestedList: function (baseNode) {
+  deleteNestedList: function (baseNode) {
     const baseParent = baseNode.parentNode;
     let sibling = baseParent;
     let parent = sibling.parentNode;
@@ -1487,7 +1592,9 @@ const util = {
           while (c[index]) {
             liParent.insertBefore(c[index], liSibling);
           }
-          if (c.length === 0) this.removeItem(child);
+          if (c.length === 0) {
+            this.removeItem(child);
+          }
         } else {
           liParent.appendChild(child);
         }
@@ -1497,7 +1604,9 @@ const util = {
       parent = liParent.parentNode;
     }
 
-    if (baseParent.children.length === 0) this.removeItem(baseParent);
+    if (baseParent.children.length === 0) {
+      this.removeItem(baseParent);
+    }
 
     return liParent;
   },
@@ -1517,18 +1626,24 @@ const util = {
       children,
       temp;
     let next = true;
-    if (!depth || depth < 0) depth = 0;
+    if (!depth || depth < 0) {
+      depth = 0;
+    }
 
     if (baseNode.nodeType === 3) {
       index = this.getPositionIndex(baseNode);
       if (offset >= 0) {
         baseNode.splitText(offset);
         const after = this.getNodeFromPath([index + 1], bp);
-        if (this.onlyZeroWidthSpace(after)) after.data = this.zeroWidthSpace;
+        if (this.onlyZeroWidthSpace(after)) {
+          after.data = this.zeroWidthSpace;
+        }
       }
     } else if (baseNode.nodeType === 1) {
       if (!baseNode.previousSibling) {
-        if (this.getElementDepth(baseNode) === depth) next = false;
+        if (this.getElementDepth(baseNode) === depth) {
+          next = false;
+        }
       } else {
         baseNode = baseNode.previousSibling;
       }
@@ -1551,7 +1666,9 @@ const util = {
         ) {
           newEl.innerHTML = temp.firstElementChild.innerHTML;
           util.removeItem(temp.firstElementChild);
-          if (temp.children.length > 0) newEl.appendChild(temp);
+          if (temp.children.length > 0) {
+            newEl.appendChild(temp);
+          }
         } else {
           newEl.appendChild(temp);
         }
@@ -1569,8 +1686,12 @@ const util = {
       depthEl.innerHTML = "<br>";
 
     const pElement = depthEl.parentNode;
-    if (next) depthEl = depthEl.nextSibling;
-    if (!newEl) return depthEl;
+    if (next) {
+      depthEl = depthEl.nextSibling;
+    }
+    if (!newEl) {
+      return depthEl;
+    }
 
     this.mergeSameTags(newEl, null, false);
     this.mergeNestedTags(
@@ -1580,10 +1701,15 @@ const util = {
       }.bind(this)
     );
 
-    if (newEl.childNodes.length > 0) pElement.insertBefore(newEl, depthEl);
-    else newEl = depthEl;
+    if (newEl.childNodes.length > 0) {
+      pElement.insertBefore(newEl, depthEl);
+    } else {
+      newEl = depthEl;
+    }
 
-    if (bp.childNodes.length === 0) this.removeItem(bp);
+    if (bp.childNodes.length === 0) {
+      this.removeItem(bp);
+    }
 
     return newEl;
   },
@@ -1594,19 +1720,19 @@ const util = {
    * An array containing change offsets is returned in the order of the "nodePathArray" array.
    * @param {Element} element Element
    * @param {Array|null} nodePathArray Array of NodePath object ([util.getNodePath(), ..])
-   * @param {Boolean} onlyText If true, non-text nodes(!util._isIgnoreNodeChange) like 'span', 'strong'.. are ignored.
+   * @param {Boolean} onlyText If true, non-text nodes(!util.isIgnoreNodeChange) like 'span', 'strong'.. are ignored.
    * @returns {Array} [offset, ..]
    */
   mergeSameTags: function (element, nodePathArray, onlyText) {
-    const inst = this;
+    const _this = this;
     const nodePathLen = nodePathArray ? nodePathArray.length : 0;
     let offsets = null;
 
     if (nodePathLen) {
-      offsets = this._w.Array.apply(null, new this._w.Array(nodePathLen)).map(
-        this._w.Number.prototype.valueOf,
-        0
-      );
+      offsets = this._window.Array.apply(
+        null,
+        new this._window.Array(nodePathLen)
+      ).map(this._window.Number.prototype.valueOf, 0);
     }
 
     (function recursionFunc(current, depth, depthIndex) {
@@ -1615,16 +1741,18 @@ const util = {
       for (let i = 0, len = children.length, child, next; i < len; i++) {
         child = children[i];
         next = children[i + 1];
-        if (!child) break;
+        if (!child) {
+          break;
+        }
         if (
-          (onlyText && inst._isIgnoreNodeChange(child)) ||
+          (onlyText && _this.isIgnoreNodeChange(child)) ||
           (!onlyText &&
-            (inst.isTable(child) ||
-              inst.isListCell(child) ||
-              (inst.isFormatElement(child) &&
-                !inst.isFreeFormatElement(child))))
+            (_this.isTable(child) ||
+              _this.isListCell(child) ||
+              (_this.isFormatElement(child) &&
+                !_this.isFreeFormatElement(child))))
         ) {
-          if (inst.isTable(child) || inst.isListCell(child)) {
+          if (_this.isTable(child) || _this.isListCell(child)) {
             recursionFunc(child, depth + 1, i);
           }
           continue;
@@ -1645,7 +1773,7 @@ const util = {
                   (cDepth = depth),
                   (spliceDepth = true);
                 while (cDepth >= 0) {
-                  if (inst.getArrayIndex(p.childNodes, c) !== path[cDepth]) {
+                  if (_this.getArrayIndex(p.childNodes, c) !== path[cDepth]) {
                     spliceDepth = false;
                     break;
                   }
@@ -1662,18 +1790,20 @@ const util = {
           }
 
           // merge tag
-          inst.copyTagAttributes(child, current);
+          _this.copyTagAttributes(child, current);
           current.parentNode.insertBefore(child, current);
-          inst.removeItem(current);
+          _this.removeItem(current);
         }
         if (!next) {
-          if (child.nodeType === 1) recursionFunc(child, depth + 1, i);
+          if (child.nodeType === 1) {
+            recursionFunc(child, depth + 1, i);
+          }
           break;
         }
 
         if (
           child.nodeName === next.nodeName &&
-          inst.isSameAttributes(child, next) &&
+          _this.isSameAttributes(child, next) &&
           child.href === next.href
         ) {
           const childs = child.childNodes;
@@ -1699,15 +1829,18 @@ const util = {
               l.nodeType === 3 &&
               r.nodeType === 3 &&
               (l.textContent.length > 0 || r.textContent.length > 0)
-            )
+            ) {
               childLength--;
+            }
 
             if (nodePathLen) {
               let path = null;
               for (let n = 0; n < nodePathLen; n++) {
                 path = nodePathArray[n];
                 if (path && path[depth] > i) {
-                  if (depth > 0 && path[depth - 1] !== depthIndex) continue;
+                  if (depth > 0 && path[depth - 1] !== depthIndex) {
+                    continue;
+                  }
 
                   path[depth] -= 1;
                   if (path[depth + 1] >= 0 && path[depth] === i) {
@@ -1731,7 +1864,9 @@ const util = {
               for (let n = 0; n < nodePathLen; n++) {
                 path = nodePathArray[n];
                 if (path && path[depth] > i) {
-                  if (depth > 0 && path[depth - 1] !== depthIndex) continue;
+                  if (depth > 0 && path[depth - 1] !== depthIndex) {
+                    continue;
+                  }
 
                   path[depth] -= 1;
                   if (path[depth + 1] >= 0 && path[depth] === i) {
@@ -1745,7 +1880,7 @@ const util = {
             child.innerHTML += next.innerHTML;
           }
 
-          inst.removeItem(next);
+          _this.removeItem(next);
           i--;
         } else if (child.nodeType === 1) {
           recursionFunc(child, depth + 1, i);
@@ -1766,7 +1901,10 @@ const util = {
       validation = function (current) {
         return this.test(current.tagName);
       }.bind(
-        new this._w.RegExp("^(" + (validation ? validation : ".+") + ")$", "i")
+        new this._window.RegExp(
+          "^(" + (validation ? validation : ".+") + ")$",
+          "i"
+        )
       );
     } else if (typeof validation !== "function") {
       validation = function () {
@@ -1776,10 +1914,11 @@ const util = {
 
     (function recursionFunc(current) {
       let children = current.children;
+      let vld = typeof validation === "function" ? validation(current) : true;
       if (
         children.length === 1 &&
         children[0].nodeName === current.nodeName &&
-        validation(current)
+        vld
       ) {
         const temp = children[0];
         children = temp.children;
@@ -1801,26 +1940,26 @@ const util = {
    * @param {Node|null} notRemoveNode Do not remove node
    */
   removeEmptyNode: function (element, notRemoveNode) {
-    const inst = this;
+    const _this = this;
 
     if (notRemoveNode) {
-      notRemoveNode = inst.getParentElement(notRemoveNode, function (current) {
+      notRemoveNode = _this.getParentElement(notRemoveNode, function (current) {
         return element === current.parentElement;
       });
     }
 
     (function recursionFunc(current) {
       if (
-        inst._notTextNode(current) ||
+        _this.notTextNode(current) ||
         current === notRemoveNode ||
-        inst.isNonEditable(current)
+        _this.isNonEditable(current)
       )
         return 0;
       if (
         current !== element &&
-        inst.onlyZeroWidthSpace(current.textContent) &&
-        (!current.firstChild || !inst.isBreak(current.firstChild)) &&
-        !current.querySelector(inst._allowedEmptyNodeList)
+        _this.onlyZeroWidthSpace(current.textContent) &&
+        (!current.firstChild || !_this.isBreak(current.firstChild)) &&
+        !current.querySelector(_this.allowedEmptyNodeList)
       ) {
         if (current.parentNode) {
           current.parentNode.removeChild(current);
@@ -1829,7 +1968,9 @@ const util = {
       } else {
         const children = current.children;
         for (let i = 0, len = children.length, r = 0; i < len; i++) {
-          if (!children[i + r] || inst.isComponent(children[i + r])) continue;
+          if (!children[i + r] || _this.isComponent(children[i + r])) {
+            continue;
+          }
           r += recursionFunc(children[i + r]);
         }
       }
@@ -1846,7 +1987,9 @@ const util = {
    * @returns {String}
    */
   htmlRemoveWhiteSpace: function (html) {
-    if (!html) return "";
+    if (!html) {
+      return "";
+    }
     return html
       .trim()
       .replace(
@@ -1868,7 +2011,9 @@ const util = {
 
     array.sort(
       function (a, b) {
-        if (!this.isListCell(a) || !this.isListCell(b)) return 0;
+        if (!this.isListCell(a) || !this.isListCell(b)) {
+          return 0;
+        }
         a = this.getElementDepth(a);
         b = this.getElementDepth(b);
         return a > b ? t : a < b ? f : 0;
@@ -1882,7 +2027,7 @@ const util = {
    * @returns {Boolean}
    * @private
    */
-  _isIgnoreNodeChange: function (element) {
+  isIgnoreNodeChange: function (element) {
     return (
       element &&
       element.nodeType !== 3 &&
@@ -1896,7 +2041,7 @@ const util = {
    * @returns {Boolean}
    * @private
    */
-  _isMaintainedNode: function (element) {
+  isMaintainedNode: function (element) {
     return (
       element &&
       element.nodeType !== 3 &&
@@ -1912,7 +2057,7 @@ const util = {
    * @returns {Boolean}
    * @private
    */
-  _isSizeNode: function (element) {
+  isSizeNode: function (element) {
     return (
       element &&
       element.nodeType !== 3 &&
@@ -1927,7 +2072,7 @@ const util = {
    * @returns {Boolean}
    * @private
    */
-  _notTextNode: function (element) {
+  notTextNode: function (element) {
     return (
       element &&
       element.nodeType !== 3 &&
@@ -1944,7 +2089,7 @@ const util = {
    * @returns {Boolean}
    * @private
    */
-  _disallowedTags: function (element) {
+  disallowedTags: function (element) {
     return /^(meta|script|link|style|[a-z]+\:[a-z]+)$/i.test(element.nodeName);
   },
 
@@ -1967,7 +2112,7 @@ const util = {
    * @param {RegExp} htmlCheckWhitelistRegExp Editor tags whitelist (core._htmlCheckWhitelistRegExp)
    * @private
    */
-  _consistencyCheckOfHTML: function (
+  consistencyCheckOfHTML: function (
     documentFragment,
     htmlCheckWhitelistRegExp
   ) {
@@ -1984,7 +2129,9 @@ const util = {
     const wrongTags = this.getListChildNodes(
       documentFragment,
       function (current) {
-        if (current.nodeType !== 1) return false;
+        if (current.nodeType !== 1) {
+          return false;
+        }
 
         // white list
         if (
@@ -2056,7 +2203,9 @@ const util = {
     for (let i = 0, len = wrongTags.length, t, p; i < len; i++) {
       t = wrongTags[i];
       p = t.parentNode;
-      if (!p || !p.parentNode) continue;
+      if (!p || !p.parentNode) {
+        continue;
+      }
       p.parentNode.insertBefore(t, p);
       checkTags.push(p);
     }
@@ -2082,7 +2231,9 @@ const util = {
       }
 
       p = t.parentNode;
-      if (!p) continue;
+      if (!p) {
+        continue;
+      }
       p.insertBefore(tp, t);
       this.removeItem(t);
     }
@@ -2098,17 +2249,29 @@ const util = {
     }
   },
 
-  _setDefaultOptionStyle: function (options, defaultStyle) {
+  setDefaultOptionStyle: function (options, defaultStyle) {
     let optionStyle = "";
-    if (options.height) optionStyle += "height:" + options.height + ";";
-    if (options.minHeight)
+    if (options.height) {
+      optionStyle += "height:" + options.height + ";";
+    }
+    if (options.minHeight) {
       optionStyle += "min-height:" + options.minHeight + ";";
-    if (options.maxHeight)
+    }
+    if (options.maxHeight) {
       optionStyle += "max-height:" + options.maxHeight + ";";
-    if (options.position) optionStyle += "position:" + options.position + ";";
-    if (options.width) optionStyle += "width:" + options.width + ";";
-    if (options.minWidth) optionStyle += "min-width:" + options.minWidth + ";";
-    if (options.maxWidth) optionStyle += "max-width:" + options.maxWidth + ";";
+    }
+    if (options.position) {
+      optionStyle += "position:" + options.position + ";";
+    }
+    if (options.width) {
+      optionStyle += "width:" + options.width + ";";
+    }
+    if (options.minWidth) {
+      optionStyle += "min-width:" + options.minWidth + ";";
+    }
+    if (options.maxWidth) {
+      optionStyle += "max-width:" + options.maxWidth + ";";
+    }
 
     let top = "",
       frame = "",
@@ -2117,7 +2280,9 @@ const util = {
     const styleArr = defaultStyle.split(";");
     for (let i = 0, len = styleArr.length, s; i < len; i++) {
       s = styleArr[i].trim();
-      if (!s) continue;
+      if (!s) {
+        continue;
+      }
       if (
         /^(min-|max-)?width\s*:/.test(s) ||
         /^(z-index|position)\s*:/.test(s)
@@ -2142,30 +2307,30 @@ const util = {
     };
   },
 
-  _setIframeDocument: function (frame, options) {
+  setIframeDocument: function (frame, options) {
     frame.setAttribute("scrolling", "auto");
     frame.contentDocument.head.innerHTML =
       "" +
       '<meta charset="utf-8" />' +
       '<meta name="viewport" content="width=device-width, initial-scale=1">' +
-      this._setIframeCssTags(options);
-    frame.contentDocument.body.className = options._editableClass;
+      this.setIframeCssTags(options);
+    frame.contentDocument.body.className = options.editableClass;
     frame.contentDocument.body.setAttribute("contenteditable", true);
   },
 
-  _setIframeCssTags: function (options) {
+  setIframeCssTags: function (options) {
     const linkNames = options.iframeCSSFileName;
-    const wRegExp = this._w.RegExp;
+    const wRegExp = this._window.RegExp;
     let tagString = "";
 
     for (let f = 0, len = linkNames.length, path; f < len; f++) {
       path = [];
 
-      if (/(^https?:\/\/)|(^data:text\/css,)/.test(linkNames[f])) {
+      if (/(^https:\/\/)|(^data:text\/css,)/.test(linkNames[f])) {
         path.push(linkNames[f]);
       } else {
         const CSSFileName = new wRegExp(
-          "(^|.*[\\/])" + linkNames[f] + "(\\..+)?\\.css(?:\\?.*|;.*)?$",
+          "(^|.*[\\/])" + linkNames[f] + "(\\..+)?\\.css(:\\?.*|;.*)?$",
           "i"
         );
         for (
@@ -2177,7 +2342,9 @@ const util = {
           i++
         ) {
           styleTag = c[i].href.match(CSSFileName);
-          if (styleTag) path.push(styleTag[0]);
+          if (styleTag) {
+            path.push(styleTag[0]);
+          }
         }
       }
 

@@ -13,7 +13,7 @@ export default {
     const context = core.context;
     context.list = {
       targetButton: targetElement,
-      _list: null,
+      list: null,
       currentList: "",
       icons: {
         bullets: core.icons.list_bullets,
@@ -27,13 +27,14 @@ export default {
 
     /** add event listeners */
     listUl.addEventListener("click", this.pickup.bind(core));
-    context.list._list = listUl.querySelectorAll("li button");
+    context.list.list = listUl.querySelectorAll("li button");
 
     /** append target button menu */
     core.initMenuTarget(this.name, targetElement, listDiv);
 
     /** empty memory */
-    (listDiv = null), (listUl = null);
+    listDiv = null;
+    listUl = null;
   },
 
   setSubmenu: function (core) {
@@ -94,7 +95,7 @@ export default {
    */
   on: function () {
     const listContext = this.context.list;
-    const list = listContext._list;
+    const list = listContext.list;
     const currentList =
       listContext.targetButton.getAttribute("data-focus") || "";
 
@@ -132,8 +133,8 @@ export default {
     util.sortByDepth(selectedFormats, true);
 
     // merge
-    let firstSel = selectedFormats[0];
-    let lastSel = selectedFormats[selectedFormats.length - 1];
+    const firstSel = selectedFormats[0];
+    const lastSel = selectedFormats[selectedFormats.length - 1];
     let topEl =
       (util.isListCell(firstSel) || util.isComponent(firstSel)) &&
       !firstSel.previousElementSibling
@@ -221,7 +222,7 @@ export default {
         } else {
           if (r !== o) {
             if (detach && util.isListCell(o.parentNode)) {
-              this.plugins.list._detachNested.call(this, rangeArr.f);
+              this.plugins.list.detachNested.call(this, rangeArr.f);
             } else {
               this.detachRangeFormatElement(
                 rangeArr.f[0].parentNode,
@@ -249,7 +250,7 @@ export default {
 
         if (i === len - 1) {
           if (detach && util.isListCell(o.parentNode)) {
-            this.plugins.list._detachNested.call(this, rangeArr.f);
+            this.plugins.list.detachNested.call(this, rangeArr.f);
           } else {
             this.detachRangeFormatElement(
               rangeArr.f[0].parentNode,
@@ -306,7 +307,7 @@ export default {
         i++
       ) {
         fTag = selectedFormats[i];
-        if (fTag.childNodes.length === 0 && !util._isIgnoreNodeChange(fTag)) {
+        if (fTag.childNodes.length === 0 && !util.isIgnoreNodeChange(fTag)) {
           util.removeItem(fTag);
           continue;
         }
@@ -405,7 +406,7 @@ export default {
     return originRange;
   },
 
-  _detachNested: function (cells) {
+  detachNested: function (cells) {
     const first = cells[0];
     const last = cells[cells.length - 1];
     const next = last.nextElementSibling;
@@ -495,7 +496,7 @@ export default {
       for (let i = 0, len = cellsLen, c; i < len; i++) {
         c = selectedCells[i];
         if (c.parentNode !== originList) {
-          this.plugins.list._insiedList.call(
+          this.plugins.list.insiedList.call(
             this,
             originList,
             innerList,
@@ -512,7 +513,7 @@ export default {
         innerList.appendChild(c);
       }
 
-      this.plugins.list._insiedList.call(
+      this.plugins.list.insiedList.call(
         this,
         originList,
         innerList,
@@ -534,7 +535,7 @@ export default {
     return range;
   },
 
-  _insiedList: function (originList, innerList, prev, next, nodePath) {
+  insiedList: function (originList, innerList, prev, next, nodePath) {
     let insertPrev = false;
 
     if (prev && innerList.tagName === prev.tagName) {

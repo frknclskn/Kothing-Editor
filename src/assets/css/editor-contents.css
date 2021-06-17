@@ -16,6 +16,7 @@
   word-wrap: break-word;
   padding: 16px;
   margin: 0;
+  border-radius: 6px;
 }
 
 .kothing-editor-editable * {

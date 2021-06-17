@@ -67,7 +67,7 @@ let s1 = kothintEditor.create('editor', {
   toolbarItem: [["table", "removeFormat"]],
 });
 
-// s1.core._charCount = function (nextCharCount, blink) {
+// s1.core.charCount = function (nextCharCount, blink) {
 //     const charCounter = this.context.element.charCounter;
 //     if (!charCounter) return true;
 //     if (!nextCharCount || nextCharCount < 0) nextCharCount = 0;
@@ -81,7 +81,7 @@ let s1 = kothintEditor.create('editor', {
 //     }.bind(this.util)).length;
 //     //// ------------------ ////
 
-//     this._w.setTimeout(function () {
+//     this._window.setTimeout(function () {
 //         charCounter.textContent = wysiwyg.textContent.length + emptyListCount; // add empty list
 //     });
 
@@ -90,7 +90,7 @@ let s1 = kothintEditor.create('editor', {
 //         const count = wysiwyg.textContent.length + emptyListCount; // add empty list
 
 //         if (count > maxCharCount) {
-//             this._editorRange();
+//             this.editorRange();
 //             const range = this.getRange();
 //             const endOff = range.endOffset - 1;
 //             const text = this.getSelectionNode().textContent;
@@ -105,7 +105,7 @@ let s1 = kothintEditor.create('editor', {
 //         if (over) {
 //             if (blink && !this.util.hasClass(charCounter, 'ke-blink')) {
 //                 this.util.addClass(charCounter, 'ke-blink');
-//                 this._w.setTimeout(function () {
+//                 this._window.setTimeout(function () {
 //                     this.removeClass(charCounter, 'ke-blink');
 //                 }.bind(this.util), 600);
 //             }
@@ -350,7 +350,7 @@ let ss = window.ss = kothintEditor.create(document.getElementById('editor1'), {
 });
 // ss.setContents('fsafsa')
 ss.onload = function (core) {
-  console.log('onload', core.context.video._infoList);
+  console.log('onload', core.context.video.infoList);
   // core.focus();
 };
 ss.onScroll = function () {
@@ -393,7 +393,7 @@ ss.onAudioUploadBefore = function (files, info) {
   return true;
 };
 ss.onChange = function (contents, core) {
-  console.log('change', core.context.video._infoList);
+  console.log('change', core.context.video.infoList);
 };
 
 // ss.imageUploadHandler = function (response, core) {
