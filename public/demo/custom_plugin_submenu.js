@@ -1,5 +1,3 @@
-'use strict';
-
 // ex) A submenu plugin that appends the contents of the input element to the editor
 export default {
   // plugin name (Required)

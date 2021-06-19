@@ -7,9 +7,31 @@
  */
 
 import defaultIcons from "../assets/defaultIcons";
-import defaultLang from "../lang/en";
+import {
+  ckb,
+  da,
+  de,
+  en,
+  es,
+  fr,
+  he,
+  it,
+  ja,
+  ko,
+  lv,
+  pl,
+  pt_br,
+  ro,
+  ru,
+  se,
+  ua,
+  zh_cn,
+} from "../lang";
 import util from "./util";
 
+/**
+ * Constructor
+ */
 export default {
   /**
    * @description document create
@@ -154,6 +176,35 @@ export default {
   },
 
   /**
+   * @param {Sting} langCode
+   * @returns {Lang}
+   */
+  getLang: function (langCode) {
+    const langs = {
+      ckb,
+      da,
+      de,
+      en,
+      es,
+      fr,
+      he,
+      it,
+      ja,
+      ko,
+      lv,
+      pl,
+      pt_br,
+      ro,
+      ru,
+      se,
+      ua,
+      zh_cn,
+    };
+    let lang = typeof langCode === "string" ? langCode : "en";
+    return Object.keys(langs).includes(lang) ? langs[lang] : langs.en;
+  },
+
+  /**
    * @description Check the CodeMirror option to apply the CodeMirror and return the CodeMirror element.
    * @param {Object} options options
    * @param {Element} textarea textarea element
@@ -239,8 +290,14 @@ export default {
     const isNewToolbarContainer =
       mergeOptions.toolbarContainer &&
       mergeOptions.toolbarContainer !== originOptions.toolbarContainer;
+    const lang =
+      util.typeOf(originOptions.lang) === "string"
+        ? this.getLang(originOptions.lang)
+        : util.typeOf(originOptions.lang) === "object"
+        ? this.getLang(originOptions.lang.code)
+        : this.getLang("en");
     const isNewToolbar =
-      mergeOptions.lang !== originOptions.lang ||
+      mergeOptions.lang !== lang ||
       mergeOptions.toolbarItem !== originOptions.toolbarItem ||
       mergeOptions.mode !== originOptions.mode ||
       isNewToolbarContainer;
@@ -455,7 +512,13 @@ export default {
    */
   initOptions: function (element, options) {
     /** Values */
-    options.lang = options.lang || defaultLang;
+    options.lang =
+      util.typeOf(options.lang) === "string"
+        ? this.getLang(options.lang)
+        : util.typeOf(options.lang) === "object"
+        ? this.getLang(options.lang.code)
+        : this.getLang("en");
+
     options.defaultTag =
       typeof options.defaultTag === "string" ? options.defaultTag : "p";
     const textTags = (options.textTags = [
@@ -894,7 +957,12 @@ export default {
    */
   createDefaultToolbarItems: function (options) {
     const icons = options.icons;
-    const lang = options.lang;
+    const lang =
+      util.typeOf(options.lang) === "string"
+        ? this.getLang(options.lang)
+        : util.typeOf(options.lang) === "object"
+        ? this.getLang(options.lang.code)
+        : this.getLang("en");
     const cmd = util.isOSX_IOS ? "⌘" : "CTRL";
     const addShift = util.isOSX_IOS ? "⇧" : "+SHIFT";
     const shortcutsDisable = !options.shortcutsHint
@@ -1034,6 +1102,7 @@ export default {
         "_ke_command_undo ke-resizing-enabled",
         lang.toolbar.undo +
           '<span class="ke-shortcut">' +
+          " " +
           (shortcutsDisable.indexOf("undo") > -1
             ? ""
             : cmd + '+<span class="ke-shortcut-key">Z</span>') +
@@ -1046,6 +1115,7 @@ export default {
         "_ke_command_redo ke-resizing-enabled",
         lang.toolbar.redo +
           '<span class="ke-shortcut">' +
+          " " +
           (shortcutsDisable.indexOf("undo") > -1
             ? ""
             : cmd +
@@ -1130,13 +1200,21 @@ export default {
         icons.highlight_color,
       ],
       align: [
-        "ke-btn-align",
+        "ke-btn-select ke-btn-align",
         lang.toolbar.align,
         "align",
         "submenu",
-        options.rtl ? icons.align_right : icons.align_left,
+        `<span class="txt">${
+          options.rtl ? icons.align_right : icons.align_left
+        }</span> <span class="arrow-icon">${icons.arrow_down}</span>`,
       ],
-      list: ["", lang.toolbar.list, "list", "submenu", icons.list_number],
+      list: [
+        "ke-btn-select ke-btn-tool-list",
+        lang.toolbar.list,
+        "list",
+        "submenu",
+        `<span class="txt">${icons.list_number}</span> <span class="arrow-icon">${icons.arrow_down}</span>`,
+      ],
       horizontalRule: [
         "btn_line",
         lang.toolbar.horizontalRule,

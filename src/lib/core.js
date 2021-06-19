@@ -528,8 +528,9 @@ export default function (
         }
         if (!this.initPlugins[moduleName]) {
           this.initPlugins[moduleName] = true;
-          if (typeof this.plugins[moduleName].add === "function")
+          if (typeof this.plugins[moduleName].add === "function") {
             this.plugins[moduleName].add(this);
+          }
         }
       }
     },
@@ -599,7 +600,9 @@ export default function (
       this.bindedSubmenuOff = this.submenuOff.bind(this);
       this.addDocEvent("mousedown", this.bindedSubmenuOff, false);
 
-      if (this.plugins[submenuName].on) this.plugins[submenuName].on.call(this);
+      if (this.plugins[submenuName].on) {
+        this.plugins[submenuName].on.call(this);
+      }
       this.antiBlur = true;
     },
 
@@ -682,7 +685,7 @@ export default function (
       const toolbarW = toolbar.offsetWidth;
       const toolbarOffset = event.getEditorOffsets(context.element.toolbar);
       const menuW = menu.offsetWidth;
-      const l = element.parentElement.offsetLeft + 3;
+      const l = element.parentElement.offsetLeft + 8;
 
       // rtl
       if (options.rtl) {
@@ -695,8 +698,11 @@ export default function (
         }
       } else {
         const overLeft = toolbarW <= menuW ? 0 : toolbarW - (l + menuW);
-        if (overLeft < 0) menu.style.left = l + overLeft + "px";
-        else menu.style.left = l + "px";
+        if (overLeft < 0) {
+          menu.style.left = l + overLeft + "px";
+        } else {
+          menu.style.left = l + "px";
+        }
       }
 
       // get element top
@@ -2127,7 +2133,7 @@ export default function (
 
         if (!util.isComponent(oNode)) {
           let offset = 1;
-          if (oNode.nodeType === 3) {
+          if (oNode && oNode.nodeType === 3) {
             const previous = oNode.previousSibling;
             const next = oNode.nextSibling;
             const previousText =

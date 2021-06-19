@@ -1,5 +1,3 @@
-'use strict';
-
 // Import "dialog" module
 import dialog from '../src/plugins/modules/dialog';
 

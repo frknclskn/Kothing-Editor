@@ -1,4 +1,3 @@
-import { Lang } from "./lang/Lang";
 import { Plugin } from "./plugins/Plugin";
 
 export type FormatTagName =
@@ -39,7 +38,7 @@ export interface KothingEditorOptions {
   /**
    * language object
    */
-  lang?: Lang;
+  lang?: string;
   /**
    * Specifies default tag name of the editor. (default: "p")
    */

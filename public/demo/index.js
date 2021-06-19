@@ -2,8 +2,6 @@
 
 import kothintEditor from '../src/editor';
 import plugins from '../src/plugins';
-import { zh_cn } from '../src/lang';
-import lang from '../src/lang';
 import '../src/assets/css/editor.css';
 import '../src/assets/css/editor-contents.css';
 
@@ -183,7 +181,7 @@ s1.onKeyDown = function (e, core) {
 };
 
 let ss = window.ss = kothintEditor.create(document.getElementById('editor1'), {
-  lang: lang.zh_cn,
+  lang: 'zh_cn',
   plugins: plugins,
   katex: Katex,
   // value: '',
@@ -532,7 +530,7 @@ const editor = kothintEditor.init({
 });
 
 let s2 = window.s2 = editor.create(document.getElementById('editor2'), {
-  // lang: lang.ru,
+  // lang: 'ru',
   // mode: 'inline',
   // toolbarWidth: 150,
   attributesWhitelist: { 'all': 'uk-icon' },
@@ -826,7 +824,7 @@ let s3 = editor.create(document.getElementsByName('editor3')[0], {
     [plugins.formatBlock, 'align', 'horizontalRule', 'list', 'table', 'codeView', plugins.image, plugins.video, plugins.link, plugins.link, plugins.fontColor, plugins.hiliteColor, plugins.fontSize],
   ],
   mode: 'balloon-always',
-  lang: zh_cn,
+  lang: 'zh_cn',
   width: '100%',
   height: '500px',
   stickyToolbar: false,
