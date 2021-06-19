@@ -10,10 +10,10 @@ const config = require("./webpack.config");
 module.exports = merge(config, {
   mode: "production",
   entry: {
-    "kothing-editor.min": path.resolve(__dirname, "src/main.js"),
+    "kothing-editor.min": path.resolve(__dirname, "../src/main.js"),
   },
   output: {
-    path: path.resolve(__dirname, "dist"),
+    path: path.resolve(__dirname, "../dist"),
     filename: "[name].js",
     publicPath: "./",
   },

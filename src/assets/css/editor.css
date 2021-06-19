@@ -2305,7 +2305,7 @@
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
   -moz-backface-visibility: hidden;
-  z-index: 100;
+  z-index: 1000;
 }
 
 .kothing-editor .ke-tooltip .ke-tooltip-inner .ke-tooltip-text {

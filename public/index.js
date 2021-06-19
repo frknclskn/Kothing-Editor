@@ -55,7 +55,7 @@ getValueBtn.addEventListener(
 
 /////////////////////////////////////////
 
-const editor2 = KothingEditor.create("kt-editor2", {
+KothingEditor.create("kt-editor2", {
   width: "100%",
   // minHeight: "200px",
   height: "200px",
