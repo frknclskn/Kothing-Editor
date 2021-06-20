@@ -11,7 +11,7 @@ import "katex/dist/katex.min.css";
 const editor1 = KothingEditor.create(document.getElementById("kt-editor1"), {
   width: "100%",
   // minHeight: "200px",
-  height: "200px",
+  height: "300px",
   plugins: plugins,
   katex: katex,
   lang: "en",

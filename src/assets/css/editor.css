@@ -980,7 +980,7 @@
   .ke-selector-color
   .ke-color-pallet
   button:focus {
-  border: 3px solid #fff;
+  border: 2px solid #000;
 }
 
 /* submenu layer - form group (color selector) */
@@ -1752,7 +1752,6 @@
   border-radius: 4px;
   margin: 1px;
   padding: 5px 10px;
-  font-size: 12px;
   line-height: 1.5;
   display: inline-block;
   font-weight: normal;
@@ -2313,7 +2312,7 @@
   display: inline-block;
   width: auto;
   left: -50%;
-  font-size: 0.9em;
+  font-size: 0.8em;
   margin: 0;
   padding: 4px 6px;
   border-radius: 3px;

@@ -251,10 +251,11 @@ export default {
    * @private
    */
   checkKatexMath: function (katex) {
-    if (!katex)
+    if (!katex) {
       throw Error(
         '[KothingEditor.create.fail] To use the math button you need to add a "katex" object to the options.'
       );
+    }
 
     const katexOptions = [
       {
@@ -912,7 +913,9 @@ export default {
         ? defaultIcons
         : [defaultIcons, options.icons].reduce(function (_default, _new) {
             for (let key in _new) {
-              if (util.hasOwn(_new, key)) _default[key] = _new[key];
+              if (util.hasOwn(_new, key)) {
+                _default[key] = _new[key];
+              }
             }
             return _default;
           }, {});

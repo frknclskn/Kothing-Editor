@@ -3319,8 +3319,10 @@ export default function (
           wBoolean(styleRegExp) !== wBoolean(originStyle) ||
           wBoolean(classRegExp) !== wBoolean(originClasses)
         ) {
-          if (styleRegExp && originStyle.length > 0)
+          if (styleRegExp && originStyle.length > 0) {
             vNode.style.cssText = style;
+          }
+
           if (!vNode.style.cssText) {
             vNode.removeAttribute("style");
           }
@@ -3390,8 +3392,9 @@ export default function (
         (isRemoveNode &&
           (function (arr) {
             for (let n = 0, len = arr.length; n < len; n++) {
-              if (util.isMaintainedNode(arr[n]) || util.isSizeNode(arr[n]))
+              if (util.isMaintainedNode(arr[n]) || util.isSizeNode(arr[n])) {
                 return true;
+              }
             }
             return false;
           })(removeNodeArray));
@@ -3525,8 +3528,12 @@ export default function (
      * @private
      */
     setCommonListStyle: function (el, child) {
-      if (!util.isListCell(el)) return;
-      if (!child) el.removeAttribute("style");
+      if (!util.isListCell(el)) {
+        return;
+      }
+      if (!child) {
+        el.removeAttribute("style");
+      }
 
       const children = util.getArrayItem(
         (child || el).childNodes,
@@ -3540,20 +3547,27 @@ export default function (
       );
       if (children[0] && children.length === 1) {
         child = children[0];
-        if (!child || child.nodeType !== 1) return;
+        if (!child || child.nodeType !== 1) {
+          return;
+        }
 
         const childStyle = child.style;
         const elStyle = el.style;
 
         // bold
-        if (/STRONG/i.test(child.nodeName)) elStyle.fontWeight = "bold";
-        // bold
-        else if (childStyle.fontWeight)
+        if (/STRONG/i.test(child.nodeName)) {
+          elStyle.fontWeight = "bold";
+        } else if (childStyle.fontWeight) {
           elStyle.fontWeight = childStyle.fontWeight;
+        }
 
         // styles
-        if (childStyle.color) elStyle.color = childStyle.color; // color
-        if (childStyle.fontSize) elStyle.fontSize = childStyle.fontSize; // size
+        if (childStyle.color) {
+          elStyle.color = childStyle.color; // color
+        }
+        if (childStyle.fontSize) {
+          elStyle.fontSize = childStyle.fontSize; // size
+        }
 
         this.setCommonListStyle(el, child);
       }
@@ -3566,7 +3580,9 @@ export default function (
      */
     stripRemoveNode: function (removeNode) {
       const element = removeNode.parentNode;
-      if (!removeNode || removeNode.nodeType === 3 || !element) return;
+      if (!removeNode || removeNode.nodeType === 3 || !element) {
+        return;
+      }
 
       const children = removeNode.childNodes;
       while (children[0]) {
@@ -3583,7 +3599,9 @@ export default function (
      * @private
      */
     util_getMaintainedNode: function (isRemove, isSizeNode, element) {
-      if (!element || isRemove) return null;
+      if (!element || isRemove) {
+        return null;
+      }
       return (
         this.getParentElement(element, this.isMaintainedNode.bind(this)) ||
         (!isSizeNode
@@ -3599,7 +3617,9 @@ export default function (
      * @private
      */
     util_isMaintainedNode: function (isRemove, isSizeNode, element) {
-      if (!element || isRemove || element.nodeType !== 1) return false;
+      if (!element || isRemove || element.nodeType !== 1) {
+        return false;
+      }
       const anchor = this.isMaintainedNode(element);
       return this.getParentElement(element, this.isMaintainedNode.bind(this))
         ? anchor
@@ -3644,7 +3664,9 @@ export default function (
         !util.isFormatElement(parentCon.parentNode) &&
         !util.isWysiwygDiv(parentCon.parentNode)
       ) {
-        if (parentCon.nodeName === newInnerNode.nodeName) break;
+        if (parentCon.nodeName === newInnerNode.nodeName) {
+          break;
+        }
         parentCon = parentCon.parentNode;
       }
 
@@ -3775,8 +3797,12 @@ export default function (
             }
 
             const prevAnchorNode = getMaintainedNode(ancestor);
-            if (!!prevAnchorNode) anchorNode = prevAnchorNode;
-            if (anchorNode) line = anchorNode;
+            if (!!prevAnchorNode) {
+              anchorNode = prevAnchorNode;
+            }
+            if (anchorNode) {
+              line = anchorNode;
+            }
 
             newNode = child;
             pCurrent = [];
@@ -3815,7 +3841,9 @@ export default function (
             startOffset = 0;
             startPass = true;
 
-            if (newNode !== textNode) newNode.appendChild(startContainer);
+            if (newNode !== textNode) {
+              newNode.appendChild(startContainer);
+            }
             if (!isSameNode) {
               continue;
             }
@@ -3856,9 +3884,11 @@ export default function (
               const anchors = [];
               while (newNode !== pNode && newNode !== el && newNode !== null) {
                 if (newNode.nodeType === 1 && checkCss(newNode)) {
-                  if (isMaintainedNode(newNode))
+                  if (isMaintainedNode(newNode)) {
                     anchors.push(newNode.cloneNode(false));
-                  else pCurrent.push(newNode.cloneNode(false));
+                  } else {
+                    pCurrent.push(newNode.cloneNode(false));
+                  }
                   cssText +=
                     newNode.style.cssText.substr(
                       0,
@@ -3968,7 +3998,9 @@ export default function (
                 checkCss(newNode)
               ) {
                 if (isMaintainedNode(newNode)) {
-                  if (!anchorNode) anchors.push(vNode);
+                  if (!anchorNode) {
+                    anchors.push(vNode);
+                  }
                 } else {
                   pCurrent.push(vNode);
                 }
@@ -4009,11 +4041,17 @@ export default function (
               childNode.appendChild(newInnerNode);
               pNode.appendChild(childNode);
               nNodeArray.push(newInnerNode);
-              if (newInnerNode.children.length > 0) ancestor = newNode;
-              else ancestor = newInnerNode;
+              if (newInnerNode.children.length > 0) {
+                ancestor = newNode;
+              } else {
+                ancestor = newInnerNode;
+              }
             } else if (childNode === child) {
-              if (!endPass) ancestor = newInnerNode;
-              else ancestor = pNode;
+              if (!endPass) {
+                ancestor = newInnerNode;
+              } else {
+                ancestor = pNode;
+              }
             } else if (endPass) {
               pNode.appendChild(childNode);
               ancestor = newNode;
@@ -4045,8 +4083,9 @@ export default function (
 
           cloneNode = child.cloneNode(false);
           ancestor.appendChild(cloneNode);
-          if (child.nodeType === 1 && !util.isBreak(child))
+          if (child.nodeType === 1 && !util.isBreak(child)) {
             coverNode = cloneNode;
+          }
 
           recursionFunc(child, coverNode);
         }
@@ -4129,7 +4168,9 @@ export default function (
       const startPath = util.getNodePath(startContainer, pNode, newStartOffset);
 
       const mergeEndCon = !endContainer.parentNode;
-      if (mergeEndCon) endContainer = startContainer;
+      if (mergeEndCon) {
+        endContainer = startContainer;
+      }
       const newEndOffset = { s: 0, e: 0 };
       const endPath = util.getNodePath(
         endContainer,
@@ -4197,7 +4238,9 @@ export default function (
         !util.isFormatElement(parentCon.parentNode) &&
         !util.isWysiwygDiv(parentCon.parentNode)
       ) {
-        if (parentCon.nodeName === newInnerNode.nodeName) break;
+        if (parentCon.nodeName === newInnerNode.nodeName) {
+          break;
+        }
         parentCon = parentCon.parentNode;
       }
 
@@ -4220,7 +4263,6 @@ export default function (
 
         if (sameTag) {
           util.copyTagAttributes(parentCon, newInnerNode);
-
           return {
             ancestor: element,
             container: startCon,
@@ -4285,7 +4327,9 @@ export default function (
               vNode = validation(newNode);
               if (newNode.nodeType === 1 && vNode) {
                 if (isMaintainedNode(newNode)) {
-                  if (!anchorNode) anchors.push(vNode);
+                  if (!anchorNode) {
+                    anchors.push(vNode);
+                  }
                 } else {
                   pCurrent.push(vNode);
                 }
@@ -4386,8 +4430,12 @@ export default function (
             }
 
             const prevAnchorNode = getMaintainedNode(ancestor);
-            if (!!prevAnchorNode) anchorNode = prevAnchorNode;
-            if (anchorNode) line = anchorNode;
+            if (!!prevAnchorNode) {
+              anchorNode = prevAnchorNode;
+            }
+            if (anchorNode) {
+              line = anchorNode;
+            }
 
             newNode = ancestor;
             pCurrent = [];
@@ -4414,8 +4462,10 @@ export default function (
               ancestor = newInnerNode;
             }
 
-            if (util.isBreak(child))
+            if (util.isBreak(child)) {
               newInnerNode.appendChild(child.cloneNode(false));
+            }
+
             line.appendChild(newInnerNode);
 
             container = textNode;
@@ -4459,7 +4509,9 @@ export default function (
           }
           util.removeItem(removeNode);
 
-          if (i === 0) container = textNode;
+          if (i === 0) {
+            container = textNode;
+          }
         }
       } else if (isRemoveNode) {
         newInnerNode = newInnerNode.firstChild;
@@ -4529,8 +4581,9 @@ export default function (
       if (!isRemoveNode) {
         // end container path
         let endPath = null;
-        if (endContainer && element.contains(endContainer))
+        if (endContainer && element.contains(endContainer)) {
           endPath = util.getNodePath(endContainer, element);
+        }
 
         const tempNode = element.cloneNode(true);
         const newNodeName = newInnerNode.nodeName;
@@ -4542,7 +4595,9 @@ export default function (
           len = children.length;
         for (let child; i < len; i++) {
           child = children[i];
-          if (child.nodeType === 3) break;
+          if (child.nodeType === 3) {
+            break;
+          }
           if (child.nodeName === newNodeName) {
             child.style.cssText += newCssText;
             util.addClass(child, newClass);
@@ -4613,17 +4668,24 @@ export default function (
             if (vNode) {
               noneChange = false;
               ancestor.appendChild(vNode);
-              if (child.nodeType === 1) coverNode = vNode;
+              if (child.nodeType === 1) {
+                coverNode = vNode;
+              }
             }
           }
 
-          if (!util.isBreak(child)) recursionFunc(child, coverNode);
+          if (!util.isBreak(child)) {
+            recursionFunc(child, coverNode);
+          }
         }
       })(element, newInnerNode);
 
       // not remove tag
       if (noneChange || (isRemoveNode && !isRemoveFormat && !removeCheck.v)) {
-        return { ancestor: element, endContainer: endContainer };
+        return {
+          ancestor: element,
+          endContainer: endContainer,
+        };
       }
 
       pNode.appendChild(newInnerNode);
@@ -4685,7 +4747,9 @@ export default function (
         !util.isFormatElement(parentCon.parentNode) &&
         !util.isWysiwygDiv(parentCon.parentNode)
       ) {
-        if (parentCon.nodeName === newInnerNode.nodeName) break;
+        if (parentCon.nodeName === newInnerNode.nodeName) {
+          break;
+        }
         parentCon = parentCon.parentNode;
       }
 
@@ -4708,7 +4772,6 @@ export default function (
 
         if (sameTag) {
           util.copyTagAttributes(parentCon, newInnerNode);
-
           return {
             ancestor: element,
             container: endCon,
@@ -4799,8 +4862,11 @@ export default function (
               childNode.appendChild(newInnerNode);
               pNode.insertBefore(childNode, pNode.firstChild);
               nNodeArray.push(newInnerNode);
-              if (newInnerNode.children.length > 0) ancestor = newNode;
-              else ancestor = newInnerNode;
+              if (newInnerNode.children.length > 0) {
+                ancestor = newNode;
+              } else {
+                ancestor = newInnerNode;
+              }
             } else if (isTopNode) {
               newInnerNode.insertBefore(childNode, newInnerNode.firstChild);
               ancestor = newNode;
@@ -4896,8 +4962,9 @@ export default function (
               ancestor = newInnerNode;
             }
 
-            if (util.isBreak(child))
+            if (util.isBreak(child)) {
               newInnerNode.appendChild(child.cloneNode(false));
+            }
 
             if (anchorNode) {
               anchorNode.insertBefore(newInnerNode, anchorNode.firstChild);
@@ -4918,7 +4985,9 @@ export default function (
           vNode = !passNode ? child.cloneNode(false) : validation(child);
           if (vNode) {
             ancestor.insertBefore(vNode, ancestor.firstChild);
-            if (child.nodeType === 1 && !util.isBreak(child)) coverNode = vNode;
+            if (child.nodeType === 1 && !util.isBreak(child)) {
+              coverNode = vNode;
+            }
           }
 
           recursionFunc(child, coverNode);
@@ -5129,7 +5198,9 @@ export default function (
               },
               true
             ) || wysiwyg.lastChild;
-          if (!first || !last) return;
+          if (!first || !last) {
+            return;
+          }
           if (util.isMedia(first)) {
             const info = this.getFileComponent(first);
             const br = util.createElement("BR");
@@ -5195,13 +5266,17 @@ export default function (
           }
 
           this._variable.isChanged = false;
-          if (context.tool.save)
+          if (context.tool.save) {
             context.tool.save.setAttribute("disabled", true);
+          }
+
           break;
         default:
           // 'STRONG', 'U', 'EM', 'DEL', 'SUB', 'SUP'..
           command = this.defaultCommand[command.toLowerCase()] || command;
-          if (!this.commandMap[command]) this.commandMap[command] = target;
+          if (!this.commandMap[command]) {
+            this.commandMap[command] = target;
+          }
 
           const nodesMap = this._variable.currentNodesMap;
           const cmd =
@@ -5312,8 +5387,9 @@ export default function (
             "display: block"
           );
 
-        if (options.height === "auto" && !options.codeMirrorEditor)
+        if (options.height === "auto" && !options.codeMirrorEditor) {
           context.element.code.style.height = "0px";
+        }
 
         this._variable.isCodeView = false;
 
@@ -5346,12 +5422,16 @@ export default function (
             "display: none"
           );
 
-        if (options.height === "auto" && !options.codeMirrorEditor)
+        if (options.height === "auto" && !options.codeMirrorEditor) {
           context.element.code.style.height =
             context.element.code.scrollHeight > 0
               ? context.element.code.scrollHeight + "px"
               : "auto";
-        if (options.codeMirrorEditor) options.codeMirrorEditor.refresh();
+        }
+
+        if (options.codeMirrorEditor) {
+          options.codeMirrorEditor.refresh();
+        }
 
         this._variable.isCodeView = true;
 
@@ -5373,8 +5453,9 @@ export default function (
 
       this.checkPlaceholder();
       // user event
-      if (typeof functions.toggleCodeView === "function")
+      if (typeof functions.toggleCodeView === "function") {
         functions.toggleCodeView(this._variable.isCodeView, this);
+      }
     },
 
     /**
@@ -5476,8 +5557,9 @@ export default function (
           this.isBalloon = false;
         }
 
-        if (!!options.toolbarContainer)
+        if (!!options.toolbarContainer) {
           context.element.relative.insertBefore(toolbar, editorArea);
+        }
 
         topArea.style.position = "fixed";
         topArea.style.top = "0";
@@ -5569,8 +5651,9 @@ export default function (
       }
 
       // user event
-      if (typeof functions.toggleFullScreen === "function")
+      if (typeof functions.toggleFullScreen === "function") {
         functions.toggleFullScreen(this._variable.isFullScreen, this);
+      }
     },
 
     /**
@@ -5769,14 +5852,17 @@ export default function (
      * @param {Object} ctx { head: HTML string, body: HTML string}
      */
     setIframeContents: function (ctx) {
-      if (!options.iframe) return false;
+      if (!options.iframe) {
+        return false;
+      }
       if (ctx.head)
         this._wd.head.innerHTML = ctx.head.replace(
           /<script[\s\S]*>[\s\S]*<\/script>/gi,
           ""
         );
-      if (ctx.body)
+      if (ctx.body) {
         this._wd.body.innerHTML = this.convertContentsForEditor(ctx.body);
+      }
     },
 
     /**
@@ -5826,7 +5912,9 @@ export default function (
       const defaultTag = options.defaultTag;
       // element
       if (node.nodeType === 1) {
-        if (util.disallowedTags(node)) return "";
+        if (util.disallowedTags(node)) {
+          return "";
+        }
         if (
           !requireFormat ||
           util.isFormatElement(node) ||
@@ -5844,7 +5932,9 @@ export default function (
       }
       // text
       if (node.nodeType === 3) {
-        if (!requireFormat) return util.HTMLConvertor(node.textContent);
+        if (!requireFormat) {
+          return util.HTMLConvertor(node.textContent);
+        }
         const textArray = node.textContent.split(/\n/g);
         let html = "";
         for (let i = 0, tLen = textArray.length, text; i < tLen; i++) {
@@ -5912,15 +6002,20 @@ export default function (
      * @private
      */
     cleanTags: function (rowLevelCheck, m, t) {
-      if (/^<[a-z0-9]+\:[a-z0-9]+/i.test(m)) return m;
+      if (/^<[a-z0-9]+\:[a-z0-9]+/i.test(m)) {
+        return m;
+      }
 
       let v = null;
       const tAttr =
         this.attributesTagsWhitelist[
           t.match(/(?!<)[a-zA-Z0-9\-]+/)[0].toLowerCase()
         ];
-      if (tAttr) v = m.match(tAttr);
-      else v = m.match(this.attributesWhitelistRegExp);
+      if (tAttr) {
+        v = m.match(tAttr);
+      } else {
+        v = m.match(this.attributesWhitelistRegExp);
+      }
 
       if (
         (rowLevelCheck || /<span/i.test(t)) &&
@@ -5928,7 +6023,9 @@ export default function (
       ) {
         const sv = m.match(/style\s*=\s*(?:"|')[^"']*(?:"|')/);
         if (sv) {
-          if (!v) v = [];
+          if (!v) {
+            v = [];
+          }
           v.push(sv[0]);
         }
       }
@@ -5936,15 +6033,18 @@ export default function (
       if (/<a\b/i.test(t)) {
         const sv = m.match(/id\s*=\s*(?:"|')[^"']*(?:"|')/);
         if (sv) {
-          if (!v) v = [];
+          if (!v) {
+            v = [];
+          }
           v.push(sv[0]);
         }
       }
 
       if (v) {
         for (let i = 0, len = v.length; i < len; i++) {
-          if (!rowLevelCheck && /^class="(?!(__ke__|ke-|katex))/.test(v[i]))
+          if (!rowLevelCheck && /^class="(?!(__ke__|ke-|katex))/.test(v[i])) {
             continue;
+          }
           t +=
             " " +
             (/^href\s*=\s*('|"|\s)*javascript\s*\:/i.test(v[i]) ? "" : v[i]);
@@ -6079,8 +6179,9 @@ export default function (
         cleanHTML += this.makeLine(domTree[i], true);
       }
 
-      if (cleanHTML.length === 0)
+      if (cleanHTML.length === 0) {
         return "<" + options.defaultTag + "><br></" + options.defaultTag + ">";
+      }
 
       cleanHTML = util.htmlRemoveWhiteSpace(cleanHTML);
       return this.tagConvertor(cleanHTML);
@@ -6225,7 +6326,9 @@ export default function (
       const maxCharCount = options.maxCharCount;
       const countType = options.charCounterType;
       let nextCharCount = 0;
-      if (!!inputText) nextCharCount = this.getCharLength(inputText, countType);
+      if (!!inputText) {
+        nextCharCount = this.getCharLength(inputText, countType);
+      }
 
       this.setCharCount();
 
@@ -6258,7 +6361,9 @@ export default function (
 
         if (over) {
           this.callCounterBlink();
-          if (nextCharCount > 0) return false;
+          if (nextCharCount > 0) {
+            return false;
+          }
         }
       }
 
@@ -6403,7 +6508,9 @@ export default function (
           }
           child = child.parentNode;
         }
-        if (this.shadowRoot) this.shadowRootControllerEventTarget = [];
+        if (this.shadowRoot) {
+          this.shadowRootControllerEventTarget = [];
+        }
       }
 
       // set disallow text nodes
@@ -6822,8 +6929,9 @@ export default function (
 
       _window.setTimeout(function () {
         // user event
-        if (typeof functions.onload === "function")
+        if (typeof functions.onload === "function") {
           functions.onload(core, reload);
+        }
       });
     },
 
@@ -6953,7 +7061,9 @@ export default function (
           break;
       }
 
-      if (!command) return false;
+      if (!command) {
+        return false;
+      }
 
       core.commandHandler(core.commandMap[command], command);
       return true;
@@ -7058,9 +7168,10 @@ export default function (
       core._variable.currentNodesMap = commandMapNodes;
 
       /**  Displays the current node structure to resizingBar */
-      if (options.showPathLabel)
+      if (options.showPathLabel) {
         context.element.navigation.textContent =
           core._variable.currentNodes.join(" > ");
+      }
     },
 
     cancelCaptionEdit: function () {
@@ -7139,7 +7250,9 @@ export default function (
     },
 
     onMouseDown_wysiwyg: function (e) {
-      if (util.isNonEditable(context.element.wysiwyg)) return;
+      if (util.isNonEditable(context.element.wysiwyg)) {
+        return;
+      }
 
       // user event
       if (
@@ -7170,19 +7283,24 @@ export default function (
         event.hideToolbar();
       }
 
-      if (/FIGURE/i.test(e.target.nodeName)) e.preventDefault();
+      if (/FIGURE/i.test(e.target.nodeName)) {
+        e.preventDefault();
+      }
     },
 
     onClick_wysiwyg: function (e) {
       const targetElement = e.target;
-      if (util.isNonEditable(context.element.wysiwyg)) return;
+      if (util.isNonEditable(context.element.wysiwyg)) {
+        return;
+      }
 
       // user event
       if (
         typeof functions.onClick === "function" &&
         functions.onClick(e, core) === false
-      )
+      ) {
         return;
+      }
 
       const fileComponentInfo = core.getFileComponent(targetElement);
       if (fileComponentInfo) {
@@ -7512,8 +7630,11 @@ export default function (
       }
 
       const toolbar = context.element.toolbar;
-      if (options.toolbarContainer) toolbar.style.position = "relative";
-      else toolbar.style.position = "absolute";
+      if (options.toolbarContainer) {
+        toolbar.style.position = "relative";
+      } else {
+        toolbar.style.position = "absolute";
+      }
 
       toolbar.style.visibility = "hidden";
       toolbar.style.display = "block";
@@ -7521,8 +7642,9 @@ export default function (
       core.inlineToolbarAttr.top = toolbar.style.top =
         (options.toolbarContainer ? 0 : -1 - toolbar.offsetHeight) + "px";
 
-      if (typeof functions.showInline === "function")
+      if (typeof functions.showInline === "function") {
         functions.showInline(toolbar, context, core);
+      }
 
       event.onScroll_window();
       core.inlineToolbarAttr.isShow = true;
@@ -7543,8 +7665,9 @@ export default function (
       if (
         typeof functions.onInput === "function" &&
         functions.onInput(e, core) === false
-      )
+      ) {
         return;
+      }
 
       const data =
         (e.data === null ? "" : e.data === undefined ? " " : e.data) || "";
@@ -7591,18 +7714,22 @@ export default function (
     },
 
     isUneditableNode_getSibling: function (selectNode, siblingKey, container) {
-      if (!selectNode) return null;
+      if (!selectNode) {
+        return null;
+      }
       let siblingNode = selectNode[siblingKey];
 
       if (!siblingNode) {
         siblingNode = util.getFormatElement(container);
         siblingNode = siblingNode ? siblingNode[siblingKey] : null;
-        if (siblingNode && !util.isComponent(siblingNode))
+        if (siblingNode && !util.isComponent(siblingNode)) {
           siblingNode =
             siblingKey === "previousSibling"
               ? siblingNode.firstElementChild
               : siblingNode.lastElementChild;
-        else return null;
+        } else {
+          return null;
+        }
       }
 
       return siblingNode;
@@ -7865,7 +7992,9 @@ export default function (
                   }
 
                   util.removeItem(formatEl);
-                  if (rangeEl.children.length === 0) util.removeItem(rangeEl);
+                  if (rangeEl.children.length === 0) {
+                    util.removeItem(rangeEl);
+                  }
 
                   core.setRange(con, offset, con, offset);
                   // history stack
@@ -8169,7 +8298,9 @@ export default function (
               }
 
               let moveCell = cells[idx];
-              if (!moveCell) break;
+              if (!moveCell) {
+                break;
+              }
               moveCell = moveCell.firstElementChild || moveCell;
               core.setRange(moveCell, 0, moveCell, 0);
               break;
@@ -8725,7 +8856,9 @@ export default function (
       }
 
       // user event
-      if (typeof functions.onScroll === "function") functions.onScroll(e, core);
+      if (typeof functions.onScroll === "function") {
+        functions.onScroll(e, core);
+      }
     },
 
     onFocus_wysiwyg: function (e) {
@@ -8740,11 +8873,15 @@ export default function (
       }
 
       // user event
-      if (typeof functions.onFocus === "function") functions.onFocus(e, core);
+      if (typeof functions.onFocus === "function") {
+        functions.onFocus(e, core);
+      }
     },
 
     onBlur_wysiwyg: function (e) {
-      if (core.antiBlur || core._variable.isCodeView) return;
+      if (core.antiBlur || core._variable.isCodeView) {
+        return;
+      }
       core.hasFocus = false;
       core.controllersOff(e);
       if (core.isInline || core.isBalloon) {
@@ -8752,7 +8889,9 @@ export default function (
       }
 
       // user event
-      if (typeof functions.onBlur === "function") functions.onBlur(e, core);
+      if (typeof functions.onBlur === "function") {
+        functions.onBlur(e, core);
+      }
 
       // active class reset of buttons
       const commandMap = core.commandMap;
@@ -8774,7 +8913,9 @@ export default function (
 
       core._variable.currentNodes = [];
       core._variable.currentNodesMap = [];
-      if (options.showPathLabel) context.element.navigation.textContent = "";
+      if (options.showPathLabel) {
+        context.element.navigation.textContent = "";
+      }
     },
 
     onMouseDown_resizingBar: function (e) {
@@ -8847,7 +8988,9 @@ export default function (
         }
       }
 
-      if (context.element.toolbar.offsetWidth === 0) return;
+      if (context.element.toolbar.offsetWidth === 0) {
+        return;
+      }
 
       if (
         context.fileBrowser &&
@@ -9031,15 +9174,21 @@ export default function (
         sc.nodeType === 1 ? util.getParentElement(sc, ".ke-component") : null;
       const eComp =
         ec.nodeType === 1 ? util.getParentElement(ec, ".ke-component") : null;
-      if (sComp) util.removeItem(sComp);
-      if (eComp) util.removeItem(eComp);
+      if (sComp) {
+        util.removeItem(sComp);
+      }
+      if (eComp) {
+        util.removeItem(eComp);
+      }
 
       return false;
     },
 
     onPaste_wysiwyg: function (e) {
       const clipboardData = util.isIE ? _window.clipboardData : e.clipboardData;
-      if (!clipboardData) return true;
+      if (!clipboardData) {
+        return true;
+      }
       return event.dataTransferAction("paste", e, clipboardData);
     },
 
@@ -9101,7 +9250,9 @@ export default function (
 
     onDrop_wysiwyg: function (e) {
       const dataTransfer = e.dataTransfer;
-      if (!dataTransfer) return true;
+      if (!dataTransfer) {
+        return true;
+      }
       if (util.isIE) {
         e.preventDefault();
         e.stopPropagation();
@@ -9212,14 +9363,22 @@ export default function (
       // user event - paste
       if (type === "paste" && typeof functions.onPaste === "function") {
         const value = functions.onPaste(e, cleanData, maxCharCount, core);
-        if (!value) return false;
-        if (typeof value === "string") cleanData = value;
+        if (!value) {
+          return false;
+        }
+        if (typeof value === "string") {
+          cleanData = value;
+        }
       }
       // user event - drop
       if (type === "drop" && typeof functions.onDrop === "function") {
         const value = functions.onDrop(e, cleanData, maxCharCount, core);
-        if (!value) return false;
-        if (typeof value === "string") cleanData = value;
+        if (!value) {
+          return false;
+        }
+        if (typeof value === "string") {
+          cleanData = value;
+        }
       }
 
       // files
@@ -9242,7 +9401,9 @@ export default function (
     },
 
     onMouseMove_wysiwyg: function (e) {
-      if (core.isDisabled) return;
+      if (core.isDisabled) {
+        return;
+      }
       const component = util.getParentElement(e.target, util.isComponent);
       const lineBreakerStyle = core.lineBreaker.style;
 
@@ -9324,7 +9485,9 @@ export default function (
           ? "DIV"
           : options.defaultTag
       );
-      if (!isList) format.innerHTML = "<br>";
+      if (!isList) {
+        format.innerHTML = "<br>";
+      }
 
       if (
         core.charTypeHTML &&
@@ -9861,7 +10024,9 @@ export default function (
 
       context.element = newContext.element;
       context.tool = newContext.tool;
-      if (options.iframe) context.element.wysiwyg = core._wd.body;
+      if (options.iframe) {
+        context.element.wysiwyg = core._wd.body;
+      }
       core.cachingButtons();
       core.history.resetCachingButton();
 
@@ -10150,7 +10315,9 @@ export default function (
       rangeSelection
     ) {
       if (typeof html === "string") {
-        if (!notCleaningData) html = core.cleanHTML(html, null);
+        if (!notCleaningData) {
+          html = core.cleanHTML(html, null);
+        }
         try {
           const dom = _document.createRange().createContextualFragment(html);
           const domTree = dom.childNodes;
@@ -10161,7 +10328,9 @@ export default function (
             for (let i = 0, len = domTree.length; i < len; i++) {
               checkHTML += domTree[i][type];
             }
-            if (!core.checkCharCount(checkHTML, null)) return;
+            if (!core.checkCharCount(checkHTML, null)) {
+              return;
+            }
           }
 
           let c, a, t, prev, firstCon;
@@ -10179,11 +10348,15 @@ export default function (
             }
             t = core.insertNode(c, a, false);
             a = t.container || t;
-            if (!firstCon) firstCon = t;
+            if (!firstCon) {
+              firstCon = t;
+            }
             prev = c;
           }
 
-          if (prev.nodeType === 3 && a.nodeType === 1) a = prev;
+          if (prev.nodeType === 3 && a.nodeType === 1) {
+            a = prev;
+          }
           const offset =
             a.nodeType === 3
               ? t.endOffset || a.textContent.length
@@ -10288,8 +10461,9 @@ export default function (
      */
     show: function () {
       const topAreaStyle = context.element.topArea.style;
-      if (topAreaStyle.display === "none")
+      if (topAreaStyle.display === "none") {
         topAreaStyle.display = options.display;
+      }
     },
 
     /**
@@ -10326,24 +10500,36 @@ export default function (
 
       /** remove object reference */
       for (let k in core.functions) {
-        if (util.hasOwn(core, k)) delete core.functions[k];
+        if (util.hasOwn(core, k)) {
+          delete core.functions[k];
+        }
       }
       for (let k in core) {
-        if (util.hasOwn(core, k)) delete core[k];
+        if (util.hasOwn(core, k)) {
+          delete core[k];
+        }
       }
       for (let k in event) {
-        if (util.hasOwn(event, k)) delete event[k];
+        if (util.hasOwn(event, k)) {
+          delete event[k];
+        }
       }
       for (let k in context) {
-        if (util.hasOwn(context, k)) delete context[k];
+        if (util.hasOwn(context, k)) {
+          delete context[k];
+        }
       }
       for (let k in pluginCallButtons) {
-        if (util.hasOwn(pluginCallButtons, k)) delete pluginCallButtons[k];
+        if (util.hasOwn(pluginCallButtons, k)) {
+          delete pluginCallButtons[k];
+        }
       }
 
       /** remove user object */
       for (let k in this) {
-        if (util.hasOwn(this, k)) delete this[k];
+        if (util.hasOwn(this, k)) {
+          delete this[k];
+        }
       }
     },
 

@@ -224,7 +224,9 @@ const util = {
       }
     }
 
-    if (path === "") path = pathList.length > 0 ? pathList[0][src] : "";
+    if (path === "") {
+      path = pathList.length > 0 ? pathList[0][src] : "";
+    }
 
     -1 === path.indexOf(":/") &&
       "//" !== path.slice(0, 2) &&
@@ -292,7 +294,9 @@ const util = {
    * @returns {String}
    */
   getAttributesToString: function (element, exceptAttrs) {
-    if (!element.attributes) return "";
+    if (!element.attributes) {
+      return "";
+    }
 
     const attrs = element.attributes;
     let attrString = "";
@@ -314,7 +318,9 @@ const util = {
    * @returns {Number}
    */
   getByteLength: function (text) {
-    if (!text || !text.toString) return 0;
+    if (!text || !text.toString) {
+      return 0;
+    }
     text = text.toString();
 
     const encoder = this._window.encodeURIComponent;
@@ -759,7 +765,7 @@ const util = {
    */
   getPositionIndex: function (node) {
     let idx = 0;
-    while (node == node.previousSibling) {
+    while ((node = node.previousSibling)) {
       idx += 1;
     }
     return idx;
@@ -782,7 +788,9 @@ const util = {
     this.getParentElement(
       node,
       function (el) {
-        if (el === parentNode) finds = false;
+        if (el === parentNode) {
+          finds = false;
+        }
         if (finds && !this.isWysiwygDiv(el)) {
           // merge text nodes
           if (newOffsets && el.nodeType === 3) {
@@ -1026,8 +1034,9 @@ const util = {
    */
   getListChildren: function (element, validation) {
     const children = [];
-    if (!element || !element.children || element.children.length === 0)
+    if (!element || !element.children || element.children.length === 0) {
       return children;
+    }
 
     validation =
       validation ||
@@ -1682,9 +1691,9 @@ const util = {
     if (
       depthEl.childNodes.length <= 1 &&
       (!depthEl.firstChild || depthEl.firstChild.textContent.length === 0)
-    )
+    ) {
       depthEl.innerHTML = "<br>";
-
+    }
     const pElement = depthEl.parentNode;
     if (next) {
       depthEl = depthEl.nextSibling;
@@ -1809,7 +1818,9 @@ const util = {
           const childs = child.childNodes;
           let childLength = 0;
           for (let n = 0, nLen = childs.length; n < nLen; n++) {
-            if (childs[n].textContent.length > 0) childLength++;
+            if (childs[n].textContent.length > 0) {
+              childLength++;
+            }
           }
 
           const l = child.lastChild;
@@ -1978,7 +1989,9 @@ const util = {
       return 0;
     })(element);
 
-    if (element.childNodes.length === 0) element.innerHTML = "<br>";
+    if (element.childNodes.length === 0) {
+      element.innerHTML = "<br>";
+    }
   },
 
   /**
@@ -2348,8 +2361,9 @@ const util = {
         }
       }
 
-      if (!path || path.length === 0)
+      if (!path || path.length === 0) {
         throw '[KothingEditor.constructor.iframe.fail] The KothingEditor CSS files installation path could not be automatically detected. Please set the option property "iframeCSSFileName" before creating editor instances.';
+      }
 
       for (let i = 0, len = path.length; i < len; i++) {
         tagString += '<link href="' + path[i] + '" rel="stylesheet">';

@@ -225,14 +225,20 @@ export default function (core, change) {
       redo = core.context.tool.redo;
 
       if (stackIndex === 0) {
-        if (undo) undo.setAttribute("disabled", true);
-        if (redo && stackIndex === stack.length - 1)
+        if (undo) {
+          undo.setAttribute("disabled", true);
+        }
+        if (redo && stackIndex === stack.length - 1) {
           redo.setAttribute("disabled", true);
+        }
         core._variable.isChanged = false;
-        if (core.context.tool.save)
+        if (core.context.tool.save) {
           core.context.tool.save.setAttribute("disabled", true);
+        }
       } else if (stackIndex === stack.length - 1) {
-        if (redo) redo.setAttribute("disabled", true);
+        if (redo) {
+          redo.setAttribute("disabled", true);
+        }
       }
     },
 
@@ -241,7 +247,9 @@ export default function (core, change) {
      * @private
      */
     destroy: function () {
-      if (pushDelay) _window.clearTimeout(pushDelay);
+      if (pushDelay) {
+        _window.clearTimeout(pushDelay);
+      }
       stack = null;
     },
   };
