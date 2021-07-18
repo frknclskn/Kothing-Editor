@@ -2,10 +2,10 @@ import { History } from "./history.d";
 import { Plugin } from "./../plugins/Plugin.d";
 import { Lang } from "./../lang/Lang.d";
 import { KothingEditorOptions } from "./../options.d";
-import { Context } from "./context";
-import Util from "./util";
-import { Module } from "../plugins/Module";
-import Notice from "../plugins/modules/notice";
+import { Context } from "./context.d";
+import Util from "./util.d";
+import { Module } from "../plugins/Module.d";
+import Notice from "../plugins/modules/notice.d";
 
 type Controllers = Array<string | Function | Element>;
 type fileInfo = {
@@ -162,7 +162,7 @@ interface Core {
 
   /**
    * @description Editor tags whitelist (RegExp object)
-   * util.createTagsWhitelist(options._editorTagsWhitelist)
+   * util.createTagsWhitelist(options.editorTagsWhitelist)
    */
   editorTagsWhitelistRegExp: RegExp;
 
@@ -712,7 +712,7 @@ export default class KothingEditor {
     plugins: Record<string, Plugin>,
     lang: Lang,
     options: KothingEditorOptions,
-    _icons: Record<string, string>
+    icons: Record<string, string>
   );
 
   core: Core;

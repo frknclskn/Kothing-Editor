@@ -16,10 +16,9 @@ export default {
     core.context.anchor = {
       caller: {},
       forms: this.setDialogForm(core),
-      host: (core._w.location.origin + core._w.location.pathname).replace(
-        /\/$/,
-        ""
-      ),
+      host: (
+        core._window.location.origin + core._window.location.pathname
+      ).replace(/\/$/, ""),
       callerContext: null,
     };
   },
@@ -112,7 +111,7 @@ export default {
       currentRel: [],
       linkAnchor: null,
       linkValue: "",
-      _change: false,
+      change: false,
       callerName: pluginName,
     });
 
@@ -231,11 +230,11 @@ export default {
     );
   },
 
-  _closeRelMenu: null,
+  closeRelMenu: null,
   toggleRelList: function (contextAnchor, show) {
     if (!show) {
-      if (this.plugins.anchor._closeRelMenu) {
-        this.plugins.anchor._closeRelMenu();
+      if (this.plugins.anchor.closeRelMenu) {
+        this.plugins.anchor.closeRelMenu();
       }
     } else {
       const target = contextAnchor.relButton;
@@ -255,7 +254,7 @@ export default {
         "px";
       relList.style.visibility = "";
 
-      this.plugins.anchor._closeRelMenu = function (context, target, e) {
+      this.plugins.anchor.closeRelMenu = function (context, target, e) {
         if (
           e &&
           (context.relButton.contains(e.target) ||
@@ -267,14 +266,14 @@ export default {
         context.relList.style.display = "none";
         this.modalForm.removeEventListener(
           "click",
-          this.plugins.anchor._closeRelMenu
+          this.plugins.anchor.closeRelMenu
         );
-        this.plugins.anchor._closeRelMenu = null;
+        this.plugins.anchor.closeRelMenu = null;
       }.bind(this, contextAnchor, target);
 
       this.modalForm.addEventListener(
         "click",
-        this.plugins.anchor._closeRelMenu
+        this.plugins.anchor.closeRelMenu
       );
     }
   },
@@ -345,7 +344,7 @@ export default {
       return;
     }
 
-    const valueRegExp = new this._w.RegExp(
+    const valueRegExp = new this._window.RegExp(
       "^" + urlValue.replace(/^#/, ""),
       "i"
     );
@@ -372,12 +371,12 @@ export default {
       this.plugins.selectMenu.open.call(
         this,
         contextList,
-        this.plugins.anchor._setMenuListPosition.bind(this, contextAnchor)
+        this.plugins.anchor.setMenuListPosition.bind(this, contextAnchor)
       );
     }
   },
 
-  _setMenuListPosition: function (contextAnchor, list) {
+  setMenuListPosition: function (contextAnchor, list) {
     list.style.top = contextAnchor.urlInput.offsetHeight + 1 + "px";
   },
 
@@ -410,11 +409,12 @@ export default {
   setHeaderBookmark: function (header) {
     const contextAnchor = this.context.anchor.callerContext;
     const id =
-      header.id || "h_" + this._w.Math.random().toString().replace(/.+\./, "");
+      header.id ||
+      "h_" + this._window.Math.random().toString().replace(/.+\./, "");
     header.id = id;
     contextAnchor.urlInput.value = "#" + id;
 
-    if (!contextAnchor.anchorText.value.trim() || !contextAnchor._change) {
+    if (!contextAnchor.anchorText.value.trim() || !contextAnchor.change) {
       contextAnchor.anchorText.value = header.textContent;
     }
 
@@ -431,7 +431,7 @@ export default {
   },
 
   onChangeAnchorText: function (contextAnchor, e) {
-    contextAnchor._change = !!e.target.value.trim();
+    contextAnchor.change = !!e.target.value.trim();
   },
 
   onChangeUrlInput: function (contextAnchor, e) {
@@ -475,7 +475,9 @@ export default {
     const reservedProtocol = /^(mailto:|tel:|sms:|https*:\/\/|#)/.test(value);
     const sameProtocol = !protocol
       ? false
-      : this._w.RegExp("^" + value.substr(0, protocol.length)).test(protocol);
+      : this._window
+          .RegExp("^" + value.substr(0, protocol.length))
+          .test(protocol);
     context.linkValue = preview.textContent = !value
       ? ""
       : protocol && !reservedProtocol && !sameProtocol
@@ -609,7 +611,7 @@ export default {
       this.plugins.anchor.setRel.call(
         this,
         contextAnchor,
-        this.plugins.anchor._relMerge.call(
+        this.plugins.anchor.relMerge.call(
           this,
           contextAnchor,
           contextAnchor.linkDefaultRel.check_new_window
@@ -619,7 +621,7 @@ export default {
       this.plugins.anchor.setRel.call(
         this,
         contextAnchor,
-        this.plugins.anchor._relDelete.call(
+        this.plugins.anchor.relDelete.call(
           this,
           contextAnchor,
           contextAnchor.linkDefaultRel.check_new_window
@@ -641,7 +643,7 @@ export default {
         this.plugins.anchor.setRel.call(
           this,
           contextAnchor,
-          this.plugins.anchor._relMerge.call(
+          this.plugins.anchor.relMerge.call(
             this,
             contextAnchor,
             contextAnchor.linkDefaultRel.check_bookmark
@@ -654,7 +656,7 @@ export default {
         this.plugins.anchor.setRel.call(
           this,
           contextAnchor,
-          this.plugins.anchor._relDelete.call(
+          this.plugins.anchor.relDelete.call(
             this,
             contextAnchor,
             contextAnchor.linkDefaultRel.check_bookmark
@@ -664,7 +666,7 @@ export default {
     }
   },
 
-  _relMerge: function (contextAnchor, relAttr) {
+  relMerge: function (contextAnchor, relAttr) {
     const current = contextAnchor.currentRel;
     if (!relAttr) {
       return current.join(" ");
@@ -687,7 +689,7 @@ export default {
     return current.join(" ");
   },
 
-  _relDelete: function (contextAnchor, relAttr) {
+  relDelete: function (contextAnchor, relAttr) {
     if (!relAttr) {
       return contextAnchor.currentRel.join(" ");
     }
@@ -697,7 +699,7 @@ export default {
 
     const rels = contextAnchor.currentRel
       .join(" ")
-      .replace(this._w.RegExp(relAttr + "\\s*"), "");
+      .replace(this._window.RegExp(relAttr + "\\s*"), "");
     contextAnchor.currentRel = rels.split(" ");
     return rels;
   },
@@ -711,7 +713,7 @@ export default {
     contextAnchor.anchorText.value = "";
     contextAnchor.newWindowCheck.checked = false;
     contextAnchor.downloadCheck.checked = false;
-    contextAnchor._change = false;
+    contextAnchor.change = false;
     this.plugins.anchor.setRel.call(
       this,
       contextAnchor,

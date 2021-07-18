@@ -4,42 +4,42 @@ import { Module } from "../Module";
  * @description Require context properties when resizing module
     inputX: Element,
     inputY: Element,
-    _container: null,
-    _cover: null,
-    _element: null,
-    _element_w: 1,
-    _element_h: 1,
-    _element_l: 0,
-    _element_t: 0,
-    _defaultSizeX: 'auto',
-    _defaultSizeY: 'auto',
-    _origin_w: core.options.imageWidth === 'auto' ? '' : core.options.imageWidth,
-    _origin_h: core.options.imageHeight === 'auto' ? '' : core.options.imageHeight,
-    _proportionChecked: true,
+    container: null,
+    cover: null,
+    element: null,
+    element_w: 1,
+    element_h: 1,
+    element_l: 0,
+    element_t: 0,
+    defaultSizeX: 'auto',
+    defaultSizeY: 'auto',
+    origin_w: core.options.imageWidth === 'auto' ? '' : core.options.imageWidth,
+    origin_h: core.options.imageHeight === 'auto' ? '' : core.options.imageHeight,
+    proportionChecked: true,
     // -- select function --
-    _resizing: core.options.imageResizing,
-    _resizeDotHide: !core.options.imageHeightShow,
-    _rotation: core.options.imageRotation,
-    _onlyPercentage: core.options.imageSizeOnlyPercentage,
-    _ratio: false,
-    _ratioX: 1,
-    _ratioY: 1
-    _captionShow: true,
-    // -- when used caption (_captionShow: true) --
-    _caption: null,
-    _captionChecked: false,
+    resizing: core.options.imageResizing,
+    resizeDotHide: !core.options.imageHeightShow,
+    rotation: core.options.imageRotation,
+    onlyPercentage: core.options.imageSizeOnlyPercentage,
+    ratio: false,
+    ratioX: 1,
+    ratioY: 1
+    captionShow: true,
+    // -- when used caption (captionShow: true) --
+    caption: null,
+    captionChecked: false,
     captionCheckEl: null
 */
 declare interface resizing extends Module {
   /**
    * @description Gets the width size
    * @param contextPlugin context object of plugin (core.context[plugin])
-   * @param element Target element [default: "this.plugin[plugin]._element"]
-   * @param cover Cover element (FIGURE) [default: "this.plugin[plugin]._cover"]
-   * @param container Container element (DIV.ke-component) [default: "this.plugin[plugin]._container"]
+   * @param element Target element [default: "this.plugin[plugin].element"]
+   * @param cover Cover element (FIGURE) [default: "this.plugin[plugin].cover"]
+   * @param container Container element (DIV.ke-component) [default: "this.plugin[plugin].container"]
    * @returns
    */
-  _module_getSizeX(
+  module_getSizeX(
     contextPlugin: { [key: string]: unknown },
     element: Element,
     cover: Element,
@@ -49,12 +49,12 @@ declare interface resizing extends Module {
   /**
    * @description Gets the height size
    * @param contextPlugin context object of plugin (core.context[plugin])
-   * @param element Target element [default: "this.plugin[plugin]._element"]
-   * @param cover Cover element (FIGURE) [default: "this.plugin[plugin]._cover"]
-   * @param container Container element (DIV.ke-component) [default: "this.plugin[plugin]._container"]
+   * @param element Target element [default: "this.plugin[plugin].element"]
+   * @param cover Cover element (FIGURE) [default: "this.plugin[plugin].cover"]
+   * @param container Container element (DIV.ke-component) [default: "this.plugin[plugin].container"]
    * @returns
    */
-  _module_getSizeY(
+  module_getSizeY(
     contextPlugin: { [key: string]: unknown },
     element: Element,
     cover: Element,
@@ -66,7 +66,7 @@ declare interface resizing extends Module {
    * @param contextPlugin context object of plugin (core.context[plugin])
    * @param pluginObj Plugin object
    */
-  _module_setModifyInputSize(
+  module_setModifyInputSize(
     contextPlugin: { [key: string]: unknown },
     pluginObj: { [key: string]: unknown }
   ): void;
@@ -78,7 +78,7 @@ declare interface resizing extends Module {
    * @param contextPlugin context object of plugin (core.context[plugin])
    * @param xy 'x': width, 'y': height
    */
-  _module_setInputSize(
+  module_setInputSize(
     contextPlugin: { [key: string]: unknown },
     xy: string
   ): void;
@@ -88,20 +88,20 @@ declare interface resizing extends Module {
    * checks the value of the input tag, calculates the ratio, and resets it in the input tag.
    * @param contextPlugin context object of plugin (core.context[plugin])
    */
-  _module_setRatio(contextPlugin: { [key: string]: unknown }): void;
+  module_setRatio(contextPlugin: { [key: string]: unknown }): void;
 
   /**
-   * @description Revert size of element to origin size (plugin._origin_w, plugin._origin_h)
+   * @description Revert size of element to origin size (plugin.origin_w, plugin.origin_h)
    * @param contextPlugin context object of plugin (core.context[plugin])
    */
-  _module_sizeRevert(contextPlugin: { [key: string]: unknown }): void;
+  module_sizeRevert(contextPlugin: { [key: string]: unknown }): void;
 
   /**
    * @description Save the size data (element.setAttribute("data-size"))
    * Used at the "setSize" method
    * @param contextPlugin context object of plugin (core.context[plugin])
    */
-  _module_saveCurrentSize(contextPlugin: { [key: string]: unknown }): void;
+  module_saveCurrentSize(contextPlugin: { [key: string]: unknown }): void;
 
   /**
    * @description Call the resizing module

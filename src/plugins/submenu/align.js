@@ -14,7 +14,7 @@ export default {
     const context = core.context;
     context.align = {
       targetButton: targetElement,
-      _alignList: null,
+      alignList: null,
       currentAlign: "",
       defaultDir: core.options.rtl ? "right" : "left",
       icons: {
@@ -31,13 +31,14 @@ export default {
 
     /** add event listeners */
     listUl.addEventListener("click", this.pickup.bind(core));
-    context.align._alignList = listUl.querySelectorAll("li button");
+    context.align.alignList = listUl.querySelectorAll("li button");
 
     /** append target button menu */
     core.initMenuTarget(this.name, targetElement, listDiv);
 
     /** empty memory */
-    (listDiv = null), (listUl = null);
+    listDiv = null;
+    listUl = null;
   },
 
   setSubmenu: function (core) {
@@ -138,7 +139,7 @@ export default {
    */
   on: function () {
     const alignContext = this.context.align;
-    const alignList = alignContext._alignList;
+    const alignList = alignContext.alignList;
     const currentAlign =
       alignContext.targetButton.getAttribute("data-focus") ||
       alignContext.defaultDir;

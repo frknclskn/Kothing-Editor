@@ -2,8 +2,6 @@
 
 import kothintEditor from '../src/editor';
 import plugins from '../src/plugins';
-import { zh_cn } from '../src/lang';
-import lang from '../src/lang';
 import '../src/assets/css/editor.css';
 import '../src/assets/css/editor-contents.css';
 
@@ -67,7 +65,7 @@ let s1 = kothintEditor.create('editor', {
   toolbarItem: [["table", "removeFormat"]],
 });
 
-// s1.core._charCount = function (nextCharCount, blink) {
+// s1.core.charCount = function (nextCharCount, blink) {
 //     const charCounter = this.context.element.charCounter;
 //     if (!charCounter) return true;
 //     if (!nextCharCount || nextCharCount < 0) nextCharCount = 0;
@@ -81,7 +79,7 @@ let s1 = kothintEditor.create('editor', {
 //     }.bind(this.util)).length;
 //     //// ------------------ ////
 
-//     this._w.setTimeout(function () {
+//     this._window.setTimeout(function () {
 //         charCounter.textContent = wysiwyg.textContent.length + emptyListCount; // add empty list
 //     });
 
@@ -90,7 +88,7 @@ let s1 = kothintEditor.create('editor', {
 //         const count = wysiwyg.textContent.length + emptyListCount; // add empty list
 
 //         if (count > maxCharCount) {
-//             this._editorRange();
+//             this.editorRange();
 //             const range = this.getRange();
 //             const endOff = range.endOffset - 1;
 //             const text = this.getSelectionNode().textContent;
@@ -105,7 +103,7 @@ let s1 = kothintEditor.create('editor', {
 //         if (over) {
 //             if (blink && !this.util.hasClass(charCounter, 'ke-blink')) {
 //                 this.util.addClass(charCounter, 'ke-blink');
-//                 this._w.setTimeout(function () {
+//                 this._window.setTimeout(function () {
 //                     this.removeClass(charCounter, 'ke-blink');
 //                 }.bind(this.util), 600);
 //             }
@@ -183,7 +181,7 @@ s1.onKeyDown = function (e, core) {
 };
 
 let ss = window.ss = kothintEditor.create(document.getElementById('editor1'), {
-  lang: lang.zh_cn,
+  lang: 'zh_cn',
   plugins: plugins,
   katex: Katex,
   // value: '',
@@ -350,7 +348,7 @@ let ss = window.ss = kothintEditor.create(document.getElementById('editor1'), {
 });
 // ss.setContents('fsafsa')
 ss.onload = function (core) {
-  console.log('onload', core.context.video._infoList);
+  console.log('onload', core.context.video.infoList);
   // core.focus();
 };
 ss.onScroll = function () {
@@ -393,7 +391,7 @@ ss.onAudioUploadBefore = function (files, info) {
   return true;
 };
 ss.onChange = function (contents, core) {
-  console.log('change', core.context.video._infoList);
+  console.log('change', core.context.video.infoList);
 };
 
 // ss.imageUploadHandler = function (response, core) {
@@ -532,7 +530,7 @@ const editor = kothintEditor.init({
 });
 
 let s2 = window.s2 = editor.create(document.getElementById('editor2'), {
-  // lang: lang.ru,
+  // lang: 'ru',
   // mode: 'inline',
   // toolbarWidth: 150,
   attributesWhitelist: { 'all': 'uk-icon' },
@@ -826,7 +824,7 @@ let s3 = editor.create(document.getElementsByName('editor3')[0], {
     [plugins.formatBlock, 'align', 'horizontalRule', 'list', 'table', 'codeView', plugins.image, plugins.video, plugins.link, plugins.link, plugins.fontColor, plugins.hiliteColor, plugins.fontSize],
   ],
   mode: 'balloon-always',
-  lang: zh_cn,
+  lang: 'zh_cn',
   width: '100%',
   height: '500px',
   stickyToolbar: false,

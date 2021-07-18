@@ -14,7 +14,7 @@ export default {
     const icons = core.icons;
     context.fontSize = {
       targetText: targetElement.querySelector(".txt"),
-      _sizeList: null,
+      sizeList: null,
       currentSize: "",
       icon: icons.font_size,
     };
@@ -25,13 +25,14 @@ export default {
 
     /** add event listeners */
     listUl.addEventListener("click", this.pickup.bind(core));
-    context.fontSize._sizeList = listUl.querySelectorAll("li button");
+    context.fontSize.sizeList = listUl.querySelectorAll("li button");
 
     /** append target button menu */
     core.initMenuTarget(this.name, targetElement, listDiv);
 
     /** empty memory */
-    (listDiv = null), (listUl = null);
+    listDiv = null;
+    listUl = null;
   },
 
   setSubmenu: function (core) {
@@ -116,7 +117,7 @@ export default {
    */
   on: function () {
     const fontSizeContext = this.context.fontSize;
-    const sizeList = fontSizeContext._sizeList;
+    const sizeList = fontSizeContext.sizeList;
     const currentSize = fontSizeContext.targetText.textContent;
 
     if (currentSize !== fontSizeContext.currentSize) {

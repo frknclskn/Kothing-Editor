@@ -21,44 +21,44 @@ export default {
     const options = core.options;
     const context = core.context;
     const contextImage = (context.image = {
-      _infoList: [], // @Override fileManager
-      _infoIndex: 0, // @Override fileManager
-      _uploadFileLength: 0, // @Override fileManager
+      infoList: [], // @Override fileManager
+      infoIndex: 0, // @Override fileManager
+      uploadFileLength: 0, // @Override fileManager
       focusElement: null, // @Override dialog // This element has focus when the dialog is opened.
-      sizeUnit: options._imageSizeUnit,
-      _linkElement: "",
-      _altText: "",
-      _align: "none",
-      _floatClassRegExp: "__ke__float\\-[a-z]+",
-      _v_src: { _linkValue: "" },
+      sizeUnit: options.imageSizeUnit,
+      linkElement: "",
+      altText: {},
+      align: "none",
+      floatClassRegExp: "__ke__float\\-[a-z]+",
+      v_src: { linkValue: "" },
       svgDefaultSize: "30%",
       base64RenderIndex: 0,
       // @require @Override component
-      _element: null,
-      _cover: null,
-      _container: null,
+      element: null,
+      cover: null,
+      container: null,
       // @Override resizing properties
       inputX: null,
       inputY: null,
-      _element_w: 1,
-      _element_h: 1,
-      _element_l: 0,
-      _element_t: 0,
-      _defaultSizeX: "auto",
-      _defaultSizeY: "auto",
-      _origin_w: options.imageWidth === "auto" ? "" : options.imageWidth,
-      _origin_h: options.imageHeight === "auto" ? "" : options.imageHeight,
-      _proportionChecked: true,
-      _resizing: options.imageResizing,
-      _resizeDotHide: !options.imageHeightShow,
-      _rotation: options.imageRotation,
-      _onlyPercentage: options.imageSizeOnlyPercentage,
-      _ratio: false,
-      _ratioX: 1,
-      _ratioY: 1,
-      _captionShow: true,
-      _captionChecked: false,
-      _caption: null,
+      element_w: 1,
+      element_h: 1,
+      element_l: 0,
+      element_t: 0,
+      defaultSizeX: "auto",
+      defaultSizeY: "auto",
+      origin_w: options.imageWidth === "auto" ? "" : options.imageWidth,
+      origin_h: options.imageHeight === "auto" ? "" : options.imageHeight,
+      proportionChecked: true,
+      resizing: options.imageResizing,
+      resizeDotHide: !options.imageHeightShow,
+      rotation: options.imageRotation,
+      onlyPercentage: options.imageSizeOnlyPercentage,
+      ratio: false,
+      ratioX: 1,
+      ratioY: 1,
+      captionShow: true,
+      captionChecked: false,
+      caption: null,
       captionCheckEl: null,
     });
 
@@ -89,7 +89,7 @@ export default {
         .querySelector(".ke-file-remove")
         .addEventListener(
           "click",
-          this._removeSelectedFiles.bind(
+          this.removeSelectedFiles.bind(
             contextImage.imgInputFile,
             contextImage.imgUrlFile,
             contextImage.previewSrc
@@ -99,9 +99,9 @@ export default {
     if (contextImage.imgUrlFile) {
       contextImage.imgUrlFile.addEventListener(
         "input",
-        this._onLinkPreview.bind(
+        this.onLinkPreview.bind(
           contextImage.previewSrc,
-          contextImage._v_src,
+          contextImage.v_src,
           options.linkProtocol
         )
       );
@@ -109,16 +109,13 @@ export default {
     if (contextImage.imgInputFile && contextImage.imgUrlFile) {
       contextImage.imgInputFile.addEventListener(
         "change",
-        this._fileInputChange.bind(contextImage)
+        this.fileInputChange.bind(contextImage)
       );
     }
 
     const imageGalleryButton = image_dialog.querySelector(".__ke__gallery");
     if (imageGalleryButton) {
-      imageGalleryButton.addEventListener(
-        "click",
-        this._openGallery.bind(core)
-      );
+      imageGalleryButton.addEventListener("click", this.openGallery.bind(core));
     }
 
     contextImage.proportion = {};
@@ -353,7 +350,7 @@ export default {
     return dialog;
   },
 
-  _fileInputChange: function () {
+  fileInputChange: function () {
     if (!this.imgInputFile.value) {
       this.imgUrlFile.removeAttribute("disabled");
       this.previewSrc.style.textDecoration = "";
@@ -363,7 +360,7 @@ export default {
     }
   },
 
-  _removeSelectedFiles: function (urlInput, previewSrc) {
+  removeSelectedFiles: function (urlInput, previewSrc) {
     this.value = "";
     if (urlInput) {
       urlInput.removeAttribute("disabled");
@@ -371,29 +368,29 @@ export default {
     }
   },
 
-  _openGallery: function () {
+  openGallery: function () {
     this.callPlugin(
       "imageGallery",
       this.plugins.imageGallery.open.bind(
         this,
-        this.plugins.image._setUrlInput.bind(this.context.image)
+        this.plugins.image.setUrlInput.bind(this.context.image)
       ),
       null
     );
   },
 
-  _setUrlInput: function (target) {
+  setUrlInput: function (target) {
     this.altText.value = target.alt;
-    this._v_src._linkValue =
+    this.v_src.linkValue =
       this.previewSrc.textContent =
       this.imgUrlFile.value =
         target.src;
     this.imgUrlFile.focus();
   },
 
-  _onLinkPreview: function (context, protocol, e) {
+  onLinkPreview: function (context, protocol, e) {
     const value = e.target.value.trim();
-    context._linkValue = this.textContent = !value
+    context.linkValue = this.textContent = !value
       ? ""
       : protocol && value.indexOf("://") === -1 && value.indexOf("#") !== 0
       ? protocol + value
@@ -424,12 +421,12 @@ export default {
    * @Override fileManager, resizing
    */
   destroy: function (element) {
-    const imageEl = element || this.context.image._element;
+    const imageEl = element || this.context.image.element;
     const imageContainer =
       this.util.getParentElement(imageEl, this.util.isMediaComponent) ||
       imageEl;
     const dataIndex = imageEl.getAttribute("data-index") * 1;
-    let focusEl =
+    const focusEl =
       imageContainer.previousElementSibling ||
       imageContainer.nextElementSibling;
 
@@ -470,12 +467,12 @@ export default {
     const contextImage = this.context.image;
 
     if (!update) {
-      contextImage.inputX.value = contextImage._origin_w =
-        this.options.imageWidth === contextImage._defaultSizeX
+      contextImage.inputX.value = contextImage.origin_w =
+        this.options.imageWidth === contextImage.defaultSizeX
           ? ""
           : this.options.imageWidth;
-      contextImage.inputY.value = contextImage._origin_h =
-        this.options.imageHeight === contextImage._defaultSizeY
+      contextImage.inputY.value = contextImage.origin_h =
+        this.options.imageHeight === contextImage.defaultSizeY
           ? ""
           : this.options.imageHeight;
       if (contextImage.imgInputFile && this.options.imageMultipleFile) {
@@ -512,17 +509,16 @@ export default {
     // Declare all variables
     const tabName = targetElement.getAttribute("data-tab-link");
     const contentClassName = "_ke_tab_content";
-    let i, tabContent, tabLinks;
 
     // Get all elements with class="tabcontent" and hide them
-    tabContent = modal.getElementsByClassName(contentClassName);
-    for (i = 0; i < tabContent.length; i++) {
+    const tabContent = modal.getElementsByClassName(contentClassName);
+    for (let i = 0; i < tabContent.length; i++) {
       tabContent[i].style.display = "none";
     }
 
     // Get all elements with class="tablinks" and remove the class "active"
-    tabLinks = modal.getElementsByClassName("_ke_tab_link");
-    for (i = 0; i < tabLinks.length; i++) {
+    const tabLinks = modal.getElementsByClassName("_ke_tab_link");
+    for (let i = 0; i < tabLinks.length; i++) {
       this.util.removeClass(tabLinks[i], "active");
     }
 
@@ -548,13 +544,12 @@ export default {
     e.preventDefault();
     e.stopPropagation();
 
-    contextImage._altText = contextImage.altText.value;
-    contextImage._align = contextImage.modal.querySelector(
+    contextImage.align = contextImage.modal.querySelector(
       'input[name="kothingEditor_image_radio"]:checked'
     ).value;
-    contextImage._captionChecked = contextImage.captionCheckEl.checked;
-    if (contextImage._resizing) {
-      contextImage._proportionChecked = contextImage.proportion.checked;
+    contextImage.captionChecked = contextImage.captionCheckEl.checked;
+    if (contextImage.resizing) {
+      contextImage.proportionChecked = contextImage.proportion.checked;
     }
 
     try {
@@ -573,7 +568,7 @@ export default {
         );
       } else if (
         contextImage.imgUrlFile &&
-        contextImage._v_src._linkValue.length > 0
+        contextImage.v_src.linkValue.length > 0
       ) {
         this.showLoading();
         imagePlugin.onRender_imgUrl.call(this);
@@ -607,7 +602,7 @@ export default {
     const limitSize = this.options.imageUploadSizeLimit;
     if (limitSize > 0) {
       let infoSize = 0;
-      const imagesInfo = this.context.image._infoList;
+      const imagesInfo = this.context.image.infoList;
       for (let i = 0, len = imagesInfo.length; i < len; i++) {
         infoSize += imagesInfo[i].size * 1;
       }
@@ -637,7 +632,7 @@ export default {
     }
 
     const contextImage = this.context.image;
-    contextImage._uploadFileLength = files.length;
+    contextImage.uploadFileLength = files.length;
 
     const anchor = this.plugins.anchor.createAnchor.call(
       this,
@@ -648,9 +643,9 @@ export default {
       anchor: anchor,
       inputWidth: contextImage.inputX.value,
       inputHeight: contextImage.inputY.value,
-      align: contextImage._align,
+      align: contextImage.align,
       isUpdate: this.context.dialog.updateModal,
-      element: contextImage._element,
+      element: contextImage.element,
     };
 
     if (typeof this.functions.onImageUploadBefore === "function") {
@@ -659,7 +654,7 @@ export default {
         info,
         this,
         function (data) {
-          if (data && this._w.Array.isArray(data.result)) {
+          if (data && this._window.Array.isArray(data.result)) {
             this.plugins.image.register.call(this, info, data);
           } else {
             this.plugins.image.upload.call(this, info, data);
@@ -674,7 +669,7 @@ export default {
         this.closeLoading();
         return;
       }
-      if (this._w.Array.isArray(result) && result.length > 0) {
+      if (this._window.Array.isArray(result) && result.length > 0) {
         files = result;
       }
     }
@@ -788,7 +783,7 @@ export default {
   ) {
     try {
       this.context.image.base64RenderIndex = filesLen;
-      const wFileReader = this._w.FileReader;
+      const wFileReader = this._window.FileReader;
       const filesStack = [filesLen];
       this.context.image.inputX.value = width;
       this.context.image.inputY.value = height;
@@ -813,7 +808,7 @@ export default {
             );
             this.closeLoading();
           }
-        }.bind(this, reader, isUpdate, this.context.image._element, file, i);
+        }.bind(this, reader, isUpdate, this.context.image.element, file, i);
 
         reader.readAsDataURL(file);
       }
@@ -839,11 +834,11 @@ export default {
 
     for (let i = 0, len = filesStack.length; i < len; i++) {
       if (update) {
-        this.context.image._element.setAttribute(
+        this.context.image.element.setAttribute(
           "data-file-name",
           filesStack[i].file.name
         );
-        this.context.image._element.setAttribute(
+        this.context.image.element.setAttribute(
           "data-file-size",
           filesStack[i].file.size
         );
@@ -869,26 +864,26 @@ export default {
 
   onRender_imgUrl: function () {
     const contextImage = this.context.image;
-    if (contextImage._v_src._linkValue.length === 0) {
+    if (contextImage.v_src.linkValue.length === 0) {
       return false;
     }
 
     try {
       const file = {
-        name: contextImage._v_src._linkValue.split("/").pop(),
+        name: contextImage.v_src.linkValue.split("/").pop(),
         size: 0,
       };
       if (this.context.dialog.updateModal) {
         this.plugins.image.update_src.call(
           this,
-          contextImage._v_src._linkValue,
-          contextImage._element,
+          contextImage.v_src.linkValue,
+          contextImage.element,
           file
         );
       } else {
         this.plugins.image.create_image.call(
           this,
-          contextImage._v_src._linkValue,
+          contextImage.v_src.linkValue,
           this.plugins.anchor.createAnchor.call(
             this,
             contextImage.anchorCtx,
@@ -896,7 +891,7 @@ export default {
           ),
           contextImage.inputX.value,
           contextImage.inputY.value,
-          contextImage._align,
+          contextImage.align,
           file
         );
       }
@@ -931,7 +926,7 @@ export default {
       return;
     }
 
-    this.plugins.resizing._module_setInputSize.call(
+    this.plugins.resizing.module_setInputSize.call(
       this,
       this.context.image,
       xy
@@ -942,7 +937,7 @@ export default {
    * @Override resizing
    */
   setRatio: function () {
-    this.plugins.resizing._module_setRatio.call(this, this.context.image);
+    this.plugins.resizing.module_setRatio.call(this, this.context.image);
   },
 
   /**
@@ -956,12 +951,12 @@ export default {
       imagePlugin.onModifyMode.call(this, tag, null);
       imagePlugin.openModify.call(this, true);
       // get size
-      contextImage.inputX.value = contextImage._origin_w;
-      contextImage.inputY.value = contextImage._origin_h;
+      contextImage.inputX.value = contextImage.origin_w;
+      contextImage.inputY.value = contextImage.origin_h;
       // get align
       const format = this.util.getFormatElement(tag);
       if (format) {
-        contextImage._align = format.style.textAlign || format.style.float;
+        contextImage.align = format.style.textAlign || format.style.float;
       }
       // link
       const link = this.util.getParentElement(tag, this.util.isAnchor);
@@ -996,16 +991,16 @@ export default {
   create_image: function (src, anchor, width, height, align, file) {
     const imagePlugin = this.plugins.image;
     const contextImage = this.context.image;
-    this.context.resizing._resize_plugin = "image";
+    this.context.resizing.resize_plugin = "image";
 
-    let oImg = this.util.createElement("IMG");
+    const oImg = this.util.createElement("IMG");
     oImg.src = src;
-    oImg.alt = contextImage._altText;
+    oImg.alt = contextImage.altText.value;
     oImg.setAttribute("data-rotate", "0");
     anchor = imagePlugin.onRender_link.call(this, oImg, anchor);
 
-    if (contextImage._resizing) {
-      oImg.setAttribute("data-proportion", contextImage._proportionChecked);
+    if (contextImage.resizing) {
+      oImg.setAttribute("data-proportion", contextImage.proportionChecked);
     }
 
     const cover = this.plugins.component.set_cover.call(this, anchor);
@@ -1016,15 +1011,15 @@ export default {
     );
 
     // caption
-    if (contextImage._captionChecked) {
-      contextImage._caption = this.plugins.component.create_caption.call(this);
-      contextImage._caption.setAttribute("contenteditable", false);
-      cover.appendChild(contextImage._caption);
+    if (contextImage.captionChecked) {
+      contextImage.caption = this.plugins.component.create_caption.call(this);
+      contextImage.caption.setAttribute("contenteditable", false);
+      cover.appendChild(contextImage.caption);
     }
 
-    contextImage._element = oImg;
-    contextImage._cover = cover;
-    contextImage._container = container;
+    contextImage.element = oImg;
+    contextImage.cover = cover;
+    contextImage.container = container;
 
     // set size
     imagePlugin.applySize.call(this, width, height);
@@ -1032,7 +1027,7 @@ export default {
     // align
     imagePlugin.setAlign.call(this, align, oImg, cover, container);
 
-    oImg.onload = imagePlugin._image_create_onload.bind(
+    oImg.onload = imagePlugin.image_create_onload.bind(
       this,
       oImg,
       contextImage.svgDefaultSize,
@@ -1048,10 +1043,10 @@ export default {
         true
       );
     }
-    this.context.resizing._resize_plugin = "";
+    this.context.resizing.resize_plugin = "";
   },
 
-  _image_create_onload: function (oImg, svgDefaultSize, container) {
+  image_create_onload: function (oImg, svgDefaultSize, container) {
     // svg exception handling
     if (oImg.offsetWidth === 0) {
       this.plugins.image.applySize.call(this, svgDefaultSize, "");
@@ -1066,14 +1061,14 @@ export default {
 
   update_image: function (init, openController, notHistoryPush) {
     const contextImage = this.context.image;
-    let imageEl = contextImage._element;
-    let cover = contextImage._cover;
-    let container = contextImage._container;
+    let imageEl = contextImage.element;
+    let cover = contextImage.cover;
+    let container = contextImage.container;
     let isNewContainer = false;
 
     if (cover === null) {
       isNewContainer = true;
-      imageEl = contextImage._element.cloneNode(true);
+      imageEl = contextImage.element.cloneNode(true);
       cover = this.plugins.component.set_cover.call(this, imageEl);
     }
 
@@ -1089,8 +1084,8 @@ export default {
     } else if (isNewContainer) {
       container.innerHTML = "";
       container.appendChild(cover);
-      contextImage._cover = cover;
-      contextImage._element = imageEl;
+      contextImage.cover = cover;
+      contextImage.element = imageEl;
       isNewContainer = false;
     }
 
@@ -1109,21 +1104,20 @@ export default {
     }
 
     // alt
-    imageEl.alt = contextImage._altText;
+    imageEl.alt = contextImage.altText.value;
 
     // caption
     let modifiedCaption = false;
-    if (contextImage._captionChecked) {
-      if (!contextImage._caption) {
-        contextImage._caption =
-          this.plugins.component.create_caption.call(this);
-        cover.appendChild(contextImage._caption);
+    if (contextImage.captionChecked) {
+      if (!contextImage.caption) {
+        contextImage.caption = this.plugins.component.create_caption.call(this);
+        cover.appendChild(contextImage.caption);
         modifiedCaption = true;
       }
     } else {
-      if (contextImage._caption) {
-        this.util.removeItem(contextImage._caption);
-        contextImage._caption = null;
+      if (contextImage.caption) {
+        this.util.removeItem(contextImage.caption);
+        contextImage.caption = null;
         modifiedCaption = true;
       }
     }
@@ -1135,43 +1129,43 @@ export default {
       true
     );
     if (anchor) {
-      contextImage._linkElement =
-        contextImage._linkElement === anchor ? anchor.cloneNode(false) : anchor;
+      contextImage.linkElement =
+        contextImage.linkElement === anchor ? anchor.cloneNode(false) : anchor;
       cover.insertBefore(
         this.plugins.image.onRender_link.call(
           this,
           imageEl,
-          contextImage._linkElement
+          contextImage.linkElement
         ),
-        contextImage._caption
+        contextImage.caption
       );
-    } else if (contextImage._linkElement !== null) {
+    } else if (contextImage.linkElement !== null) {
       const imageElement = imageEl;
       imageElement.setAttribute("data-image-link", "");
-      if (cover.contains(contextImage._linkElement)) {
+      if (cover.contains(contextImage.linkElement)) {
         const newEl = imageElement.cloneNode(true);
-        cover.removeChild(contextImage._linkElement);
-        cover.insertBefore(newEl, contextImage._caption);
+        cover.removeChild(contextImage.linkElement);
+        cover.insertBefore(newEl, contextImage.caption);
         imageEl = newEl;
       }
     }
 
     if (isNewContainer) {
       const existElement =
-        this.util.isRangeFormatElement(contextImage._element.parentNode) ||
-        this.util.isWysiwygDiv(contextImage._element.parentNode)
-          ? contextImage._element
-          : /^A$/i.test(contextImage._element.parentNode.nodeName)
-          ? contextImage._element.parentNode
-          : this.util.getFormatElement(contextImage._element) ||
-            contextImage._element;
+        this.util.isRangeFormatElement(contextImage.element.parentNode) ||
+        this.util.isWysiwygDiv(contextImage.element.parentNode)
+          ? contextImage.element
+          : /^A$/i.test(contextImage.element.parentNode.nodeName)
+          ? contextImage.element.parentNode
+          : this.util.getFormatElement(contextImage.element) ||
+            contextImage.element;
 
       if (
         this.util.isFormatElement(existElement) &&
         existElement.childNodes.length > 0
       ) {
         existElement.parentNode.insertBefore(container, existElement);
-        this.util.removeItem(contextImage._element);
+        this.util.removeItem(contextImage.element);
         // clean format tag
         this.util.removeEmptyNode(existElement, null);
         if (existElement.children.length === 0) {
@@ -1194,18 +1188,17 @@ export default {
 
       imageEl = container.querySelector("img");
 
-      contextImage._element = imageEl;
-      contextImage._cover = cover;
-      contextImage._container = container;
+      contextImage.element = imageEl;
+      contextImage.cover = cover;
+      contextImage.container = container;
     }
 
     // transform
-    if (modifiedCaption || (!contextImage._onlyPercentage && changeSize)) {
+    if (modifiedCaption || (!contextImage.onlyPercentage && changeSize)) {
       if (
         !init &&
         (/\d+/.test(imageEl.style.height) ||
-          (this.context.resizing._rotateVertical &&
-            contextImage._captionChecked))
+          (this.context.resizing.rotateVertical && contextImage.captionChecked))
       ) {
         if (
           /%$/.test(contextImage.inputX.value) ||
@@ -1224,8 +1217,8 @@ export default {
     }
 
     // size
-    if (contextImage._resizing) {
-      imageEl.setAttribute("data-proportion", contextImage._proportionChecked);
+    if (contextImage.resizing) {
+      imageEl.setAttribute("data-proportion", contextImage.proportionChecked);
       if (changeSize) {
         this.plugins.image.applySize.call(this);
       }
@@ -1258,7 +1251,7 @@ export default {
 
   update_src: function (src, element, file) {
     element.src = src;
-    this._w.setTimeout(
+    this._window.setTimeout(
       this.plugins.fileManager.setInfo.bind(
         this,
         "image",
@@ -1280,39 +1273,39 @@ export default {
     }
 
     const contextImage = this.context.image;
-    contextImage._linkElement = contextImage.anchorCtx.linkAnchor = /^A$/i.test(
+    contextImage.linkElement = contextImage.anchorCtx.linkAnchor = /^A$/i.test(
       element.parentNode.nodeName
     )
       ? element.parentNode
       : null;
-    contextImage._element = element;
-    contextImage._cover = this.util.getParentElement(element, "FIGURE");
-    contextImage._container = this.util.getParentElement(
+    contextImage.element = element;
+    contextImage.cover = this.util.getParentElement(element, "FIGURE");
+    contextImage.container = this.util.getParentElement(
       element,
       this.util.isMediaComponent
     );
-    contextImage._caption = this.util.getChildElement(
-      contextImage._cover,
+    contextImage.caption = this.util.getChildElement(
+      contextImage.cover,
       "FIGCAPTION"
     );
-    contextImage._align =
+    contextImage.align =
       element.style.float || element.getAttribute("data-align") || "none";
     element.style.float = "";
     this.plugins.anchor.setCtx(
-      contextImage._linkElement,
+      contextImage.linkElement,
       contextImage.anchorCtx
     );
 
     if (size) {
-      contextImage._element_w = size.w;
-      contextImage._element_h = size.h;
-      contextImage._element_t = size.t;
-      contextImage._element_l = size.l;
+      contextImage.element_w = size.w;
+      contextImage.element_h = size.h;
+      contextImage.element_t = size.t;
+      contextImage.element_l = size.l;
     }
 
     let userSize =
-      contextImage._element.getAttribute("data-size") ||
-      contextImage._element.getAttribute("data-origin");
+      contextImage.element.getAttribute("data-size") ||
+      contextImage.element.getAttribute("data-origin");
     let w, h;
     if (userSize) {
       userSize = userSize.split(",");
@@ -1323,8 +1316,8 @@ export default {
       h = size.h;
     }
 
-    contextImage._origin_w = w || element.style.width || element.width || "";
-    contextImage._origin_h = h || element.style.height || element.height || "";
+    contextImage.origin_w = w || element.style.width || element.width || "";
+    contextImage.origin_h = h || element.style.height || element.height || "";
   },
 
   /**
@@ -1333,26 +1326,25 @@ export default {
   openModify: function (notOpen) {
     const contextImage = this.context.image;
     if (contextImage.imgUrlFile) {
-      contextImage._v_src._linkValue =
+      contextImage.v_src.linkValue =
         contextImage.previewSrc.textContent =
         contextImage.imgUrlFile.value =
-          contextImage._element.src;
+          contextImage.element.src;
     }
-    contextImage._altText = contextImage.altText.value =
-      contextImage._element.alt;
+    contextImage.altText.value = contextImage.element.alt;
     contextImage.modal.querySelector(
       'input[name="kothingEditor_image_radio"][value="' +
-        contextImage._align +
+        contextImage.align +
         '"]'
     ).checked = true;
-    contextImage._align = contextImage.modal.querySelector(
+    contextImage.align = contextImage.modal.querySelector(
       'input[name="kothingEditor_image_radio"]:checked'
     ).value;
-    contextImage._captionChecked = contextImage.captionCheckEl.checked =
-      !!contextImage._caption;
+    contextImage.captionChecked = contextImage.captionCheckEl.checked =
+      !!contextImage.caption;
 
-    if (contextImage._resizing) {
-      this.plugins.resizing._module_setModifyInputSize.call(
+    if (contextImage.resizing) {
+      this.plugins.resizing.module_setModifyInputSize.call(
         this,
         contextImage,
         this.plugins.image
@@ -1377,7 +1369,7 @@ export default {
       h = contextImage.inputY.value || this.options.imageHeight;
     }
 
-    if ((contextImage._onlyPercentage && !!w) || /%$/.test(w)) {
+    if ((contextImage.onlyPercentage && !!w) || /%$/.test(w)) {
       this.plugins.image.setPercentSize.call(this, w, h);
       return true;
     } else if ((!w || w === "auto") && (!h || h === "auto")) {
@@ -1393,7 +1385,7 @@ export default {
    * @Override resizing
    */
   sizeRevert: function () {
-    this.plugins.resizing._module_sizeRevert.call(this, this.context.image);
+    this.plugins.resizing.module_sizeRevert.call(this, this.context.image);
   },
 
   /**
@@ -1405,28 +1397,28 @@ export default {
     const onlyH = /^(th|bh)$/.test(direction);
 
     if (!onlyH) {
-      contextImage._element.style.width = this.util.isNumber(w)
+      contextImage.element.style.width = this.util.isNumber(w)
         ? w + contextImage.sizeUnit
         : w;
       this.plugins.image.cancelPercentAttr.call(this);
     }
     if (!onlyW) {
-      contextImage._element.style.height = this.util.isNumber(h)
+      contextImage.element.style.height = this.util.isNumber(h)
         ? h + contextImage.sizeUnit
         : /%$/.test(h)
         ? ""
         : h;
     }
 
-    if (contextImage._align === "center") {
+    if (contextImage.align === "center") {
       this.plugins.image.setAlign.call(this, null, null, null, null);
     }
     if (!notResetPercentage) {
-      contextImage._element.removeAttribute("data-percentage");
+      contextImage.element.removeAttribute("data-percentage");
     }
 
     // save current size
-    this.plugins.resizing._module_saveCurrentSize.call(this, contextImage);
+    this.plugins.resizing.module_saveCurrentSize.call(this, contextImage);
   },
 
   /**
@@ -1435,20 +1427,20 @@ export default {
   setAutoSize: function () {
     const contextImage = this.context.image;
 
-    this.plugins.resizing.resetTransform.call(this, contextImage._element);
+    this.plugins.resizing.resetTransform.call(this, contextImage.element);
     this.plugins.image.cancelPercentAttr.call(this);
 
-    contextImage._element.style.maxWidth = "";
-    contextImage._element.style.width = "";
-    contextImage._element.style.height = "";
-    contextImage._cover.style.width = "";
-    contextImage._cover.style.height = "";
+    contextImage.element.style.maxWidth = "";
+    contextImage.element.style.width = "";
+    contextImage.element.style.height = "";
+    contextImage.cover.style.width = "";
+    contextImage.cover.style.height = "";
 
     this.plugins.image.setAlign.call(this, null, null, null, null);
-    contextImage._element.setAttribute("data-percentage", "auto,auto");
+    contextImage.element.setAttribute("data-percentage", "auto,auto");
 
     // save current size
-    this.plugins.resizing._module_saveCurrentSize.call(this, contextImage);
+    this.plugins.resizing.module_saveCurrentSize.call(this, contextImage);
   },
 
   /**
@@ -1456,20 +1448,20 @@ export default {
    */
   setOriginSize: function () {
     const contextImage = this.context.image;
-    contextImage._element.removeAttribute("data-percentage");
+    contextImage.element.removeAttribute("data-percentage");
 
-    this.plugins.resizing.resetTransform.call(this, contextImage._element);
+    this.plugins.resizing.resetTransform.call(this, contextImage.element);
     this.plugins.image.cancelPercentAttr.call(this);
 
     const originSize = (
-      contextImage._element.getAttribute("data-origin") || ""
+      contextImage.element.getAttribute("data-origin") || ""
     ).split(",");
     const w = originSize[0];
     const h = originSize[1];
 
     if (originSize) {
       if (
-        contextImage._onlyPercentage ||
+        contextImage.onlyPercentage ||
         (/%$/.test(w) && (/%$/.test(h) || !/\d/.test(h)))
       ) {
         this.plugins.image.setPercentSize.call(this, w, h);
@@ -1478,7 +1470,7 @@ export default {
       }
 
       // save current size
-      this.plugins.resizing._module_saveCurrentSize.call(this, contextImage);
+      this.plugins.resizing.module_saveCurrentSize.call(this, contextImage);
     }
   },
 
@@ -1497,23 +1489,23 @@ export default {
         : h || "";
     const heightPercentage = /%$/.test(h);
 
-    contextImage._container.style.width = this.util.isNumber(w) ? w + "%" : w;
-    contextImage._container.style.height = "";
-    contextImage._cover.style.width = "100%";
-    contextImage._cover.style.height = !heightPercentage ? "" : h;
-    contextImage._element.style.width = "100%";
-    contextImage._element.style.height = heightPercentage ? "" : h;
-    contextImage._element.style.maxWidth = "";
+    contextImage.container.style.width = this.util.isNumber(w) ? w + "%" : w;
+    contextImage.container.style.height = "";
+    contextImage.cover.style.width = "100%";
+    contextImage.cover.style.height = !heightPercentage ? "" : h;
+    contextImage.element.style.width = "100%";
+    contextImage.element.style.height = heightPercentage ? "" : h;
+    contextImage.element.style.maxWidth = "";
 
-    if (contextImage._align === "center") {
+    if (contextImage.align === "center") {
       this.plugins.image.setAlign.call(this, null, null, null, null);
     }
 
-    contextImage._element.setAttribute("data-percentage", w + "," + h);
-    this.plugins.resizing.setCaptionPosition.call(this, contextImage._element);
+    contextImage.element.setAttribute("data-percentage", w + "," + h);
+    this.plugins.resizing.setCaptionPosition.call(this, contextImage.element);
 
     // save current size
-    this.plugins.resizing._module_saveCurrentSize.call(this, contextImage);
+    this.plugins.resizing.module_saveCurrentSize.call(this, contextImage);
   },
 
   /**
@@ -1522,21 +1514,21 @@ export default {
   cancelPercentAttr: function () {
     const contextImage = this.context.image;
 
-    contextImage._cover.style.width = "";
-    contextImage._cover.style.height = "";
-    contextImage._container.style.width = "";
-    contextImage._container.style.height = "";
+    contextImage.cover.style.width = "";
+    contextImage.cover.style.height = "";
+    contextImage.container.style.width = "";
+    contextImage.container.style.height = "";
 
     this.util.removeClass(
-      contextImage._container,
-      this.context.image._floatClassRegExp
+      contextImage.container,
+      this.context.image.floatClassRegExp
     );
     this.util.addClass(
-      contextImage._container,
-      "__ke__float-" + contextImage._align
+      contextImage.container,
+      "__ke__float-" + contextImage.align
     );
 
-    if (contextImage._align === "center") {
+    if (contextImage.align === "center") {
       this.plugins.image.setAlign.call(this, null, null, null, null);
     }
   },
@@ -1548,16 +1540,16 @@ export default {
     const contextImage = this.context.image;
 
     if (!align) {
-      align = contextImage._align;
+      align = contextImage.align;
     }
     if (!element) {
-      element = contextImage._element;
+      element = contextImage.element;
     }
     if (!cover) {
-      cover = contextImage._cover;
+      cover = contextImage.cover;
     }
     if (!container) {
-      container = contextImage._container;
+      container = contextImage.container;
     }
 
     if (align && align !== "none") {
@@ -1571,7 +1563,7 @@ export default {
       cover.style.width = container.style.width;
     } else {
       container.style.minWidth = "";
-      cover.style.width = this.context.resizing._rotateVertical
+      cover.style.width = this.context.resizing.rotateVertical
         ? element.style.height || element.offsetHeight
         : !element.style.width || element.style.width === "auto"
         ? ""
@@ -1579,7 +1571,7 @@ export default {
     }
 
     if (!this.util.hasClass(container, "__ke__float-" + align)) {
-      this.util.removeClass(container, contextImage._floatClassRegExp);
+      this.util.removeClass(container, contextImage.floatClassRegExp);
       this.util.addClass(container, "__ke__float-" + align);
     }
 
@@ -1595,7 +1587,7 @@ export default {
       contextImage.imgInputFile.value = "";
     }
     if (contextImage.imgUrlFile) {
-      contextImage._v_src._linkValue =
+      contextImage.v_src.linkValue =
         contextImage.previewSrc.textContent =
         contextImage.imgUrlFile.value =
           "";
@@ -1610,22 +1602,22 @@ export default {
       'input[name="kothingEditor_image_radio"][value="none"]'
     ).checked = true;
     contextImage.captionCheckEl.checked = false;
-    contextImage._element = null;
+    contextImage.element = null;
     this.plugins.image.openTab.call(this, "init");
 
-    if (contextImage._resizing) {
+    if (contextImage.resizing) {
       contextImage.inputX.value =
-        this.options.imageWidth === contextImage._defaultSizeX
+        this.options.imageWidth === contextImage.defaultSizeX
           ? ""
           : this.options.imageWidth;
       contextImage.inputY.value =
-        this.options.imageHeight === contextImage._defaultSizeY
+        this.options.imageHeight === contextImage.defaultSizeY
           ? ""
           : this.options.imageHeight;
       contextImage.proportion.checked = true;
-      contextImage._ratio = false;
-      contextImage._ratioX = 1;
-      contextImage._ratioY = 1;
+      contextImage.ratio = false;
+      contextImage.ratioX = 1;
+      contextImage.ratioY = 1;
     }
 
     this.plugins.anchor.init.call(this, contextImage.anchorCtx);

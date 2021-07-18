@@ -12,7 +12,7 @@ export default {
   add: function (core, targetElement) {
     const context = core.context;
     context.paragraphStyle = {
-      _classList: null,
+      classList: null,
     };
 
     /** set submenu */
@@ -23,7 +23,7 @@ export default {
       .querySelector("ul")
       .addEventListener("click", this.pickUp.bind(core));
 
-    context.paragraphStyle._classList = listDiv.querySelectorAll("li button");
+    context.paragraphStyle.classList = listDiv.querySelectorAll("li button");
 
     /** append target button menu */
     core.initMenuTarget(this.name, targetElement, listDiv);
@@ -78,7 +78,7 @@ export default {
 
       name = p.name;
       attrs = p.class ? ' class="' + p.class + '"' : "";
-      _class = p._class;
+      _class = p.class;
 
       list +=
         "<li>" +
@@ -108,7 +108,7 @@ export default {
    */
   on: function () {
     const paragraphContext = this.context.paragraphStyle;
-    const paragraphList = paragraphContext._classList;
+    const paragraphList = paragraphContext.classList;
     const currentFormat = this.util.getFormatElement(this.getSelectionNode());
 
     for (let i = 0, len = paragraphList.length; i < len; i++) {

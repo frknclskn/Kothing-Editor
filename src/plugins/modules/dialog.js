@@ -5,7 +5,7 @@
  * Copyright Kothing.
  * MIT license.
  */
-import _util from "../../lib/util";
+import util from "../../lib/util";
 
 export default {
   name: "dialog",
@@ -13,13 +13,13 @@ export default {
    * @description Constructor
    * @param {Object} core Core object
    */
-  util: _util,
+  util: util,
   add: function (core) {
     const context = core.context;
     context.dialog = {
       kind: "",
       updateModal: false,
-      _closeSignal: false,
+      closeSignal: false,
     };
 
     /** dialog */
@@ -44,18 +44,20 @@ export default {
     /** add event listeners */
     context.dialog.modal.addEventListener(
       "mousedown",
-      this._onMouseDown_dialog.bind(core)
+      this.onMouseDown_dialog.bind(core)
     );
     context.dialog.modal.addEventListener(
       "click",
-      this._onClick_dialog.bind(core)
+      this.onClick_dialog.bind(core)
     );
 
     /** append html */
     context.element.relative.appendChild(dialog_div);
 
     /** empty memory */
-    (dialog_div = null), (dialog_back = null), (dialog_area = null);
+    dialog_div = null;
+    dialog_back = null;
+    dialog_area = null;
   },
 
   /**
@@ -63,11 +65,11 @@ export default {
    * @param {MouseEvent} e Event object
    * @private
    */
-  _onMouseDown_dialog: function (e) {
+  onMouseDown_dialog: function (e) {
     if (/ke-dialog-inner/.test(e.target.className)) {
-      this.context.dialog._closeSignal = true;
+      this.context.dialog.closeSignal = true;
     } else {
-      this.context.dialog._closeSignal = false;
+      this.context.dialog.closeSignal = false;
     }
   },
 
@@ -76,12 +78,12 @@ export default {
    * @param {MouseEvent} e Event object
    * @private
    */
-  _onClick_dialog: function (e) {
+  onClick_dialog: function (e) {
     e.stopPropagation();
 
     if (
       /close/.test(e.target.getAttribute("data-command")) ||
-      this.context.dialog._closeSignal
+      this.context.dialog.closeSignal
     ) {
       this.plugins.dialog.close.call(this);
     }
@@ -96,22 +98,25 @@ export default {
     if (this.modalForm) {
       return false;
     }
-    if (this.plugins.dialog._bindClose) {
-      this._d.removeEventListener("keydown", this.plugins.dialog._bindClose);
-      this.plugins.dialog._bindClose = null;
+    if (this.plugins.dialog.bindClose) {
+      this._document.removeEventListener(
+        "keydown",
+        this.plugins.dialog.bindClose
+      );
+      this.plugins.dialog.bindClose = null;
     }
 
-    this.plugins.dialog._bindClose = function (e) {
+    this.plugins.dialog.bindClose = function (e) {
       if (!/27/.test(e.keyCode)) {
         return;
       }
       this.plugins.dialog.close.call(this);
     }.bind(this);
-    this._d.addEventListener("keydown", this.plugins.dialog._bindClose);
+    this._document.addEventListener("keydown", this.plugins.dialog.bindClose);
 
     this.context.dialog.updateModal = update;
 
-    if (this.context.option.popupDisplay === "full") {
+    if (this.context.options.popupDisplay === "full") {
       this.context.dialog.modalArea.style.position = "fixed";
     } else {
       this.context.dialog.modalArea.style.position = "absolute";
@@ -125,7 +130,7 @@ export default {
       this.plugins[kind].on.call(this, update);
     }
 
-    _util.addClass(this.context.dialog.modalArea, "dialog--open");
+    util.addClass(this.context.dialog.modalArea, "dialog--open");
 
     this.context.dialog.modalArea.style.display = "block";
     this.context.dialog.back.style.display = "block";
@@ -137,26 +142,29 @@ export default {
     }
   },
 
-  _bindClose: null,
+  bindClose: null,
 
   /**
    * @description Close a Dialog plugin
    * The plugin's "init" method is called.
    */
   close: function () {
-    if (this.plugins.dialog._bindClose) {
-      this._d.removeEventListener("keydown", this.plugins.dialog._bindClose);
-      this.plugins.dialog._bindClose = null;
+    if (this.plugins.dialog.bindClose) {
+      this._document.removeEventListener(
+        "keydown",
+        this.plugins.dialog.bindClose
+      );
+      this.plugins.dialog.bindClose = null;
     }
 
     const contextDialog = this.context.dialog;
     const kind = this.context.dialog.kind;
 
-    _util.removeClass(contextDialog.modalArea, "dialog--open");
-    _util.addClass(contextDialog.modalArea, "dialog--close");
+    util.removeClass(contextDialog.modalArea, "dialog--open");
+    util.addClass(contextDialog.modalArea, "dialog--close");
 
     setTimeout(() => {
-      _util.removeClass(contextDialog.modalArea, "dialog--close");
+      util.removeClass(contextDialog.modalArea, "dialog--close");
       contextDialog.back.style.display = "none";
       contextDialog.modalArea.style.display = "none";
       this.modalForm.style.display = "none";

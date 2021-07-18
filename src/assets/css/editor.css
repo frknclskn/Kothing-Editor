@@ -260,8 +260,10 @@
 /* ke-select-btn arrow-icon */
 .kothing-editor .ke-btn-select .arrow-icon > svg {
   float: right;
-  width: 10px;
-  height: 10px;
+  width: 8px;
+  height: 8px;
+  margin-left: 4px;
+  color: #333;
   -webkit-transition: 0.3s ease-out;
   -moz-transition: 0.3s ease-out;
   -ms-transition: 0.3s ease-out;
@@ -666,14 +668,29 @@
     0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12);
   box-shadow: 0 3px 5px -1px rgba(0, 0, 0, 0.2),
     0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12);
+  overflow: hidden;
 }
 
 .kothing-editor .ke-list-layer .ke-list-inner {
+  height: 100%;
   padding: 0;
   margin: 0;
+  margin-left: 6px;
   overflow-x: initial;
-  overflow-y: initial;
-  overflow: visible;
+  overflow-y: scroll;
+}
+
+.kothing-editor .ke-list-layer .ke-list-inner::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.kothing-editor .ke-list-layer .ke-list-inner::-webkit-scrollbar-thumb {
+  background-color: #ccc;
+}
+
+.kothing-editor .ke-list-layer .ke-list-inner:hover::-webkit-scrollbar-thumb {
+  background-color: #bbb
 }
 
 .kothing-editor .ke-list-layer button {
@@ -756,7 +773,6 @@
   min-width: 140px;
   max-height: 300px;
   overflow-x: hidden;
-  overflow-y: auto;
 }
 /* submenu layer - font family */
 .kothing-editor .ke-list-layer.ke-list-font-family {
@@ -964,7 +980,7 @@
   .ke-selector-color
   .ke-color-pallet
   button:focus {
-  border: 3px solid #fff;
+  border: 2px solid #000;
 }
 
 /* submenu layer - form group (color selector) */
@@ -1034,6 +1050,20 @@
 
 .kothing-editor .ke-wrapper .ke-wrapper-inner:focus {
   outline: none;
+}
+
+.kothing-editor .ke-wrapper .ke-wrapper-inner::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+  background-color: #f0f0f0;
+}
+
+.kothing-editor .ke-wrapper .ke-wrapper-inner::-webkit-scrollbar-thumb {
+  background-color: #ccc;
+}
+
+.kothing-editor .ke-wrapper .ke-wrapper-inner:hover::-webkit-scrollbar-thumb {
+  background-color: #bbb
 }
 
 .kothing-editor .ke-wrapper .ke-wrapper-code {
@@ -1315,6 +1345,8 @@
 .kothing-editor .ke-dialog .ke-dialog-inner .ke-dialog-body {
   position: relative;
   padding: 15px;
+  max-height: calc(100vh - 40px);
+  overflow-y: scroll;
 }
 
 .kothing-editor .ke-dialog .ke-dialog-inner .ke-dialog-form {
@@ -1366,6 +1398,7 @@
 .kothing-editor .ke-dialog .ke-dialog-inner .ke-dialog-btn-radio {
   margin-left: 12px;
   margin-right: 6px;
+  cursor: pointer;
 }
 
 .kothing-editor .ke-dialog .ke-dialog-inner .ke-dialog-btn-check {
@@ -1589,6 +1622,7 @@
   outline: none;
   border-color: transparent;
   border-right: 1px solid #e5e5e5;
+  margin-bottom: -1px;
   border-radius: 0;
   padding: 4px 12px;
   transition: 0.3s;
@@ -1600,8 +1634,6 @@
 
 .kothing-editor .ke-dialog-tabs ._ke_tab_link.active {
   background-color: #fff;
-  border-bottom: 1px solid #fff;
-  margin-bottom: -1px;
 }
 
 /* dialog - modal - math */
@@ -1720,7 +1752,6 @@
   border-radius: 4px;
   margin: 1px;
   padding: 5px 10px;
-  font-size: 12px;
   line-height: 1.5;
   display: inline-block;
   font-weight: normal;
@@ -2273,7 +2304,7 @@
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
   -moz-backface-visibility: hidden;
-  z-index: 100;
+  z-index: 1000;
 }
 
 .kothing-editor .ke-tooltip .ke-tooltip-inner .ke-tooltip-text {
@@ -2281,7 +2312,7 @@
   display: inline-block;
   width: auto;
   left: -50%;
-  font-size: 0.9em;
+  font-size: 0.8em;
   margin: 0;
   padding: 4px 6px;
   border-radius: 3px;

@@ -9,17 +9,61 @@
 export default {
   name: "table",
   display: "submenu",
+
+  init: function () {
+    const contextTable = this.context.table;
+    const tablePlugin = this.plugins.table;
+
+    tablePlugin.removeEvents.call(this);
+
+    if (tablePlugin.selectedTable) {
+      const selectedCells = tablePlugin.selectedTable.querySelectorAll(
+        ".ke-table-selected-cell"
+      );
+      for (let i = 0, len = selectedCells.length; i < len; i++) {
+        this.util.removeClass(selectedCells[i], "ke-table-selected-cell");
+      }
+    }
+
+    tablePlugin.toggleEditor.call(this, true);
+
+    contextTable.element = null;
+    contextTable.tdElement = null;
+    contextTable.trElement = null;
+    contextTable.trElements = null;
+    contextTable.tableXY = [];
+    contextTable.maxWidth = true;
+    contextTable.fixedColumn = false;
+    contextTable.physical_cellCnt = 0;
+    contextTable.logical_cellCnt = 0;
+    contextTable.rowCnt = 0;
+    contextTable.rowIndex = 0;
+    contextTable.physical_cellIndex = 0;
+    contextTable.logical_cellIndex = 0;
+    contextTable.current_colSpan = 0;
+    contextTable.current_rowSpan = 0;
+
+    tablePlugin.shift = false;
+    tablePlugin.selectedCells = null;
+    tablePlugin.selectedTable = null;
+    tablePlugin.ref = null;
+
+    tablePlugin.fixedCell = null;
+    tablePlugin.selectedCell = null;
+    tablePlugin.fixedCellName = null;
+  },
+
   add: function (core, targetElement) {
     const context = core.context;
     let contextTable = (context.table = {
-      _element: null,
-      _tdElement: null,
-      _trElement: null,
-      _trElements: null,
-      _tableXY: [],
-      _maxWidth: true,
-      _fixedColumn: false,
-      _rtl: core.options.rtl,
+      element: null,
+      tdElement: null,
+      trElement: null,
+      trElements: null,
+      tableXY: [],
+      maxWidth: true,
+      fixedColumn: false,
+      rtl: core.options.rtl,
       cellControllerTop: core.options.tableCellControllerPosition === "top",
       resizeText: null,
       headerButton: null,
@@ -28,14 +72,14 @@ export default {
       splitMenu: null,
       maxText: core.lang.controller.maxSize,
       minText: core.lang.controller.minSize,
-      _physical_cellCnt: 0,
-      _logical_cellCnt: 0,
-      _rowCnt: 0,
-      _rowIndex: 0,
-      _physical_cellIndex: 0,
-      _logical_cellIndex: 0,
-      _current_colSpan: 0,
-      _current_rowSpan: 0,
+      physical_cellCnt: 0,
+      logical_cellCnt: 0,
+      rowCnt: 0,
+      rowIndex: 0,
+      physical_cellIndex: 0,
+      logical_cellIndex: 0,
+      current_colSpan: 0,
+      current_rowSpan: 0,
       icons: {
         expansion: core.icons.expansion,
         reduction: core.icons.reduction,
@@ -114,11 +158,11 @@ export default {
     context.element.relative.appendChild(tableController);
 
     /** empty memory */
-    (listDiv = null),
-      (tablePicker = null),
-      (resizeDiv = null),
-      (tableController = null),
-      (contextTable = null);
+    listDiv = null;
+    tablePicker = null;
+    resizeDiv = null;
+    tableController = null;
+    contextTable = null;
   },
 
   setSubmenu: function (core) {
@@ -260,8 +304,8 @@ export default {
     const oTable = this.util.createElement("TABLE");
     const createCells = this.plugins.table.createCells;
 
-    const x = this.context.table._tableXY[0];
-    let y = this.context.table._tableXY[1];
+    const x = this.context.table.tableXY[0];
+    let y = this.context.table.tableXY[1];
     let tableHTML = "<tbody>";
     while (y > 0) {
       tableHTML += "<tr>" + createCells.call(this, "td", x) + "</tr>";
@@ -299,12 +343,12 @@ export default {
   onMouseMove_tablePicker: function (contextTable, e) {
     e.stopPropagation();
 
-    let x = this._w.Math.ceil(e.offsetX / 18);
-    let y = this._w.Math.ceil(e.offsetY / 18);
+    let x = this._window.Math.ceil(e.offsetX / 18);
+    let y = this._window.Math.ceil(e.offsetY / 18);
     x = x < 1 ? 1 : x;
     y = y < 1 ? 1 : y;
 
-    if (contextTable._rtl) {
+    if (contextTable.rtl) {
       contextTable.tableHighlight.style.left = x * 18 - 13 + "px";
       x = 11 - x;
     }
@@ -318,7 +362,7 @@ export default {
     // contextTable.tableUnHighlight.style.height = y_u + 'em';
 
     this.util.changeTxt(contextTable.tableDisplay, x + " x " + y);
-    contextTable._tableXY = [x, y];
+    contextTable.tableXY = [x, y];
   },
 
   reset_table_picker: function () {
@@ -338,85 +382,42 @@ export default {
     this.submenuOff();
   },
 
-  init: function () {
-    const contextTable = this.context.table;
-    const tablePlugin = this.plugins.table;
-
-    tablePlugin._removeEvents.call(this);
-
-    if (tablePlugin._selectedTable) {
-      const selectedCells = tablePlugin._selectedTable.querySelectorAll(
-        ".ke-table-selected-cell"
-      );
-      for (let i = 0, len = selectedCells.length; i < len; i++) {
-        this.util.removeClass(selectedCells[i], "ke-table-selected-cell");
-      }
-    }
-
-    tablePlugin._toggleEditor.call(this, true);
-
-    contextTable._element = null;
-    contextTable._tdElement = null;
-    contextTable._trElement = null;
-    contextTable._trElements = null;
-    contextTable._tableXY = [];
-    contextTable._maxWidth = true;
-    contextTable._fixedColumn = false;
-    contextTable._physical_cellCnt = 0;
-    contextTable._logical_cellCnt = 0;
-    contextTable._rowCnt = 0;
-    contextTable._rowIndex = 0;
-    contextTable._physical_cellIndex = 0;
-    contextTable._logical_cellIndex = 0;
-    contextTable._current_colSpan = 0;
-    contextTable._current_rowSpan = 0;
-
-    tablePlugin._shift = false;
-    tablePlugin._selectedCells = null;
-    tablePlugin._selectedTable = null;
-    tablePlugin._ref = null;
-
-    tablePlugin._fixedCell = null;
-    tablePlugin._selectedCell = null;
-    tablePlugin._fixedCellName = null;
-  },
-
   /** table edit controller */
   call_controller_tableEdit: function (tdElement) {
     const tablePlugin = this.plugins.table;
     const contextTable = this.context.table;
 
-    if (!this.getSelection().isCollapsed && !tablePlugin._selectedCell) {
+    if (!this.getSelection().isCollapsed && !tablePlugin.selectedCell) {
       this.controllersOff();
       this.util.removeClass(tdElement, "ke-table-selected-cell");
       return;
     }
 
     const tableElement =
-      contextTable._element ||
-      this.plugins.table._selectedTable ||
+      contextTable.element ||
+      this.plugins.table.selectedTable ||
       this.util.getParentElement(tdElement, "TABLE");
-    contextTable._maxWidth =
+    contextTable.maxWidth =
       this.util.hasClass(tableElement, "ke-table-size-100") ||
       tableElement.style.width === "100%" ||
       (!tableElement.style.width &&
         !this.util.hasClass(tableElement, "ke-table-size-auto"));
-    contextTable._fixedColumn =
+    contextTable.fixedColumn =
       this.util.hasClass(tableElement, "ke-table-layout-fixed") ||
       tableElement.style.tableLayout === "fixed";
     tablePlugin.setTableStyle.call(
       this,
-      contextTable._maxWidth ? "width|column" : "width"
+      contextTable.maxWidth ? "width|column" : "width"
     );
 
     tablePlugin.setPositionControllerTop.call(this, tableElement);
     tablePlugin.setPositionControllerDiv.call(
       this,
       tdElement,
-      tablePlugin._shift
+      tablePlugin.shift
     );
 
-    if (!tablePlugin._shift) {
+    if (!tablePlugin.shift) {
       this.controllersOn(
         contextTable.resizeDiv,
         contextTable.tableController,
@@ -443,7 +444,7 @@ export default {
     this.plugins.table.setCellInfo.call(this, tdElement, reset);
 
     if (contextTable.cellControllerTop) {
-      this.setControllerPosition(resizeDiv, contextTable._element, "top", {
+      this.setControllerPosition(resizeDiv, contextTable.element, "top", {
         left: contextTable.tableController.offsetWidth,
         top: 0,
       });
@@ -457,8 +458,8 @@ export default {
 
   setCellInfo: function (tdElement, reset) {
     const contextTable = this.context.table;
-    const table = (contextTable._element =
-      this.plugins.table._selectedTable ||
+    const table = (contextTable.element =
+      this.plugins.table.selectedTable ||
       this.util.getParentElement(tdElement, "TABLE"));
 
     if (/THEAD/i.test(table.firstElementChild.nodeName)) {
@@ -467,13 +468,13 @@ export default {
       this.util.removeClass(contextTable.headerButton, "active");
     }
 
-    if (reset || contextTable._physical_cellCnt === 0) {
-      if (contextTable._tdElement !== tdElement) {
-        contextTable._tdElement = tdElement;
-        contextTable._trElement = tdElement.parentNode;
+    if (reset || contextTable.physical_cellCnt === 0) {
+      if (contextTable.tdElement !== tdElement) {
+        contextTable.tdElement = tdElement;
+        contextTable.trElement = tdElement.parentNode;
       }
 
-      const rows = (contextTable._trElements = table.rows);
+      const rows = (contextTable.trElements = table.rows);
       const cellIndex = tdElement.cellIndex;
 
       let cellCnt = 0;
@@ -486,19 +487,19 @@ export default {
       }
 
       // row cnt, row index
-      const rowIndex = (contextTable._rowIndex =
-        contextTable._trElement.rowIndex);
-      contextTable._rowCnt = rows.length;
+      const rowIndex = (contextTable.rowIndex =
+        contextTable.trElement.rowIndex);
+      contextTable.rowCnt = rows.length;
 
       // cell cnt, physical cell index
-      contextTable._physical_cellCnt = contextTable._trElement.cells.length;
-      contextTable._logical_cellCnt = cellCnt;
-      contextTable._physical_cellIndex = cellIndex;
+      contextTable.physical_cellCnt = contextTable.trElement.cells.length;
+      contextTable.logical_cellCnt = cellCnt;
+      contextTable.physical_cellIndex = cellIndex;
 
       // span
-      contextTable._current_colSpan = contextTable._tdElement.colSpan - 1;
-      contextTable._current_rowSpan -
-        contextTable._trElement.cells[cellIndex].rowSpan -
+      contextTable.current_colSpan = contextTable.tdElement.colSpan - 1;
+      contextTable.current_rowSpan -
+        contextTable.trElement.cells[cellIndex].rowSpan -
         1;
 
       // find logcal cell index
@@ -545,7 +546,7 @@ export default {
 
           // logcal cell index
           if (i === rowIndex && c === cellIndex) {
-            contextTable._logical_cellIndex = logcalIndex;
+            contextTable.logical_cellIndex = logcalIndex;
             break;
           }
 
@@ -575,11 +576,11 @@ export default {
   editTable: function (type, option) {
     const tablePlugin = this.plugins.table;
     const contextTable = this.context.table;
-    const table = contextTable._element;
+    const table = contextTable.element;
     const isRow = type === "row";
 
     if (isRow) {
-      const tableAttr = contextTable._trElement.parentNode;
+      const tableAttr = contextTable.trElement.parentNode;
       if (/^THEAD$/i.test(tableAttr.nodeName)) {
         if (option === "up") {
           return;
@@ -592,7 +593,7 @@ export default {
             tablePlugin.createCells.call(
               this,
               "td",
-              contextTable._logical_cellCnt,
+              contextTable.logical_cellCnt,
               false
             ) +
             "</tr></tbody>";
@@ -602,9 +603,9 @@ export default {
     }
 
     // multi
-    if (tablePlugin._ref) {
-      const positionCell = contextTable._tdElement;
-      const selectedCells = tablePlugin._selectedCells;
+    if (tablePlugin.ref) {
+      const positionCell = contextTable.tdElement;
+      const selectedCells = tablePlugin.selectedCells;
       // multi - row
       if (isRow) {
         // remove row
@@ -706,15 +707,15 @@ export default {
     const remove = !option;
 
     const up = option === "up";
-    const originRowIndex = contextTable._rowIndex;
+    const originRowIndex = contextTable.rowIndex;
     const rowIndex =
       remove || up
         ? originRowIndex
-        : originRowIndex + contextTable._current_rowSpan + 1;
+        : originRowIndex + contextTable.current_rowSpan + 1;
     const sign = remove ? -1 : 1;
 
-    const rows = contextTable._trElements;
-    let cellCnt = contextTable._logical_cellCnt;
+    const rows = contextTable.trElements;
+    let cellCnt = contextTable.logical_cellCnt;
 
     for (
       let i = 0, len = originRowIndex + (remove ? -1 : 0), cell;
@@ -788,9 +789,9 @@ export default {
         }
       }
 
-      contextTable._element.deleteRow(rowIndex);
+      contextTable.element.deleteRow(rowIndex);
     } else {
-      const newRow = contextTable._element.insertRow(rowIndex);
+      const newRow = contextTable.element.insertRow(rowIndex);
       newRow.innerHTML = this.plugins.table.createCells.call(
         this,
         "td",
@@ -802,7 +803,7 @@ export default {
     if (!remove) {
       this.plugins.table.setPositionControllerDiv.call(
         this,
-        positionResetElement || contextTable._tdElement,
+        positionResetElement || contextTable.tdElement,
         true
       );
     } else {
@@ -816,13 +817,13 @@ export default {
     const remove = !option;
 
     const left = option === "left";
-    const colSpan = contextTable._current_colSpan;
+    const colSpan = contextTable.current_colSpan;
     const cellIndex =
       remove || left
-        ? contextTable._logical_cellIndex
-        : contextTable._logical_cellIndex + colSpan + 1;
+        ? contextTable.logical_cellIndex
+        : contextTable.logical_cellIndex + colSpan + 1;
 
-    const rows = contextTable._trElements;
+    const rows = contextTable.trElements;
     let rowSpanArr = [];
     let spanIndex = [];
     let passCell = 0;
@@ -831,7 +832,7 @@ export default {
 
     for (
       let i = 0,
-        len = contextTable._rowCnt,
+        len = contextTable.rowCnt,
         row,
         insertIndex,
         cells,
@@ -1009,36 +1010,36 @@ export default {
     } else {
       this.plugins.table.setPositionControllerDiv.call(
         this,
-        positionResetElement || contextTable._tdElement,
+        positionResetElement || contextTable.tdElement,
         true
       );
     }
   },
 
-  _closeSplitMenu: null,
+  closeSplitMenu: null,
   openSplitMenu: function () {
     this.util.addClass(this.context.table.splitButton, "on");
     this.context.table.splitMenu.style.display = "inline-table";
 
-    this.plugins.table._closeSplitMenu = function () {
+    this.plugins.table.closeSplitMenu = function () {
       this.util.removeClass(this.context.table.splitButton, "on");
       this.context.table.splitMenu.style.display = "none";
-      this.removeDocEvent("click", this.plugins.table._closeSplitMenu);
-      this.plugins.table._closeSplitMenu = null;
+      this.removeDocEvent("click", this.plugins.table.closeSplitMenu);
+      this.plugins.table.closeSplitMenu = null;
     }.bind(this);
 
-    this.addDocEvent("click", this.plugins.table._closeSplitMenu);
+    this.addDocEvent("click", this.plugins.table.closeSplitMenu);
   },
 
   splitCells: function (direction) {
     const util = this.util;
     const vertical = direction === "vertical";
     const contextTable = this.context.table;
-    const currentCell = contextTable._tdElement;
-    const rows = contextTable._trElements;
-    const currentRow = contextTable._trElement;
-    const index = contextTable._logical_cellIndex;
-    const rowIndex = contextTable._rowIndex;
+    const currentCell = contextTable.tdElement;
+    const rows = contextTable.trElements;
+    const currentRow = contextTable.trElement;
+    const index = contextTable.logical_cellIndex;
+    const rowIndex = contextTable.rowIndex;
     const newCell = this.plugins.table.createCells.call(
       this,
       currentCell.nodeName,
@@ -1053,7 +1054,7 @@ export default {
 
       // colspan > 1
       if (currentColSpan > 1) {
-        newCell.colSpan = this._w.Math.floor(currentColSpan / 2);
+        newCell.colSpan = this._window.Math.floor(currentColSpan / 2);
         currentCell.colSpan = currentColSpan - newCell.colSpan;
         currentRow.insertBefore(newCell, currentCell.nextElementSibling);
       } else {
@@ -1062,7 +1063,7 @@ export default {
         let spanIndex = [];
 
         for (
-          let i = 0, len = contextTable._rowCnt, cells, colSpan;
+          let i = 0, len = contextTable.rowCnt, cells, colSpan;
           i < len;
           i++
         ) {
@@ -1144,7 +1145,7 @@ export default {
 
       // rowspan > 1
       if (currentRowSpan > 1) {
-        newCell.rowSpan = this._w.Math.floor(currentRowSpan / 2);
+        newCell.rowSpan = this._window.Math.floor(currentRowSpan / 2);
         const newRowSpan = currentRowSpan - newCell.rowSpan;
 
         const rowSpanArr = [];
@@ -1229,7 +1230,7 @@ export default {
           }
         }
 
-        const physicalIndex = contextTable._physical_cellIndex;
+        const physicalIndex = contextTable.physical_cellIndex;
         const cells = currentRow.cells;
 
         for (let c = 0, cLen = cells.length; c < cLen; c++) {
@@ -1255,13 +1256,13 @@ export default {
     const contextTable = this.context.table;
     const util = this.util;
 
-    const ref = tablePlugin._ref;
-    const selectedCells = tablePlugin._selectedCells;
+    const ref = tablePlugin.ref;
+    const selectedCells = tablePlugin.selectedCells;
     const mergeCell = selectedCells[0];
 
     let emptyRowFirst = null;
     let emptyRowLast = null;
-    let cs = ref.ce - ref.cs + 1;
+    const cs = ref.ce - ref.cs + 1;
     let rs = ref.re - ref.rs + 1;
     let mergeHTML = "";
     let row = null;
@@ -1296,7 +1297,7 @@ export default {
     }
 
     if (emptyRowFirst) {
-      const rows = contextTable._trElements;
+      const rows = contextTable.trElements;
       const rowIndexFirst = util.getArrayIndex(rows, emptyRowFirst);
       const rowIndexLast = util.getArrayIndex(
         rows,
@@ -1346,7 +1347,7 @@ export default {
     const util = this.util;
     const headerButton = this.context.table.headerButton;
     const active = util.hasClass(headerButton, "active");
-    const table = this.context.table._element;
+    const table = this.context.table.element;
 
     if (!active) {
       const header = util.createElement("THEAD");
@@ -1355,7 +1356,7 @@ export default {
         this.plugins.table.createCells.call(
           this,
           "th",
-          this.context.table._logical_cellCnt,
+          this.context.table.logical_cellCnt,
           false
         ) +
         "</tr>";
@@ -1366,12 +1367,12 @@ export default {
 
     util.toggleClass(headerButton, "active");
 
-    if (/TH/i.test(this.context.table._tdElement.nodeName)) {
+    if (/TH/i.test(this.context.table.tdElement.nodeName)) {
       this.controllersOff();
     } else {
       this.plugins.table.setPositionControllerDiv.call(
         this,
-        this.context.table._tdElement,
+        this.context.table.tdElement,
         false
       );
     }
@@ -1379,14 +1380,14 @@ export default {
 
   setTableStyle: function (styles) {
     const contextTable = this.context.table;
-    const tableElement = contextTable._element;
+    const tableElement = contextTable.element;
     let icon, span, sizeIcon, text;
 
     if (styles.indexOf("width") > -1) {
       icon = contextTable.resizeButton.firstElementChild;
       span = contextTable.resizeText;
 
-      if (!contextTable._maxWidth) {
+      if (!contextTable.maxWidth) {
         sizeIcon = contextTable.icons.expansion;
         text = contextTable.maxText;
         contextTable.columnFixedButton.style.display = "none";
@@ -1405,7 +1406,7 @@ export default {
     }
 
     if (styles.indexOf("column") > -1) {
-      if (!contextTable._fixedColumn) {
+      if (!contextTable.fixedColumn) {
         this.util.removeClass(tableElement, "ke-table-layout-fixed");
         this.util.addClass(tableElement, "ke-table-layout-auto");
         this.util.removeClass(contextTable.columnFixedButton, "active");
@@ -1437,18 +1438,19 @@ export default {
     }
   },
 
-  // multi selecte
-  _bindOnSelect: null,
-  _bindOffSelect: null,
-  _bindOffShift: null,
-  _selectedCells: null,
-  _shift: false,
-  _fixedCell: null,
-  _fixedCellName: null,
-  _selectedCell: null,
-  _selectedTable: null,
-  _ref: null,
-  _toggleEditor: function (enabled) {
+  // multi select
+  bindOnSelect: null,
+  bindOffSelect: null,
+  bindOffShift: null,
+  selectedCells: null,
+  shift: false,
+  fixedCell: null,
+  fixedCellName: null,
+  selectedCell: null,
+  selectedTable: null,
+  ref: null,
+
+  toggleEditor: function (enabled) {
     this.context.element.wysiwyg.setAttribute("contenteditable", enabled);
     if (enabled) {
       this.util.removeClass(this.context.element.wysiwyg, "ke-disabled");
@@ -1457,84 +1459,84 @@ export default {
     }
   },
 
-  _offCellMultiSelect: function (e) {
+  offCellMultiSelect: function (e) {
     e.stopPropagation();
     const tablePlugin = this.plugins.table;
 
-    if (!tablePlugin._shift) {
-      tablePlugin._removeEvents.call(this);
-      tablePlugin._toggleEditor.call(this, true);
-    } else if (tablePlugin._initBind) {
-      this._wd.removeEventListener("touchmove", tablePlugin._initBind);
-      tablePlugin._initBind = null;
+    if (!tablePlugin.shift) {
+      tablePlugin.removeEvents.call(this);
+      tablePlugin.toggleEditor.call(this, true);
+    } else if (tablePlugin.initBind) {
+      this._wd.removeEventListener("touchmove", tablePlugin.initBind);
+      tablePlugin.initBind = null;
     }
 
-    if (!tablePlugin._fixedCell || !tablePlugin._selectedTable) {
+    if (!tablePlugin.fixedCell || !tablePlugin.selectedTable) {
       return;
     }
 
     tablePlugin.setActiveButton.call(
       this,
-      tablePlugin._fixedCell,
-      tablePlugin._selectedCell
+      tablePlugin.fixedCell,
+      tablePlugin.selectedCell
     );
     tablePlugin.call_controller_tableEdit.call(
       this,
-      tablePlugin._selectedCell || tablePlugin._fixedCell
+      tablePlugin.selectedCell || tablePlugin.fixedCell
     );
 
-    tablePlugin._selectedCells = tablePlugin._selectedTable.querySelectorAll(
+    tablePlugin.selectedCells = tablePlugin.selectedTable.querySelectorAll(
       ".ke-table-selected-cell"
     );
-    if (tablePlugin._selectedCell && tablePlugin._fixedCell) {
-      this.focusEdge(tablePlugin._selectedCell);
+    if (tablePlugin.selectedCell && tablePlugin.fixedCell) {
+      this.focusEdge(tablePlugin.selectedCell);
     }
 
-    if (!tablePlugin._shift) {
-      tablePlugin._fixedCell = null;
-      tablePlugin._selectedCell = null;
-      tablePlugin._fixedCellName = null;
+    if (!tablePlugin.shift) {
+      tablePlugin.fixedCell = null;
+      tablePlugin.selectedCell = null;
+      tablePlugin.fixedCellName = null;
     }
   },
 
-  _onCellMultiSelect: function (e) {
-    this._antiBlur = true;
+  onCellMultiSelect: function (e) {
+    this.antiBlur = true;
     const tablePlugin = this.plugins.table;
     const target = this.util.getParentElement(e.target, this.util.isCell);
 
-    if (tablePlugin._shift) {
-      if (target === tablePlugin._fixedCell) {
-        tablePlugin._toggleEditor.call(this, true);
+    if (tablePlugin.shift) {
+      if (target === tablePlugin.fixedCell) {
+        tablePlugin.toggleEditor.call(this, true);
       } else {
-        tablePlugin._toggleEditor.call(this, false);
+        tablePlugin.toggleEditor.call(this, false);
       }
-    } else if (!tablePlugin._ref) {
-      if (target === tablePlugin._fixedCell) {
+    } else if (!tablePlugin.ref) {
+      if (target === tablePlugin.fixedCell) {
         return;
       } else {
-        tablePlugin._toggleEditor.call(this, false);
+        tablePlugin.toggleEditor.call(this, false);
       }
     }
 
     if (
       !target ||
-      target === tablePlugin._selectedCell ||
-      tablePlugin._fixedCellName !== target.nodeName ||
-      tablePlugin._selectedTable !== this.util.getParentElement(target, "TABLE")
+      target === tablePlugin.selectedCell ||
+      tablePlugin.fixedCellName !== target.nodeName ||
+      tablePlugin.selectedTable !== this.util.getParentElement(target, "TABLE")
     ) {
       return;
     }
 
-    tablePlugin._selectedCell = target;
-    tablePlugin._setMultiCells.call(this, tablePlugin._fixedCell, target);
+    tablePlugin.selectedCell = target;
+    tablePlugin.setMultiCells.call(this, tablePlugin.fixedCell, target);
   },
 
-  _setMultiCells: function (startCell, endCell) {
+  setMultiCells: function (startCell, endCell) {
     const tablePlugin = this.plugins.table;
-    const rows = tablePlugin._selectedTable.rows;
+    const rows = tablePlugin.selectedTable.rows;
     const util = this.util;
 
-    const selectedCells = tablePlugin._selectedTable.querySelectorAll(
+    const selectedCells = tablePlugin.selectedTable.querySelectorAll(
       ".ke-table-selected-cell"
     );
     for (let i = 0, len = selectedCells.length; i < len; i++) {
@@ -1543,7 +1545,7 @@ export default {
 
     if (startCell === endCell) {
       util.addClass(startCell, "ke-table-selected-cell");
-      if (!tablePlugin._shift) {
+      if (!tablePlugin.shift) {
         return;
       }
     }
@@ -1551,7 +1553,7 @@ export default {
     let findSelectedCell = true;
     let spanIndex = [];
     let rowSpanArr = [];
-    const ref = (tablePlugin._ref = {
+    const ref = (tablePlugin.ref = {
       _i: 0,
       cs: null,
       ce: null,
@@ -1672,44 +1674,44 @@ export default {
     }
   },
 
-  _removeEvents: function () {
+  removeEvents: function () {
     const tablePlugin = this.plugins.table;
 
-    if (tablePlugin._initBind) {
-      this._wd.removeEventListener("touchmove", tablePlugin._initBind);
-      tablePlugin._initBind = null;
+    if (tablePlugin.initBind) {
+      this._wd.removeEventListener("touchmove", tablePlugin.initBind);
+      tablePlugin.initBind = null;
     }
 
-    if (tablePlugin._bindOnSelect) {
-      this._wd.removeEventListener("mousedown", tablePlugin._bindOnSelect);
-      this._wd.removeEventListener("mousemove", tablePlugin._bindOnSelect);
-      tablePlugin._bindOnSelect = null;
+    if (tablePlugin.bindOnSelect) {
+      this._wd.removeEventListener("mousedown", tablePlugin.bindOnSelect);
+      this._wd.removeEventListener("mousemove", tablePlugin.bindOnSelect);
+      tablePlugin.bindOnSelect = null;
     }
 
-    if (tablePlugin._bindOffSelect) {
-      this._wd.removeEventListener("mouseup", tablePlugin._bindOffSelect);
-      tablePlugin._bindOffSelect = null;
+    if (tablePlugin.bindOffSelect) {
+      this._wd.removeEventListener("mouseup", tablePlugin.bindOffSelect);
+      tablePlugin.bindOffSelect = null;
     }
 
-    if (tablePlugin._bindOffShift) {
-      this._wd.removeEventListener("keyup", tablePlugin._bindOffShift);
-      tablePlugin._bindOffShift = null;
+    if (tablePlugin.bindOffShift) {
+      this._wd.removeEventListener("keyup", tablePlugin.bindOffShift);
+      tablePlugin.bindOffShift = null;
     }
   },
 
-  _initBind: null,
+  initBind: null,
   onTableCellMultiSelect: function (tdElement, shift) {
     const tablePlugin = this.plugins.table;
 
-    tablePlugin._removeEvents.call(this);
+    tablePlugin.removeEvents.call(this);
     this.controllersOff();
 
-    tablePlugin._shift = shift;
-    tablePlugin._fixedCell = tdElement;
-    tablePlugin._fixedCellName = tdElement.nodeName;
-    tablePlugin._selectedTable = this.util.getParentElement(tdElement, "TABLE");
+    tablePlugin.shift = shift;
+    tablePlugin.fixedCell = tdElement;
+    tablePlugin.fixedCellName = tdElement.nodeName;
+    tablePlugin.selectedTable = this.util.getParentElement(tdElement, "TABLE");
 
-    const selectedCells = tablePlugin._selectedTable.querySelectorAll(
+    const selectedCells = tablePlugin.selectedTable.querySelectorAll(
       ".ke-table-selected-cell"
     );
     for (let i = 0, len = selectedCells.length; i < len; i++) {
@@ -1718,13 +1720,13 @@ export default {
 
     this.util.addClass(tdElement, "ke-table-selected-cell");
 
-    tablePlugin._bindOnSelect = tablePlugin._onCellMultiSelect.bind(this);
-    tablePlugin._bindOffSelect = tablePlugin._offCellMultiSelect.bind(this);
+    tablePlugin.bindOnSelect = tablePlugin.onCellMultiSelect.bind(this);
+    tablePlugin.bindOffSelect = tablePlugin.offCellMultiSelect.bind(this);
 
     if (!shift) {
-      this._wd.addEventListener("mousemove", tablePlugin._bindOnSelect, false);
+      this._wd.addEventListener("mousemove", tablePlugin.bindOnSelect, false);
     } else {
-      tablePlugin._bindOffShift = function () {
+      tablePlugin.bindOffShift = function () {
         this.controllersOn(
           this.context.table.resizeDiv,
           this.context.table.tableController,
@@ -1732,18 +1734,18 @@ export default {
           tdElement,
           "table"
         );
-        if (!tablePlugin._ref) {
+        if (!tablePlugin.ref) {
           this.controllersOff();
         }
       }.bind(this);
 
-      this._wd.addEventListener("keyup", tablePlugin._bindOffShift, false);
-      this._wd.addEventListener("mousedown", tablePlugin._bindOnSelect, false);
+      this._wd.addEventListener("keyup", tablePlugin.bindOffShift, false);
+      this._wd.addEventListener("mousedown", tablePlugin.bindOnSelect, false);
     }
 
-    this._wd.addEventListener("mouseup", tablePlugin._bindOffSelect, false);
-    tablePlugin._initBind = tablePlugin.init.bind(this);
-    this._wd.addEventListener("touchmove", tablePlugin._initBind, false);
+    this._wd.addEventListener("mouseup", tablePlugin.bindOffSelect, false);
+    tablePlugin.initBind = tablePlugin.init.bind(this);
+    this._wd.addEventListener("touchmove", tablePlugin.initBind, false);
   },
 
   onClick_tableController: function (e) {
@@ -1761,8 +1763,8 @@ export default {
     const option = target.getAttribute("data-option");
     const tablePlugin = this.plugins.table;
 
-    if (typeof tablePlugin._closeSplitMenu === "function") {
-      tablePlugin._closeSplitMenu();
+    if (typeof tablePlugin.closeSplitMenu === "function") {
+      tablePlugin.closeSplitMenu();
       if (command === "onsplit") {
         return;
       }
@@ -1793,28 +1795,28 @@ export default {
         tablePlugin.mergeCells.call(this);
         break;
       case "resize":
-        contextTable._maxWidth = !contextTable._maxWidth;
+        contextTable.maxWidth = !contextTable.maxWidth;
         tablePlugin.setTableStyle.call(this, "width");
-        tablePlugin.setPositionControllerTop.call(this, contextTable._element);
+        tablePlugin.setPositionControllerTop.call(this, contextTable.element);
         tablePlugin.setPositionControllerDiv.call(
           this,
-          contextTable._tdElement,
-          tablePlugin._shift
+          contextTable.tdElement,
+          tablePlugin.shift
         );
         break;
       case "layout":
-        contextTable._fixedColumn = !contextTable._fixedColumn;
+        contextTable.fixedColumn = !contextTable.fixedColumn;
         tablePlugin.setTableStyle.call(this, "column");
-        tablePlugin.setPositionControllerTop.call(this, contextTable._element);
+        tablePlugin.setPositionControllerTop.call(this, contextTable.element);
         tablePlugin.setPositionControllerDiv.call(
           this,
-          contextTable._tdElement,
-          tablePlugin._shift
+          contextTable.tdElement,
+          tablePlugin.shift
         );
         break;
       case "remove":
-        const emptyDiv = contextTable._element.parentNode;
-        this.util.removeItem(contextTable._element);
+        const emptyDiv = contextTable.element.parentNode;
+        this.util.removeItem(contextTable.element);
         this.controllersOff();
 
         if (emptyDiv !== this.context.element.wysiwyg) {

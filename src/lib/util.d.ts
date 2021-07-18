@@ -221,7 +221,10 @@ declare interface util {
    * @param validation Additional validation function.
    * @returns
    */
-  getRangeFormatElement(element: Node, validation?: Function): Element | null;
+  getRangeFormatElement(
+    element: Node,
+    validation?: Function
+  ): Element | Node | null;
 
   /**
    * @description If a parent node that contains an argument node finds a free format node (util.isFreeFormatElement), it returns that node.
@@ -229,7 +232,10 @@ declare interface util {
    * @param validation Additional validation function.
    * @returns
    */
-  getFreeFormatElement(element: Node, validation?: Function): Element | null;
+  getFreeFormatElement(
+    element: Node,
+    validation?: Function
+  ): Element | Node | null;
 
   /**
    * @description If a parent node that contains an argument node finds a closure free format node (util.isClosureFreeFormatElement), it returns that node.
@@ -309,15 +315,15 @@ declare interface util {
    * ex) <p><span>aa</span><span>bb</span></p> : getNodePath(node: "bb", parentNode: "<P>") -> [1, 0]
    * @param node The Node to find position path
    * @param parentNode Parent node. If null, wysiwyg div area
-   * @param _newOffsets If you send an object of the form "{s: 0, e: 0}", the text nodes that are attached together are merged into one, centered on the "node" argument.
-   * "_newOffsets.s" stores the length of the combined characters after "node" and "_newOffsets.e" stores the length of the combined characters before "node".
+   * @param newOffsets If you send an object of the form "{s: 0, e: 0}", the text nodes that are attached together are merged into one, centered on the "node" argument.
+   * "newOffsets.s" stores the length of the combined characters after "node" and "newOffsets.e" stores the length of the combined characters before "node".
    * Do not use unless absolutely necessary.
    * @returns
    */
   getNodePath(
     node: Node,
     parentNode?: Node,
-    _newOffsets?: { s: number; e: number }
+    newOffsets?: { s: number; e: number }
   ): number[];
 
   /**
@@ -617,7 +623,7 @@ declare interface util {
    * An array containing change offsets is returned in the order of the "nodePathArray" array.
    * @param element Element
    * @param nodePathArray Array of NodePath object ([util.getNodePath(), ..])
-   * @param onlyText If true, non-text nodes(!util._isIgnoreNodeChange) like 'span', 'strong'.. are ignored.
+   * @param onlyText If true, non-text nodes(!util.isIgnoreNodeChange) like 'span', 'strong'.. are ignored.
    * @returns [offset, ..]
    */
   mergeSameTags(

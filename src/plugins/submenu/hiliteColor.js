@@ -66,15 +66,15 @@ export default {
     const contextPicker = this.context.colorPicker;
     const contextHiliteColor = this.context.hiliteColor;
 
-    contextPicker._colorInput = contextHiliteColor.colorInput;
+    contextPicker.colorInput = contextHiliteColor.colorInput;
     const color = this.wwComputedStyle.backgroundColor;
-    contextPicker._defaultColor = color
+    contextPicker.defaultColor = color
       ? this.plugins.colorPicker.isHexColor(color)
         ? color
         : this.plugins.colorPicker.rgb2hex(color)
       : "#ffffff";
-    contextPicker._styleProperty = "backgroundColor";
-    contextPicker._colorList = contextHiliteColor.colorList;
+    contextPicker.styleProperty = "backgroundColor";
+    contextPicker.colorList = contextHiliteColor.colorList;
 
     this.plugins.colorPicker.init.call(this, this.getSelectionNode(), null);
   },
@@ -89,7 +89,7 @@ export default {
   submit: function () {
     this.plugins.hiliteColor.applyColor.call(
       this,
-      this.context.colorPicker._currentColor
+      this.context.colorPicker.currentColor
     );
   },
 

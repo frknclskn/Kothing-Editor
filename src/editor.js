@@ -8,8 +8,8 @@
 
 import core from "./lib/core";
 import util from "./lib/util";
-import $constructor from "./lib/constructor";
-import $context from "./lib/context";
+import constructor from "./lib/constructor";
+import context from "./lib/context";
 
 export default {
   /**
@@ -20,27 +20,25 @@ export default {
    */
   init: function (init_options) {
     return {
-      create: function (idOrElement, options) {
-        return this.create(idOrElement, options, init_options);
+      create: function (targetElement, options) {
+        return this.create(targetElement, options, init_options);
       }.bind(this),
     };
   },
 
   /**
    * @description Create the KothingEditor
-   * @param {String|Element} idOrElement textarea Id or textarea element
+   * @param {String|Element} targetElement textarea Id or textarea element
    * @param {JSON|Object} options user options
    * @returns {Object}
    */
-  create: function (idOrElement, options, _init_options) {
-    util._propertiesInit();
-
-    if (typeof options !== "object") {
+  create: function (targetElement, options, init_options) {
+    if (util.typeOf(options) !== "object") {
       options = {};
     }
-    if (_init_options) {
-      options = [_init_options, options].reduce(function (init, option) {
-        for (let key in option) {
+    if (init_options) {
+      options = [init_options, options].reduce(function (init, option) {
+        for (const key in option) {
           if (!util.hasOwn(option, key)) {
             continue;
           }
@@ -71,39 +69,38 @@ export default {
     }
 
     const element =
-      typeof idOrElement === "string"
-        ? document.getElementById(idOrElement)
-        : idOrElement;
+      typeof targetElement === "string"
+        ? document.getElementById(targetElement)
+        : targetElement;
 
     if (!element) {
-      if (typeof idOrElement === "string") {
+      if (typeof targetElement === "string") {
         throw Error(
-          `[KothingEditor.create.fail] The element for that id was not found (ID:"${idOrElement}")`
+          `[KothingEditor.create.fail] The element for that id was not found (ID: "${targetElement}")`
         );
       }
       throw Error(
-        "[KothingEditor.create.fail] KothingEditor requires textarea's element or id value"
+        "[KothingEditor.create.fail] KothingEditor requires html element or element id"
       );
     }
 
-    const cons = $constructor.init(element, options);
+    const constrct = constructor.init(element, options);
 
     if (
-      cons.constructed.top.id &&
-      document.getElementById(cons.constructed.top.id)
+      constrct.constructed.top.id &&
+      document.getElementById(constrct.constructed.top.id)
     ) {
       throw Error(
-        `[KothingEditor.create.fail] The ID of the KothingEditor you are trying to create already exists (ID:"${cons.constructed.top.id}")`
+        `[KothingEditor.create.fail] The ID of the KothingEditor you are trying to create already exists (ID:"${constrct.constructed.top.id}")`
       );
     }
 
     return core(
-      $context(element, cons.constructed, cons.options),
-      cons.pluginCallButtons,
-      cons.plugins,
-      cons.options.lang,
+      context(element, constrct.constructed, constrct.options),
       options,
-      cons._responsiveButtons
+      constrct.plugins,
+      constrct.pluginCallButtons,
+      constrct.responsiveButtons
     );
   },
 };

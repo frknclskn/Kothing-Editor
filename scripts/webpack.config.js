@@ -1,6 +1,6 @@
+const path = require("path");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const util = require("./util");
 const developmentEnv = process.env.NODE_ENV !== "production";
 
 module.exports = {
@@ -8,10 +8,13 @@ module.exports = {
     rules: [
       {
         test: /\.js?$/,
-        include: [util.resolve("src")],
-        use: {
-          loader: "babel-loader",
-        },
+        use: ["babel-loader"],
+        include: [path.join(__dirname, "src")],
+      },
+      {
+        test: /\.(ts)$/i,
+        use: ["babel-loader", "ts-loader"],
+        exclude: ["/node_modules/"],
       },
       {
         test: /\.css$/,
@@ -38,7 +41,7 @@ module.exports = {
       },
       {
         test: /\.(png|jpg|jpeg|gif)$/,
-        type: 'asset',
+        type: "asset",
       },
       {
         test: /\.(eot|svg|ttf|woff|woff2)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
@@ -47,18 +50,20 @@ module.exports = {
     ],
   },
   resolve: {
-    extensions: [".js", ".json", ".css"],
+    extensions: [".js", ".ts", ".json", ".css"],
     alias: {
-      "@": util.resolve("src"),
+      "@": path.resolve(__dirname, "src"),
     },
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: developmentEnv ? util.resolve("public/index.html") : util.resolve("public/example.html"),
-      filename: util.resolve("dist/index.html"),
-      favicon: util.resolve("public/favicon.ico"),
+      template: developmentEnv
+        ? path.join(__dirname, "../public/index.html")
+        : path.join(__dirname, "../public/example.html"),
+      filename: path.join(__dirname, "../dist/index.html"),
+      favicon: path.join(__dirname, "../public/favicon.ico"),
       inject: developmentEnv ? "body" : "head",
-      scriptLoading: developmentEnv ? "defer": "blocking",
+      scriptLoading: developmentEnv ? "defer" : "blocking",
       minify: developmentEnv
         ? false
         : {

@@ -18,7 +18,7 @@ export default {
     const context = core.context;
     const contextLink = (context.link = {
       focusElement: null, // @Override dialog // This element has focus when the dialog is opened.
-      _linkAnchor: null,
+      linkAnchor: null,
       anchorCtx: null,
     });
 
@@ -49,7 +49,8 @@ export default {
     contextLink.focusElement = context.anchor.caller.link.urlInput;
 
     /** empty memory */
-    (link_dialog = null), (link_controller = null);
+    link_dialog = null;
+    link_controller = null;
   },
 
   /** dialog */
@@ -60,7 +61,7 @@ export default {
 
     dialog.className = "ke-dialog-content";
     dialog.style.display = "none";
-    let html =
+    const html =
       "" +
       "<form>" +
       '<div class="ke-dialog-header">' +
@@ -169,7 +170,7 @@ export default {
         );
       } else {
         // set range
-        const textNode = this.context.link._linkAnchor.childNodes[0];
+        const textNode = this.context.link.linkAnchor.childNodes[0];
         this.setRange(textNode, 0, textNode, textNode.textContent.length);
       }
     } finally {
@@ -212,7 +213,7 @@ export default {
 
   call_controller: function (selectionATag) {
     this.editLink =
-      this.context.link._linkAnchor =
+      this.context.link.linkAnchor =
       this.context.anchor.caller.link.linkAnchor =
         selectionATag;
     const linkBtn = this.context.link.linkController;
@@ -231,7 +232,7 @@ export default {
       linkBtn,
       selectionATag,
       "link",
-      this.util.removeClass.bind(this.util, this.context.link._linkAnchor, "on")
+      this.util.removeClass.bind(this.util, this.context.link.linkAnchor, "on")
     );
   },
 
@@ -251,14 +252,14 @@ export default {
       this.plugins.dialog.open.call(this, "link", true);
     } else if (/unlink/.test(command)) {
       const sc = this.util.getChildElement(
-        this.context.link._linkAnchor,
+        this.context.link.linkAnchor,
         function (current) {
           return current.childNodes.length === 0 || current.nodeType === 3;
         },
         false
       );
       const ec = this.util.getChildElement(
-        this.context.link._linkAnchor,
+        this.context.link.linkAnchor,
         function (current) {
           return current.childNodes.length === 0 || current.nodeType === 3;
         },
@@ -268,7 +269,7 @@ export default {
       this.nodeChange(null, null, ["A"], false);
     } else {
       /** delete */
-      this.util.removeItem(this.context.link._linkAnchor);
+      this.util.removeItem(this.context.link.linkAnchor);
       this.context.anchor.caller.link.linkAnchor = null;
       this.focus();
 

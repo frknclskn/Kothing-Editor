@@ -18,18 +18,18 @@ export default {
 
     const context = core.context;
     const contextAudio = (context.audio = {
-      _infoList: [], // @Override fileManager
-      _infoIndex: 0, // @Override fileManager
-      _uploadFileLength: 0, // @Override fileManager
+      infoList: [], // @Override fileManager
+      infoIndex: 0, // @Override fileManager
+      uploadFileLength: 0, // @Override fileManager
       focusElement: null, // @Override dialog // This element has focus when the dialog is opened.
       targetSelect: null,
-      _origin_w: core.options.audioWidth,
-      _origin_h: core.options.audioHeight,
-      _linkValue: "",
+      origin_w: core.options.audioWidth,
+      origin_h: core.options.audioHeight,
+      linkValue: "",
       // @require @Override component
-      _element: null,
-      _cover: null,
-      _container: null,
+      element: null,
+      cover: null,
+      container: null,
     });
 
     /** dialog */
@@ -55,7 +55,7 @@ export default {
         .querySelector(".ke-dialog-files-edge-button")
         .addEventListener(
           "click",
-          this._removeSelectedFiles.bind(
+          this.removeSelectedFiles.bind(
             contextAudio.audioInputFile,
             contextAudio.audioUrlFile,
             contextAudio.preview
@@ -65,7 +65,7 @@ export default {
     if (contextAudio.audioInputFile && contextAudio.audioUrlFile) {
       contextAudio.audioInputFile.addEventListener(
         "change",
-        this._fileInputChange.bind(contextAudio)
+        this.fileInputChange.bind(contextAudio)
       );
     }
     audio_controller.addEventListener(
@@ -75,7 +75,7 @@ export default {
     if (contextAudio.audioUrlFile) {
       contextAudio.audioUrlFile.addEventListener(
         "input",
-        this._onLinkPreview.bind(
+        this.onLinkPreview.bind(
           contextAudio.preview,
           contextAudio,
           core.options.linkProtocol
@@ -90,7 +90,8 @@ export default {
     context.element.relative.appendChild(audio_controller);
 
     /** empty memory */
-    (audio_dialog = null), (audio_controller = null);
+    audio_dialog = null;
+    audio_controller = null;
   },
 
   /** HTML - dialog */
@@ -198,7 +199,7 @@ export default {
   },
 
   // Disable url input when uploading files
-  _fileInputChange: function () {
+  fileInputChange: function () {
     if (!this.audioInputFile.value) {
       this.audioUrlFile.removeAttribute("disabled");
       this.preview.style.textDecoration = "";
@@ -209,7 +210,7 @@ export default {
   },
 
   // Disable url input when uploading files
-  _removeSelectedFiles: function (urlInput, preview) {
+  removeSelectedFiles: function (urlInput, preview) {
     this.value = "";
     if (urlInput) {
       urlInput.removeAttribute("disabled");
@@ -218,12 +219,12 @@ export default {
   },
 
   // create new audio tag
-  _createAudioTag: function () {
+  createAudioTag: function () {
     const oAudio = this.util.createElement("AUDIO");
-    this.plugins.audio._setTagAttrs.call(this, oAudio);
+    this.plugins.audio.setTagAttrs.call(this, oAudio);
 
-    const w = this.context.audio._origin_w;
-    const h = this.context.audio._origin_h;
+    const w = this.context.audio.origin_w;
+    const h = this.context.audio.origin_h;
     oAudio.setAttribute("origin-size", w + "," + h);
     oAudio.style.cssText =
       (w ? "width:" + w + "; " : "") + (h ? "height:" + h + ";" : "");
@@ -231,7 +232,7 @@ export default {
     return oAudio;
   },
 
-  _setTagAttrs: function (element) {
+  setTagAttrs: function (element) {
     element.setAttribute("controls", true);
 
     const attrs = this.options.audioTagAttrs;
@@ -239,7 +240,7 @@ export default {
       return;
     }
 
-    for (let key in attrs) {
+    for (const key in attrs) {
       if (!this.util.hasOwn(attrs, key)) {
         continue;
       }
@@ -247,9 +248,9 @@ export default {
     }
   },
 
-  _onLinkPreview: function (context, protocol, e) {
+  onLinkPreview: function (context, protocol, e) {
     const value = e.target.value.trim();
-    context._linkValue = this.textContent = !value
+    context.linkValue = this.textContent = !value
       ? ""
       : protocol && value.indexOf("://") === -1 && value.indexOf("#") !== 0
       ? protocol + value
@@ -276,7 +277,7 @@ export default {
    * @Override fileManager, resizing
    */
   destroy: function (element) {
-    element = element || this.context.audio._element;
+    element = element || this.context.audio.element;
     const container =
       this.util.getParentElement(element, this.util.isComponent) || element;
     const dataIndex = element.getAttribute("data-index") * 1;
@@ -349,12 +350,12 @@ export default {
       if (contextAudio.audioInputFile && this.options.audioMultipleFile) {
         contextAudio.audioInputFile.setAttribute("multiple", "multiple");
       }
-    } else if (contextAudio._element) {
+    } else if (contextAudio.element) {
       this.context.dialog.updateModal = true;
-      contextAudio._linkValue =
+      contextAudio.linkValue =
         contextAudio.preview.textContent =
         contextAudio.audioUrlFile.value =
-          contextAudio._element.src;
+          contextAudio.element.src;
       if (contextAudio.audioInputFile && this.options.audioMultipleFile) {
         contextAudio.audioInputFile.removeAttribute("multiple");
       }
@@ -394,10 +395,10 @@ export default {
         );
       } else if (
         contextAudio.audioUrlFile &&
-        contextAudio._linkValue.length > 0
+        contextAudio.linkValue.length > 0
       ) {
         this.showLoading();
-        this.plugins.audio.setupUrl.call(this, contextAudio._linkValue);
+        this.plugins.audio.setupUrl.call(this, contextAudio.linkValue);
       }
     } catch (error) {
       this.closeLoading();
@@ -428,7 +429,7 @@ export default {
     const limitSize = this.options.audioUploadSizeLimit;
     if (limitSize > 0) {
       let infoSize = 0;
-      const audiosInfo = this.context.audio._infoList;
+      const audiosInfo = this.context.audio.infoList;
       for (let i = 0, len = audiosInfo.length; i < len; i++) {
         infoSize += audiosInfo[i].size * 1;
       }
@@ -458,11 +459,11 @@ export default {
     }
 
     const contextAudio = this.context.audio;
-    contextAudio._uploadFileLength = files.length;
+    contextAudio.uploadFileLength = files.length;
 
     const info = {
       isUpdate: this.context.dialog.updateModal,
-      element: contextAudio._element,
+      element: contextAudio.element,
     };
 
     if (typeof this.functions.onAudioUploadBefore === "function") {
@@ -471,7 +472,7 @@ export default {
         info,
         this,
         function (data) {
-          if (data && this._w.Array.isArray(data.result)) {
+          if (data && this._window.Array.isArray(data.result)) {
             this.plugins.audio.register.call(this, info, data);
           } else {
             this.plugins.audio.upload.call(this, info, data);
@@ -557,7 +558,7 @@ export default {
       if (info.isUpdate) {
         oAudio = info.element;
       } else {
-        oAudio = this.plugins.audio._createAudioTag.call(this);
+        oAudio = this.plugins.audio.createAudioTag.call(this);
       }
 
       file = { name: fileList[i].name, size: fileList[i].size };
@@ -580,7 +581,7 @@ export default {
       }
       this.plugins.audio.create_audio.call(
         this,
-        this.plugins.audio._createAudioTag.call(this),
+        this.plugins.audio.createAudioTag.call(this),
         src,
         null,
         this.context.dialog.updateModal
@@ -623,8 +624,8 @@ export default {
       }
     } else {
       // update
-      if (contextAudio._element) {
-        element = contextAudio._element;
+      if (contextAudio.element) {
+        element = contextAudio.element;
       }
       if (element && element.src !== src) {
         element.src = src;
@@ -650,7 +651,7 @@ export default {
 
   updateCover: function (element) {
     const contextAudio = this.context.audio;
-    this.plugins.audio._setTagAttrs.call(this, element);
+    this.plugins.audio.setTagAttrs.call(this, element);
 
     // find component element
     const existElement =
@@ -664,7 +665,7 @@ export default {
 
     // clone element
     const prevElement = element;
-    contextAudio._element = element = element.cloneNode(false);
+    contextAudio.element = element = element.cloneNode(false);
     const cover = this.plugins.component.set_cover.call(this, element);
     const container = this.plugins.component.set_container.call(
       this,
@@ -726,9 +727,9 @@ export default {
     );
 
     this.util.addClass(selectionTag, "active");
-    contextAudio._element = selectionTag;
-    contextAudio._cover = this.util.getParentElement(selectionTag, "FIGURE");
-    contextAudio._container = this.util.getParentElement(
+    contextAudio.element = selectionTag;
+    contextAudio.cover = this.util.getParentElement(selectionTag, "FIGURE");
+    contextAudio.container = this.util.getParentElement(
       selectionTag,
       this.util.isComponent
     );
@@ -740,10 +741,10 @@ export default {
   openModify: function (notOpen) {
     if (this.context.audio.audioUrlFile) {
       const contextAudio = this.context.audio;
-      contextAudio._linkValue =
+      contextAudio.linkValue =
         contextAudio.preview.textContent =
         contextAudio.audioUrlFile.value =
-          contextAudio._element.src;
+          contextAudio.element.src;
     }
     if (!notOpen) {
       this.plugins.dialog.open.call(this, "audio", true);
@@ -764,7 +765,7 @@ export default {
       this.plugins.audio.openModify.call(this, false);
     } else {
       /** delete */
-      this.plugins.audio.destroy.call(this, this.context.audio._element);
+      this.plugins.audio.destroy.call(this, this.context.audio.element);
     }
 
     this.controllersOff();
@@ -788,7 +789,7 @@ export default {
       contextAudio.audioInputFile.value = "";
     }
     if (contextAudio.audioUrlFile) {
-      contextAudio._linkValue =
+      contextAudio.linkValue =
         contextAudio.preview.textContent =
         contextAudio.audioUrlFile.value =
           "";
@@ -798,6 +799,6 @@ export default {
       contextAudio.preview.style.textDecoration = "";
     }
 
-    contextAudio._element = null;
+    contextAudio.element = null;
   },
 };

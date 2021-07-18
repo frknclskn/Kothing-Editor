@@ -45,23 +45,3 @@ export {
   ua,
   zh_cn,
 };
-export default {
-  ckb,
-  da,
-  de,
-  en,
-  es,
-  fr,
-  he,
-  it,
-  ja,
-  ko,
-  lv,
-  pl,
-  pt_br,
-  ro,
-  ru,
-  se,
-  ua,
-  zh_cn,
-};

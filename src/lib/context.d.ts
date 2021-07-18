@@ -33,7 +33,7 @@ type Constructor = {
   options: KothingEditorOptions;
   plugins: Plugin[];
   pluginCallButtons: Record<string, Element>;
-  _icons: Record<string, string>;
+  icons: Record<string, string>;
 };
 
 declare function $context(

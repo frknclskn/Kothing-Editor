@@ -4,21 +4,21 @@ const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
+const path = require("path");
 const config = require("./webpack.config");
-const util = require("./util");
 
 module.exports = merge(config, {
   mode: "production",
   entry: {
-    "kothing-editor.min": util.resolve("/src/main.js"),
+    "kothing-editor.min": path.resolve(__dirname, "../src/main.js"),
   },
   output: {
-    path: util.resolve("dist"),
+    path: path.resolve(__dirname, "../dist"),
     filename: "[name].js",
     publicPath: "./",
   },
   performance: {
-    hints: 'warning',
+    hints: "warning",
   },
   // devtool: "source-map",
   optimization: {
@@ -48,7 +48,7 @@ module.exports = merge(config, {
       new CssMinimizerPlugin({
         minimizerOptions: {
           preset: [
-            'default',
+            "default",
             {
               discardComments: { removeAll: true },
             },

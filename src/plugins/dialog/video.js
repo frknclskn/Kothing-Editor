@@ -20,41 +20,41 @@ export default {
     const options = core.options;
     const context = core.context;
     const contextVideo = (context.video = {
-      _infoList: [], // @Override fileManager
-      _infoIndex: 0, // @Override fileManager
-      _uploadFileLength: 0, // @Override fileManager
+      infoList: [], // @Override fileManager
+      infoIndex: 0, // @Override fileManager
+      uploadFileLength: 0, // @Override fileManager
       focusElement: null, // @Override dialog // This element has focus when the dialog is opened.
-      sizeUnit: options._videoSizeUnit,
-      _align: "none",
-      _floatClassRegExp: "__ke__float\\-[a-z]+",
-      _youtubeQuery: options.youtubeQuery,
-      _videoRatio: options.videoRatio * 100 + "%",
-      _defaultRatio: options.videoRatio * 100 + "%",
-      _linkValue: "",
+      sizeUnit: options.videoSizeUnit,
+      align: "none",
+      floatClassRegExp: "__ke__float\\-[a-z]+",
+      youtubeQuery: options.youtubeQuery,
+      videoRatio: options.videoRatio * 100 + "%",
+      defaultRatio: options.videoRatio * 100 + "%",
+      linkValue: "",
       // @require @Override component
-      _element: null,
-      _cover: null,
-      _container: null,
+      element: null,
+      cover: null,
+      container: null,
       // @Override resizing properties
       inputX: null,
       inputY: null,
-      _element_w: 1,
-      _element_h: 1,
-      _element_l: 0,
-      _element_t: 0,
-      _defaultSizeX: "100%",
-      _defaultSizeY: options.videoRatio * 100 + "%",
-      _origin_w: options.videoWidth === "100%" ? "" : options.videoWidth,
-      _origin_h: options.videoHeight === "56.25%" ? "" : options.videoHeight,
-      _proportionChecked: true,
-      _resizing: options.videoResizing,
-      _resizeDotHide: !options.videoHeightShow,
-      _rotation: options.videoRotation,
-      _onlyPercentage: options.videoSizeOnlyPercentage,
-      _ratio: false,
-      _ratioX: 1,
-      _ratioY: 1,
-      _captionShow: false,
+      element_w: 1,
+      element_h: 1,
+      element_l: 0,
+      element_t: 0,
+      defaultSizeX: "100%",
+      defaultSizeY: options.videoRatio * 100 + "%",
+      origin_w: options.videoWidth === "100%" ? "" : options.videoWidth,
+      origin_h: options.videoHeight === "56.25%" ? "" : options.videoHeight,
+      proportionChecked: true,
+      resizing: options.videoResizing,
+      resizeDotHide: !options.videoHeightShow,
+      rotation: options.videoRotation,
+      onlyPercentage: options.videoSizeOnlyPercentage,
+      ratio: false,
+      ratioX: 1,
+      ratioY: 1,
+      captionShow: false,
     });
 
     /** video dialog */
@@ -75,7 +75,7 @@ export default {
         .querySelector(".ke-dialog-files-edge-button")
         .addEventListener(
           "click",
-          this._removeSelectedFiles.bind(
+          this.removeSelectedFiles.bind(
             contextVideo.videoInputFile,
             contextVideo.videoUrlFile,
             contextVideo.preview
@@ -85,13 +85,13 @@ export default {
     if (contextVideo.videoInputFile && contextVideo.videoUrlFile) {
       contextVideo.videoInputFile.addEventListener(
         "change",
-        this._fileInputChange.bind(contextVideo)
+        this.fileInputChange.bind(contextVideo)
       );
     }
     if (contextVideo.videoUrlFile) {
       contextVideo.videoUrlFile.addEventListener(
         "input",
-        this._onLinkPreview.bind(
+        this.onLinkPreview.bind(
           contextVideo.preview,
           contextVideo,
           options.linkProtocol
@@ -328,7 +328,7 @@ export default {
     return dialog;
   },
 
-  _fileInputChange: function () {
+  fileInputChange: function () {
     if (!this.videoInputFile.value) {
       this.videoUrlFile.removeAttribute("disabled");
       this.preview.style.textDecoration = "";
@@ -338,7 +338,7 @@ export default {
     }
   },
 
-  _removeSelectedFiles: function (urlInput, preview) {
+  removeSelectedFiles: function (urlInput, preview) {
     this.value = "";
     if (urlInput) {
       urlInput.removeAttribute("disabled");
@@ -346,13 +346,13 @@ export default {
     }
   },
 
-  _onLinkPreview: function (context, protocol, e) {
+  onLinkPreview: function (context, protocol, e) {
     const value = e.target.value.trim();
     if (/^<iframe.*\/iframe>$/.test(value)) {
-      context._linkValue = value;
+      context.linkValue = value;
       this.textContent = '<IFrame :src=".."></IFrame>';
     } else {
-      context._linkValue = this.textContent = !value
+      context.linkValue = this.textContent = !value
         ? ""
         : protocol && value.indexOf("://") === -1 && value.indexOf("#") !== 0
         ? protocol + value
@@ -362,7 +362,7 @@ export default {
     }
   },
 
-  _setTagAttrs: function (element) {
+  setTagAttrs: function (element) {
     element.setAttribute("controls", true);
 
     const attrs = this.options.videoTagAttrs;
@@ -370,7 +370,7 @@ export default {
       return;
     }
 
-    for (let key in attrs) {
+    for (const key in attrs) {
       if (!this.util.hasOwn(attrs, key)) {
         continue;
       }
@@ -380,11 +380,11 @@ export default {
 
   createVideoTag: function () {
     const videoTag = this.util.createElement("VIDEO");
-    this.plugins.video._setTagAttrs.call(this, videoTag);
+    this.plugins.video.setTagAttrs.call(this, videoTag);
     return videoTag;
   },
 
-  _setIframeAttrs: function (element) {
+  setIframeAttrs: function (element) {
     element.frameBorder = "0";
     element.allowFullscreen = true;
 
@@ -393,7 +393,7 @@ export default {
       return;
     }
 
-    for (let key in attrs) {
+    for (const key in attrs) {
       if (!this.util.hasOwn(attrs, key)) {
         continue;
       }
@@ -403,7 +403,7 @@ export default {
 
   createIframeTag: function () {
     const iframeTag = this.util.createElement("IFRAME");
-    this.plugins.video._setIframeAttrs.call(this, iframeTag);
+    this.plugins.video.setIframeAttrs.call(this, iframeTag);
     return iframeTag;
   },
 
@@ -429,10 +429,10 @@ export default {
    * @Override fileManager, resizing
    */
   destroy: function (element) {
-    const frame = element || this.context.video._element;
-    const container = this.context.video._container;
+    const frame = element || this.context.video.element;
+    const container = this.context.video.container;
     const dataIndex = frame.getAttribute("data-index") * 1;
-    let focusEl =
+    const focusEl =
       container.previousElementSibling || container.nextElementSibling;
 
     const emptyDiv = container.parentNode;
@@ -472,12 +472,12 @@ export default {
     const contextVideo = this.context.video;
 
     if (!update) {
-      contextVideo.inputX.value = contextVideo._origin_w =
-        this.options.videoWidth === contextVideo._defaultSizeX
+      contextVideo.inputX.value = contextVideo.origin_w =
+        this.options.videoWidth === contextVideo.defaultSizeX
           ? ""
           : this.options.videoWidth;
-      contextVideo.inputY.value = contextVideo._origin_h =
-        this.options.videoHeight === contextVideo._defaultSizeY
+      contextVideo.inputY.value = contextVideo.origin_h =
+        this.options.videoHeight === contextVideo.defaultSizeY
           ? ""
           : this.options.videoHeight;
       contextVideo.proportion.disabled = true;
@@ -490,10 +490,10 @@ export default {
       }
     }
 
-    if (contextVideo._resizing) {
+    if (contextVideo.resizing) {
       this.plugins.video.setVideoRatioSelect.call(
         this,
-        contextVideo._origin_h || contextVideo._defaultRatio
+        contextVideo.origin_h || contextVideo.defaultRatio
       );
     }
   },
@@ -513,8 +513,8 @@ export default {
     const contextVideo = this.context.video;
     const value = e.target.options[e.target.selectedIndex].value;
 
-    contextVideo._defaultSizeY = contextVideo._videoRatio = !value
-      ? contextVideo._defaultSizeY
+    contextVideo.defaultSizeY = contextVideo.videoRatio = !value
+      ? contextVideo.defaultSizeY
       : value * 100 + "%";
     contextVideo.inputY.placeholder = !value ? "" : value * 100 + "%";
     contextVideo.inputY.value = "";
@@ -532,12 +532,12 @@ export default {
     }
 
     const contextVideo = this.context.video;
-    this.plugins.resizing._module_setInputSize.call(this, contextVideo, xy);
+    this.plugins.resizing.module_setInputSize.call(this, contextVideo, xy);
 
     if (xy === "y") {
       this.plugins.video.setVideoRatioSelect.call(
         this,
-        e.target.value || contextVideo._defaultRatio
+        e.target.value || contextVideo.defaultRatio
       );
     }
   },
@@ -546,7 +546,7 @@ export default {
    * @Override resizing
    */
   setRatio: function () {
-    this.plugins.resizing._module_setRatio.call(this, this.context.video);
+    this.plugins.resizing.module_setRatio.call(this, this.context.video);
   },
 
   submit: function (e) {
@@ -556,7 +556,7 @@ export default {
     e.preventDefault();
     e.stopPropagation();
 
-    contextVideo._align = contextVideo.modal.querySelector(
+    contextVideo.align = contextVideo.modal.querySelector(
       'input[name="kothingEditor_video_radio"]:checked'
     ).value;
 
@@ -572,7 +572,7 @@ export default {
         );
       } else if (
         contextVideo.videoUrlFile &&
-        contextVideo._linkValue.length > 0
+        contextVideo.linkValue.length > 0
       ) {
         this.showLoading();
         videoPlugin.setup_url.call(this);
@@ -606,7 +606,7 @@ export default {
     const limitSize = this.options.videoUploadSizeLimit;
     if (limitSize > 0) {
       let infoSize = 0;
-      const videosInfo = this.context.video._infoList;
+      const videosInfo = this.context.video.infoList;
       for (let i = 0, len = videosInfo.length; i < len; i++) {
         infoSize += videosInfo[i].size * 1;
       }
@@ -636,14 +636,14 @@ export default {
     }
 
     const contextVideo = this.context.video;
-    contextVideo._uploadFileLength = files.length;
+    contextVideo.uploadFileLength = files.length;
 
     const info = {
       inputWidth: contextVideo.inputX.value,
       inputHeight: contextVideo.inputY.value,
-      align: contextVideo._align,
+      align: contextVideo.align,
       isUpdate: this.context.dialog.updateModal,
-      element: contextVideo._element,
+      element: contextVideo.element,
     };
 
     if (typeof this.functions.onVideoUploadBefore === "function") {
@@ -652,7 +652,7 @@ export default {
         info,
         this,
         function (data) {
-          if (data && this._w.Array.isArray(data.result)) {
+          if (data && this._window.Array.isArray(data.result)) {
             this.plugins.video.register.call(this, info, data);
           } else {
             this.plugins.video.upload.call(this, info, data);
@@ -757,7 +757,7 @@ export default {
   setup_url: function () {
     try {
       const contextVideo = this.context.video;
-      let url = contextVideo._linkValue;
+      let url = contextVideo.linkValue;
 
       if (url.length === 0) {
         return false;
@@ -765,7 +765,7 @@ export default {
 
       /** iframe source */
       if (/^<iframe.*\/iframe>$/.test(url)) {
-        const oIframe = new this._w.DOMParser()
+        const oIframe = new this._window.DOMParser()
           .parseFromString(url, "text/html")
           .querySelector("iframe");
         url = oIframe.src;
@@ -786,17 +786,13 @@ export default {
             .replace("&", "?&");
         }
 
-        if (contextVideo._youtubeQuery.length > 0) {
+        if (contextVideo.youtubeQuery.length > 0) {
           if (/\?/.test(url)) {
             const splitUrl = url.split("?");
             url =
-              splitUrl[0] +
-              "?" +
-              contextVideo._youtubeQuery +
-              "&" +
-              splitUrl[1];
+              splitUrl[0] + "?" + contextVideo.youtubeQuery + "&" + splitUrl[1];
           } else {
-            url += "?" + contextVideo._youtubeQuery;
+            url += "?" + contextVideo.youtubeQuery;
           }
         }
       } else if (/vimeo\.com/.test(url)) {
@@ -814,7 +810,7 @@ export default {
         url,
         contextVideo.inputX.value,
         contextVideo.inputY.value,
-        contextVideo._align,
+        contextVideo.align,
         null,
         this.context.dialog.updateModal
       );
@@ -828,7 +824,7 @@ export default {
   },
 
   create_video: function (oFrame, src, width, height, align, file, isUpdate) {
-    this.context.resizing._resize_plugin = "video";
+    this.context.resizing.resize_plugin = "video";
     const contextVideo = this.context.video;
 
     let cover = null;
@@ -837,7 +833,7 @@ export default {
 
     /** update */
     if (isUpdate) {
-      oFrame = contextVideo._element;
+      oFrame = contextVideo.element;
       if (oFrame.src !== src) {
         init = true;
         const isYoutube = /youtu\.?be/.test(src);
@@ -846,7 +842,7 @@ export default {
           const newTag = this.plugins.video.createIframeTag.call(this);
           newTag.src = src;
           oFrame.parentNode.replaceChild(newTag, oFrame);
-          contextVideo._element = oFrame = newTag;
+          contextVideo.element = oFrame = newTag;
         } else if (
           !isYoutube &&
           !isVimeo &&
@@ -855,18 +851,18 @@ export default {
           const newTag = this.plugins.video.createVideoTag.call(this);
           newTag.src = src;
           oFrame.parentNode.replaceChild(newTag, oFrame);
-          contextVideo._element = oFrame = newTag;
+          contextVideo.element = oFrame = newTag;
         } else {
           oFrame.src = src;
         }
       }
-      container = contextVideo._container;
+      container = contextVideo.container;
       cover = this.util.getParentElement(oFrame, "FIGURE");
     } else {
       /** create */
       init = true;
       oFrame.src = src;
-      contextVideo._element = oFrame;
+      contextVideo.element = oFrame;
       cover = this.plugins.component.set_cover.call(this, oFrame);
       container = this.plugins.component.set_container.call(
         this,
@@ -876,19 +872,19 @@ export default {
     }
 
     /** rendering */
-    contextVideo._cover = cover;
-    contextVideo._container = container;
+    contextVideo.cover = cover;
+    contextVideo.container = container;
 
     const inputUpdate =
-      this.plugins.resizing._module_getSizeX.call(this, contextVideo) !==
-        (width || contextVideo._defaultSizeX) ||
-      this.plugins.resizing._module_getSizeY.call(this, contextVideo) !==
-        (height || contextVideo._videoRatio);
+      this.plugins.resizing.module_getSizeX.call(this, contextVideo) !==
+        (width || contextVideo.defaultSizeX) ||
+      this.plugins.resizing.module_getSizeY.call(this, contextVideo) !==
+        (height || contextVideo.videoRatio);
     const changeSize = !isUpdate || inputUpdate;
 
-    if (contextVideo._resizing) {
-      this.context.video._proportionChecked = contextVideo.proportion.checked;
-      oFrame.setAttribute("data-proportion", contextVideo._proportionChecked);
+    if (contextVideo.resizing) {
+      this.context.video.proportionChecked = contextVideo.proportion.checked;
+      oFrame.setAttribute("data-proportion", contextVideo.proportionChecked);
     }
 
     // size
@@ -915,8 +911,8 @@ export default {
         this.setRange(line, 0, line, 0);
       }
     } else if (
-      contextVideo._resizing &&
-      this.context.resizing._rotateVertical &&
+      contextVideo.resizing &&
+      this.context.resizing.rotateVertical &&
       changeSize
     ) {
       this.plugins.resizing.setTransformSize.call(this, oFrame, null, null);
@@ -940,10 +936,10 @@ export default {
       }
     }
 
-    this.context.resizing._resize_plugin = "";
+    this.context.resizing.resize_plugin = "";
   },
 
-  _update_videoCover: function (oFrame) {
+  update_videoCover: function (oFrame) {
     if (!oFrame) {
       return;
     }
@@ -951,9 +947,9 @@ export default {
     const contextVideo = this.context.video;
 
     if (/^video$/i.test(oFrame.nodeName)) {
-      this.plugins.video._setTagAttrs.call(this, oFrame);
+      this.plugins.video.setTagAttrs.call(this, oFrame);
     } else {
-      this.plugins.video._setIframeAttrs.call(this, oFrame);
+      this.plugins.video.setIframeAttrs.call(this, oFrame);
     }
 
     const existElement =
@@ -966,12 +962,12 @@ export default {
       );
 
     const prevFrame = oFrame;
-    contextVideo._element = oFrame = oFrame.cloneNode(true);
-    const cover = (contextVideo._cover = this.plugins.component.set_cover.call(
+    contextVideo.element = oFrame = oFrame.cloneNode(true);
+    const cover = (contextVideo.cover = this.plugins.component.set_cover.call(
       this,
       oFrame
     ));
-    const container = (contextVideo._container =
+    const container = (contextVideo.container =
       this.plugins.component.set_container.call(
         this,
         cover,
@@ -1002,7 +998,7 @@ export default {
       // align
       const format = this.util.getFormatElement(prevFrame);
       if (format) {
-        contextVideo._align = format.style.textAlign || format.style.float;
+        contextVideo.align = format.style.textAlign || format.style.float;
       }
       this.plugins.video.setAlign.call(this, null, oFrame, cover, container);
 
@@ -1051,26 +1047,26 @@ export default {
    */
   onModifyMode: function (element, size) {
     const contextVideo = this.context.video;
-    contextVideo._element = element;
-    contextVideo._cover = this.util.getParentElement(element, "FIGURE");
-    contextVideo._container = this.util.getParentElement(
+    contextVideo.element = element;
+    contextVideo.cover = this.util.getParentElement(element, "FIGURE");
+    contextVideo.container = this.util.getParentElement(
       element,
       this.util.isMediaComponent
     );
-    contextVideo._align =
+    contextVideo.align =
       element.style.float || element.getAttribute("data-align") || "none";
     element.style.float = "";
 
     if (size) {
-      contextVideo._element_w = size.w;
-      contextVideo._element_h = size.h;
-      contextVideo._element_t = size.t;
-      contextVideo._element_l = size.l;
+      contextVideo.element_w = size.w;
+      contextVideo.element_h = size.h;
+      contextVideo.element_t = size.t;
+      contextVideo.element_l = size.l;
     }
 
     let origin =
-      contextVideo._element.getAttribute("data-size") ||
-      contextVideo._element.getAttribute("data-origin");
+      contextVideo.element.getAttribute("data-size") ||
+      contextVideo.element.getAttribute("data-origin");
     let w, h;
     if (origin) {
       origin = origin.split(",");
@@ -1081,8 +1077,8 @@ export default {
       h = size.h;
     }
 
-    contextVideo._origin_w = w || element.style.width || element.width || "";
-    contextVideo._origin_h = h || element.style.height || element.height || "";
+    contextVideo.origin_w = w || element.style.width || element.width || "";
+    contextVideo.origin_h = h || element.style.height || element.height || "";
   },
 
   /**
@@ -1092,34 +1088,34 @@ export default {
     const contextVideo = this.context.video;
 
     if (contextVideo.videoUrlFile) {
-      contextVideo._linkValue =
+      contextVideo.linkValue =
         contextVideo.preview.textContent =
         contextVideo.videoUrlFile.value =
-          contextVideo._element.src ||
-          (contextVideo._element.querySelector("source") || "").src ||
+          contextVideo.element.src ||
+          (contextVideo.element.querySelector("source") || "").src ||
           "";
     }
     contextVideo.modal.querySelector(
       'input[name="kothingEditor_video_radio"][value="' +
-        contextVideo._align +
+        contextVideo.align +
         '"]'
     ).checked = true;
 
-    if (contextVideo._resizing) {
-      this.plugins.resizing._module_setModifyInputSize.call(
+    if (contextVideo.resizing) {
+      this.plugins.resizing.module_setModifyInputSize.call(
         this,
         contextVideo,
         this.plugins.video
       );
 
-      const y = (contextVideo._videoRatio =
-        this.plugins.resizing._module_getSizeY.call(this, contextVideo));
+      const y = (contextVideo.videoRatio =
+        this.plugins.resizing.module_getSizeY.call(this, contextVideo));
       const ratioSelected = this.plugins.video.setVideoRatioSelect.call(
         this,
         y
       );
       if (!ratioSelected) {
-        contextVideo.inputY.value = contextVideo._onlyPercentage
+        contextVideo.inputY.value = contextVideo.onlyPercentage
           ? this.util.getNumber(y, 2)
           : y;
       }
@@ -1135,7 +1131,7 @@ export default {
     const contextVideo = this.context.video;
     const ratioOptions = contextVideo.videoRatioOption.options;
 
-    if (/%$/.test(value) || contextVideo._onlyPercentage) {
+    if (/%$/.test(value) || contextVideo.onlyPercentage) {
       value = this.util.getNumber(value, 2) / 100 + "";
     } else if (!this.util.isNumber(value) || value * 1 >= 1) {
       value = "";
@@ -1163,7 +1159,7 @@ export default {
       "video",
       ["iframe", "video"],
       this.functions.onVideoUpload,
-      this.plugins.video._update_videoCover.bind(this),
+      this.plugins.video.update_videoCover.bind(this),
       true
     );
   },
@@ -1192,14 +1188,14 @@ export default {
       h = contextVideo.inputY.value || this.options.videoHeight;
     }
 
-    if (contextVideo._onlyPercentage || /%$/.test(w) || !w) {
+    if (contextVideo.onlyPercentage || /%$/.test(w) || !w) {
       this.plugins.video.setPercentSize.call(
         this,
         w || "100%",
         h ||
-          (/%$/.test(contextVideo._videoRatio)
-            ? contextVideo._videoRatio
-            : contextVideo._defaultRatio)
+          (/%$/.test(contextVideo.videoRatio)
+            ? contextVideo.videoRatio
+            : contextVideo.defaultRatio)
       );
       return true;
     } else if ((!w || w === "auto") && (!h || h === "auto")) {
@@ -1208,7 +1204,7 @@ export default {
       this.plugins.video.setSize.call(
         this,
         w,
-        h || contextVideo._videoRatio || contextVideo._defaultRatio,
+        h || contextVideo.videoRatio || contextVideo.defaultRatio,
         false
       );
     }
@@ -1220,7 +1216,7 @@ export default {
    * @Override resizing
    */
   sizeRevert: function () {
-    this.plugins.resizing._module_sizeRevert.call(this, this.context.video);
+    this.plugins.resizing.module_sizeRevert.call(this, this.context.video);
   },
 
   /**
@@ -1239,30 +1235,30 @@ export default {
     }
 
     if (!onlyH) {
-      contextVideo._element.style.width = w ? w + contextVideo.sizeUnit : "";
+      contextVideo.element.style.width = w ? w + contextVideo.sizeUnit : "";
     }
     if (!onlyW) {
-      contextVideo._cover.style.paddingBottom =
-        contextVideo._cover.style.height = h;
+      contextVideo.cover.style.paddingBottom = contextVideo.cover.style.height =
+        h;
     }
 
     if (!onlyH && !/%$/.test(w)) {
-      contextVideo._cover.style.width = "";
-      contextVideo._container.style.width = "";
+      contextVideo.cover.style.width = "";
+      contextVideo.container.style.width = "";
     }
 
     if (!onlyW && !/%$/.test(h)) {
-      contextVideo._element.style.height = h;
+      contextVideo.element.style.height = h;
     } else {
-      contextVideo._element.style.height = "";
+      contextVideo.element.style.height = "";
     }
 
     if (!notResetPercentage) {
-      contextVideo._element.removeAttribute("data-percentage");
+      contextVideo.element.removeAttribute("data-percentage");
     }
 
     // save current size
-    this.plugins.resizing._module_saveCurrentSize.call(this, contextVideo);
+    this.plugins.resizing.module_saveCurrentSize.call(this, contextVideo);
   },
 
   /**
@@ -1272,7 +1268,7 @@ export default {
     this.plugins.video.setPercentSize.call(
       this,
       100,
-      this.context.video._defaultRatio
+      this.context.video.defaultRatio
     );
   },
 
@@ -1281,14 +1277,14 @@ export default {
    */
   setOriginSize: function (dataSize) {
     const contextVideo = this.context.video;
-    contextVideo._element.removeAttribute("data-percentage");
+    contextVideo.element.removeAttribute("data-percentage");
 
-    this.plugins.resizing.resetTransform.call(this, contextVideo._element);
+    this.plugins.resizing.resetTransform.call(this, contextVideo.element);
     this.plugins.video.cancelPercentAttr.call(this);
 
     const originSize = (
-      (dataSize ? contextVideo._element.getAttribute("data-size") : "") ||
-      contextVideo._element.getAttribute("data-origin") ||
+      (dataSize ? contextVideo.element.getAttribute("data-size") : "") ||
+      contextVideo.element.getAttribute("data-origin") ||
       ""
     ).split(",");
 
@@ -1297,7 +1293,7 @@ export default {
       const h = originSize[1];
 
       if (
-        contextVideo._onlyPercentage ||
+        contextVideo.onlyPercentage ||
         (/%$/.test(w) && (/%$/.test(h) || !/\d/.test(h)))
       ) {
         this.plugins.video.setPercentSize.call(this, w, h);
@@ -1306,7 +1302,7 @@ export default {
       }
 
       // save current size
-      this.plugins.resizing._module_saveCurrentSize.call(this, contextVideo);
+      this.plugins.resizing.module_saveCurrentSize.call(this, contextVideo);
     }
   },
 
@@ -1322,24 +1318,24 @@ export default {
           : h
         : this.util.isNumber(h)
         ? h + contextVideo.sizeUnit
-        : h || contextVideo._defaultRatio;
+        : h || contextVideo.defaultRatio;
 
-    contextVideo._container.style.width = this.util.isNumber(w) ? w + "%" : w;
-    contextVideo._container.style.height = "";
-    contextVideo._cover.style.width = "100%";
-    contextVideo._cover.style.height = h;
-    contextVideo._cover.style.paddingBottom = h;
-    contextVideo._element.style.width = "100%";
-    contextVideo._element.style.height = "100%";
-    contextVideo._element.style.maxWidth = "";
+    contextVideo.container.style.width = this.util.isNumber(w) ? w + "%" : w;
+    contextVideo.container.style.height = "";
+    contextVideo.cover.style.width = "100%";
+    contextVideo.cover.style.height = h;
+    contextVideo.cover.style.paddingBottom = h;
+    contextVideo.element.style.width = "100%";
+    contextVideo.element.style.height = "100%";
+    contextVideo.element.style.maxWidth = "";
 
-    if (contextVideo._align === "center") {
+    if (contextVideo.align === "center") {
       this.plugins.video.setAlign.call(this, null, null, null, null);
     }
-    contextVideo._element.setAttribute("data-percentage", w + "," + h);
+    contextVideo.element.setAttribute("data-percentage", w + "," + h);
 
     // save current size
-    this.plugins.resizing._module_saveCurrentSize.call(this, contextVideo);
+    this.plugins.resizing.module_saveCurrentSize.call(this, contextVideo);
   },
 
   /**
@@ -1348,22 +1344,22 @@ export default {
   cancelPercentAttr: function () {
     const contextVideo = this.context.video;
 
-    contextVideo._cover.style.width = "";
-    contextVideo._cover.style.height = "";
-    contextVideo._cover.style.paddingBottom = "";
-    contextVideo._container.style.width = "";
-    contextVideo._container.style.height = "";
+    contextVideo.cover.style.width = "";
+    contextVideo.cover.style.height = "";
+    contextVideo.cover.style.paddingBottom = "";
+    contextVideo.container.style.width = "";
+    contextVideo.container.style.height = "";
 
     this.util.removeClass(
-      contextVideo._container,
-      this.context.video._floatClassRegExp
+      contextVideo.container,
+      this.context.video.floatClassRegExp
     );
     this.util.addClass(
-      contextVideo._container,
-      "__ke__float-" + contextVideo._align
+      contextVideo.container,
+      "__ke__float-" + contextVideo.align
     );
 
-    if (contextVideo._align === "center") {
+    if (contextVideo.align === "center") {
       this.plugins.video.setAlign.call(this, null, null, null, null);
     }
   },
@@ -1375,16 +1371,16 @@ export default {
     const contextVideo = this.context.video;
 
     if (!align) {
-      align = contextVideo._align;
+      align = contextVideo.align;
     }
     if (!element) {
-      element = contextVideo._element;
+      element = contextVideo.element;
     }
     if (!cover) {
-      cover = contextVideo._cover;
+      cover = contextVideo.cover;
     }
     if (!container) {
-      container = contextVideo._container;
+      container = contextVideo.container;
     }
 
     if (align && align !== "none") {
@@ -1406,14 +1402,14 @@ export default {
           ) + "%";
     } else {
       container.style.minWidth = "";
-      cover.style.width = this.context.resizing._rotateVertical
+      cover.style.width = this.context.resizing.rotateVertical
         ? element.style.height || element.offsetHeight
         : element.style.width || "100%";
       cover.style.paddingBottom = cover.style.height;
     }
 
     if (!this.util.hasClass(container, "__ke__float-" + align)) {
-      this.util.removeClass(container, contextVideo._floatClassRegExp);
+      this.util.removeClass(container, contextVideo.floatClassRegExp);
       this.util.addClass(container, "__ke__float-" + align);
     }
 
@@ -1429,7 +1425,7 @@ export default {
       contextVideo.videoInputFile.value = "";
     }
     if (contextVideo.videoUrlFile) {
-      contextVideo._linkValue =
+      contextVideo.linkValue =
         contextVideo.preview.textContent =
         contextVideo.videoUrlFile.value =
           "";
@@ -1439,26 +1435,26 @@ export default {
       contextVideo.preview.style.textDecoration = "";
     }
 
-    contextVideo._origin_w = this.options.videoWidth;
-    contextVideo._origin_h = this.options.videoHeight;
+    contextVideo.origin_w = this.options.videoWidth;
+    contextVideo.origin_h = this.options.videoHeight;
     contextVideo.modal.querySelector(
       'input[name="kothingEditor_video_radio"][value="none"]'
     ).checked = true;
 
-    if (contextVideo._resizing) {
+    if (contextVideo.resizing) {
       contextVideo.inputX.value =
-        this.options.videoWidth === contextVideo._defaultSizeX
+        this.options.videoWidth === contextVideo.defaultSizeX
           ? ""
           : this.options.videoWidth;
       contextVideo.inputY.value =
-        this.options.videoHeight === contextVideo._defaultSizeY
+        this.options.videoHeight === contextVideo.defaultSizeY
           ? ""
           : this.options.videoHeight;
       contextVideo.proportion.checked = true;
       contextVideo.proportion.disabled = true;
       this.plugins.video.setVideoRatioSelect.call(
         this,
-        contextVideo._defaultRatio
+        contextVideo.defaultRatio
       );
     }
   },

@@ -111,9 +111,9 @@
 <h3 class="subsection-title" id="titleFileManager">fileManager</h3>
 <div class="highlight highlight-source-ts"><pre><span class="pl-c">/**</span>
 <span class="pl-c"> * <span class="pl-k">@description</span> Require context properties when fileManager module</span>
-<span class="pl-c">    _infoList: [],</span>
-<span class="pl-c">    _infoIndex: 0,</span>
-<span class="pl-c">    _uploadFileLength: 0</span>
+<span class="pl-c">    infoList: [],</span>
+<span class="pl-c">    infoIndex: 0,</span>
+<span class="pl-c">    uploadFileLength: 0</span>
 <span class="pl-c">*/</span>
 <span class="pl-k">declare</span> <span class="pl-k">interface</span> <span class="pl-smi">fileManager</span> <span class="pl-k">extends</span> <span class="pl-smi">Module</span> <span class="pl-kos">{</span>
     <span class="pl-c">/**</span>
@@ -145,7 +145,7 @@
     <span class="pl-c1">checkInfo</span><span class="pl-kos">(</span><span class="pl-s1">pluginName</span>: <span class="pl-smi">string</span><span class="pl-kos">,</span> <span class="pl-s1">tagNames</span>: <span class="pl-smi">string</span><span class="pl-kos">[</span><span class="pl-kos">]</span><span class="pl-kos">,</span> <span class="pl-s1">uploadEventHandler</span>: <span class="pl-smi">Function</span> | <span class="pl-smi">null</span><span class="pl-kos">,</span> <span class="pl-s1">modifyHandler</span>: <span class="pl-smi">Function</span> | <span class="pl-smi">null</span><span class="pl-kos">,</span> <span class="pl-s1">resizing</span>: <span class="pl-smi">boolean</span><span class="pl-kos">)</span>: <span class="pl-smi"><span class="pl-k">void</span></span><span class="pl-kos">;</span>
 
     <span class="pl-c">/**</span>
-<span class="pl-c">     * <span class="pl-k">@description</span> Create info object of file and add it to "_infoList" (this.context[pluginName]._infoList[])</span>
+<span class="pl-c">     * <span class="pl-k">@description</span> Create info object of file and add it to "infoList" (this.context[pluginName].infoList[])</span>
 <span class="pl-c">     * <span class="pl-k">@param</span>  pluginName Plugin name </span>
 <span class="pl-c">     * <span class="pl-k">@param</span>  element </span>
 <span class="pl-c">     * <span class="pl-k">@param</span>  uploadEventHandler Event handler to process updated file info (created in setInfo)</span>
@@ -158,15 +158,15 @@
     <span class="pl-c1">setInfo</span><span class="pl-kos">(</span><span class="pl-s1">pluginName</span>: <span class="pl-smi">string</span><span class="pl-kos">,</span> <span class="pl-s1">element</span><span class="pl-kos">,</span> <span class="pl-s1">uploadEventHandler</span>: <span class="pl-smi">Function</span> | <span class="pl-smi">null</span><span class="pl-kos">,</span> <span class="pl-s1">file</span>:<span class="pl-smi">Record</span><span class="pl-kos">&lt;</span><span class="pl-smi">string</span><span class="pl-kos">,</span> <span class="pl-smi">string</span>|<span class="pl-smi">number</span><span class="pl-kos">&gt;</span> | <span class="pl-smi">null</span><span class="pl-kos">,</span> <span class="pl-s1">resizing</span>: <span class="pl-smi">boolean</span><span class="pl-kos">)</span>: <span class="pl-smi"><span class="pl-k">void</span></span><span class="pl-kos">;</span>
 
     <span class="pl-c">/**</span>
-<span class="pl-c">     * <span class="pl-k">@description</span> Delete info object at "_infoList"</span>
+<span class="pl-c">     * <span class="pl-k">@description</span> Delete info object at "infoList"</span>
 <span class="pl-c">     * <span class="pl-k">@param</span>  pluginName Plugin name </span>
-<span class="pl-c">     * <span class="pl-k">@param</span>  index index of info object (this.context[pluginName]._infoList[].index)</span>
+<span class="pl-c">     * <span class="pl-k">@param</span>  index index of info object (this.context[pluginName].infoList[].index)</span>
 <span class="pl-c">     * <span class="pl-k">@param</span>  uploadEventHandler Event handler to process updated file info (created in setInfo)</span>
 <span class="pl-c">     */</span>
     <span class="pl-c1">deleteInfo</span><span class="pl-kos">(</span><span class="pl-s1">pluginName</span>: <span class="pl-smi">string</span><span class="pl-kos">,</span> <span class="pl-s1">index</span><span class="pl-kos">,</span> <span class="pl-s1">uploadEventHandler</span>: <span class="pl-smi">Function</span> | <span class="pl-smi">null</span><span class="pl-kos">)</span>: <span class="pl-smi"><span class="pl-k">void</span></span><span class="pl-kos">;</span>
 
     <span class="pl-c">/**</span>
-<span class="pl-c">     * <span class="pl-k">@description</span> Reset info object and "_infoList = []", "_infoIndex = 0"</span>
+<span class="pl-c">     * <span class="pl-k">@description</span> Reset info object and "infoList = []", "infoIndex = 0"</span>
 <span class="pl-c">     * <span class="pl-k">@param</span>  pluginName Plugin name </span>
 <span class="pl-c">     * <span class="pl-k">@param</span>  uploadEventHandler Event handler to process updated file info (created in setInfo)</span>
 <span class="pl-c">     */</span>
@@ -179,59 +179,59 @@
 <span class="pl-c"> * <span class="pl-k">@description</span> Require context properties when resizing module</span>
 <span class="pl-c">    inputX: Element,</span>
 <span class="pl-c">    inputY: Element,</span>
-<span class="pl-c">    _container: null,</span>
-<span class="pl-c">    _cover: null,</span>
-<span class="pl-c">    _element: null,</span>
-<span class="pl-c">    _element_w: 1,</span>
-<span class="pl-c">    _element_h: 1,</span>
-<span class="pl-c">    _element_l: 0,</span>
-<span class="pl-c">    _element_t: 0,</span>
-<span class="pl-c">    _defaultSizeX: 'auto',</span>
-<span class="pl-c">    _defaultSizeY: 'auto',</span>
-<span class="pl-c">    _origin_w: core.options.imageWidth === 'auto' ? '' : core.options.imageWidth,</span>
-<span class="pl-c">    _origin_h: core.options.imageHeight === 'auto' ? '' : core.options.imageHeight,</span>
-<span class="pl-c">    _proportionChecked: true,</span>
+<span class="pl-c">    container: null,</span>
+<span class="pl-c">    cover: null,</span>
+<span class="pl-c">    element: null,</span>
+<span class="pl-c">    element_w: 1,</span>
+<span class="pl-c">    element_h: 1,</span>
+<span class="pl-c">    element_l: 0,</span>
+<span class="pl-c">    element_t: 0,</span>
+<span class="pl-c">    defaultSizeX: 'auto',</span>
+<span class="pl-c">    defaultSizeY: 'auto',</span>
+<span class="pl-c">    origin_w: core.options.imageWidth === 'auto' ? '' : core.options.imageWidth,</span>
+<span class="pl-c">    origin_h: core.options.imageHeight === 'auto' ? '' : core.options.imageHeight,</span>
+<span class="pl-c">    proportionChecked: true,</span>
 <span class="pl-c">    // -- select function --</span>
-<span class="pl-c">    _resizing: core.options.imageResizing,</span>
-<span class="pl-c">    _resizeDotHide: !core.options.imageHeightShow,</span>
-<span class="pl-c">    _rotation: core.options.imageRotation,</span>
-<span class="pl-c">    _onlyPercentage: core.options.imageSizeOnlyPercentage,</span>
-<span class="pl-c">    _ratio: false,</span>
-<span class="pl-c">    _ratioX: 1,</span>
-<span class="pl-c">    _ratioY: 1</span>
-<span class="pl-c">    _captionShow: true,</span>
-<span class="pl-c">    // -- when used caption (_captionShow: true) --</span>
-<span class="pl-c">    _caption: null,</span>
-<span class="pl-c">    _captionChecked: false,</span>
+<span class="pl-c">    resizing: core.options.imageResizing,</span>
+<span class="pl-c">    resizeDotHide: !core.options.imageHeightShow,</span>
+<span class="pl-c">    rotation: core.options.imageRotation,</span>
+<span class="pl-c">    onlyPercentage: core.options.imageSizeOnlyPercentage,</span>
+<span class="pl-c">    ratio: false,</span>
+<span class="pl-c">    ratioX: 1,</span>
+<span class="pl-c">    ratioY: 1</span>
+<span class="pl-c">    captionShow: true,</span>
+<span class="pl-c">    // -- when used caption (captionShow: true) --</span>
+<span class="pl-c">    caption: null,</span>
+<span class="pl-c">    captionChecked: false,</span>
 <span class="pl-c">    captionCheckEl: null</span>
 <span class="pl-c">*/</span>
 <span class="pl-k">declare</span> <span class="pl-k">interface</span> <span class="pl-smi">resizing</span> <span class="pl-k">extends</span> <span class="pl-smi">Module</span> <span class="pl-kos">{</span>
     <span class="pl-c">/**</span>
 <span class="pl-c">     * <span class="pl-k">@description</span> Gets the width size</span>
 <span class="pl-c">     * <span class="pl-k">@param</span> contextPlugin context object of plugin (core.context[plugin])</span>
-<span class="pl-c">     * <span class="pl-k">@param</span> element Target element [default: "this.plugin[plugin]._element"]</span>
-<span class="pl-c">     * <span class="pl-k">@param</span> cover Cover element (FIGURE) [default: "this.plugin[plugin]._cover"]</span>
-<span class="pl-c">     * <span class="pl-k">@param</span> container Container element (DIV.se-component) [default: "this.plugin[plugin]._container"]</span>
+<span class="pl-c">     * <span class="pl-k">@param</span> element Target element [default: "this.plugin[plugin].element"]</span>
+<span class="pl-c">     * <span class="pl-k">@param</span> cover Cover element (FIGURE) [default: "this.plugin[plugin].cover"]</span>
+<span class="pl-c">     * <span class="pl-k">@param</span> container Container element (DIV.se-component) [default: "this.plugin[plugin].container"]</span>
 <span class="pl-c">     * <span class="pl-k">@returns</span></span>
 <span class="pl-c">     */</span>
-    <span class="pl-c1">_module_getSizeX</span><span class="pl-kos">(</span><span class="pl-s1">contextPlugin</span>: <span class="pl-smi">Object</span><span class="pl-kos">,</span> <span class="pl-s1">element</span>: <span class="pl-smi">Element</span><span class="pl-kos">,</span> <span class="pl-s1">cover</span>: <span class="pl-smi">Element</span><span class="pl-kos">,</span> <span class="pl-s1">container</span>: <span class="pl-smi">Element</span><span class="pl-kos">)</span>: <span class="pl-smi">string</span><span class="pl-kos">;</span>
+    <span class="pl-c1">module_getSizeX</span><span class="pl-kos">(</span><span class="pl-s1">contextPlugin</span>: <span class="pl-smi">Object</span><span class="pl-kos">,</span> <span class="pl-s1">element</span>: <span class="pl-smi">Element</span><span class="pl-kos">,</span> <span class="pl-s1">cover</span>: <span class="pl-smi">Element</span><span class="pl-kos">,</span> <span class="pl-s1">container</span>: <span class="pl-smi">Element</span><span class="pl-kos">)</span>: <span class="pl-smi">string</span><span class="pl-kos">;</span>
     
     <span class="pl-c">/**</span>
 <span class="pl-c">     * <span class="pl-k">@description</span> Gets the height size</span>
 <span class="pl-c">     * <span class="pl-k">@param</span> contextPlugin context object of plugin (core.context[plugin])</span>
-<span class="pl-c">     * <span class="pl-k">@param</span> element Target element [default: "this.plugin[plugin]._element"]</span>
-<span class="pl-c">     * <span class="pl-k">@param</span> cover Cover element (FIGURE) [default: "this.plugin[plugin]._cover"]</span>
-<span class="pl-c">     * <span class="pl-k">@param</span> container Container element (DIV.se-component) [default: "this.plugin[plugin]._container"]</span>
+<span class="pl-c">     * <span class="pl-k">@param</span> element Target element [default: "this.plugin[plugin].element"]</span>
+<span class="pl-c">     * <span class="pl-k">@param</span> cover Cover element (FIGURE) [default: "this.plugin[plugin].cover"]</span>
+<span class="pl-c">     * <span class="pl-k">@param</span> container Container element (DIV.se-component) [default: "this.plugin[plugin].container"]</span>
 <span class="pl-c">     * <span class="pl-k">@returns</span></span>
 <span class="pl-c">     */</span>
-    <span class="pl-c1">_module_getSizeY</span><span class="pl-kos">(</span><span class="pl-s1">contextPlugin</span>: <span class="pl-smi">Object</span><span class="pl-kos">,</span> <span class="pl-s1">element</span>: <span class="pl-smi">Element</span><span class="pl-kos">,</span> <span class="pl-s1">cover</span>: <span class="pl-smi">Element</span><span class="pl-kos">,</span> <span class="pl-s1">container</span>: <span class="pl-smi">Element</span><span class="pl-kos">)</span>: <span class="pl-smi">string</span><span class="pl-kos">;</span>
+    <span class="pl-c1">module_getSizeY</span><span class="pl-kos">(</span><span class="pl-s1">contextPlugin</span>: <span class="pl-smi">Object</span><span class="pl-kos">,</span> <span class="pl-s1">element</span>: <span class="pl-smi">Element</span><span class="pl-kos">,</span> <span class="pl-s1">cover</span>: <span class="pl-smi">Element</span><span class="pl-kos">,</span> <span class="pl-s1">container</span>: <span class="pl-smi">Element</span><span class="pl-kos">)</span>: <span class="pl-smi">string</span><span class="pl-kos">;</span>
 
     <span class="pl-c">/**</span>
 <span class="pl-c">     * <span class="pl-k">@description</span> Called at the "openModify" to put the size of the current target into the size input element.</span>
 <span class="pl-c">     * <span class="pl-k">@param</span> contextPlugin context object of plugin (core.context[plugin])</span>
 <span class="pl-c">     * <span class="pl-k">@param</span> pluginObj Plugin object</span>
 <span class="pl-c">     */</span>
-    <span class="pl-c1">_module_setModifyInputSize</span><span class="pl-kos">(</span><span class="pl-s1">contextPlugin</span>: <span class="pl-smi">Object</span><span class="pl-kos">,</span> <span class="pl-s1">pluginObj</span>: <span class="pl-smi">Object</span><span class="pl-kos">)</span>: <span class="pl-smi"><span class="pl-k">void</span></span><span class="pl-kos">;</span>
+    <span class="pl-c1">module_setModifyInputSize</span><span class="pl-kos">(</span><span class="pl-s1">contextPlugin</span>: <span class="pl-smi">Object</span><span class="pl-kos">,</span> <span class="pl-s1">pluginObj</span>: <span class="pl-smi">Object</span><span class="pl-kos">)</span>: <span class="pl-smi"><span class="pl-k">void</span></span><span class="pl-kos">;</span>
     
     <span class="pl-c">/**</span>
 <span class="pl-c">     * <span class="pl-k">@description</span> It is called in "setInputSize" (input tag keyupEvent), </span>
@@ -240,27 +240,27 @@
 <span class="pl-c">     * <span class="pl-k">@param</span> contextPlugin context object of plugin (core.context[plugin])</span>
 <span class="pl-c">     * <span class="pl-k">@param</span> xy 'x': width, 'y': height</span>
 <span class="pl-c">     */</span>
-    <span class="pl-c1">_module_setInputSize</span><span class="pl-kos">(</span><span class="pl-s1">contextPlugin</span>: <span class="pl-smi">Object</span><span class="pl-kos">,</span> <span class="pl-s1">xy</span>: <span class="pl-smi">string</span><span class="pl-kos">)</span>: <span class="pl-smi"><span class="pl-k">void</span></span><span class="pl-kos">;</span>
+    <span class="pl-c1">module_setInputSize</span><span class="pl-kos">(</span><span class="pl-s1">contextPlugin</span>: <span class="pl-smi">Object</span><span class="pl-kos">,</span> <span class="pl-s1">xy</span>: <span class="pl-smi">string</span><span class="pl-kos">)</span>: <span class="pl-smi"><span class="pl-k">void</span></span><span class="pl-kos">;</span>
     
     <span class="pl-c">/**</span>
 <span class="pl-c">     * <span class="pl-k">@description</span> It is called in "setRatio" (input and proportionCheck tags changeEvent), </span>
 <span class="pl-c">     * checks the value of the input tag, calculates the ratio, and resets it in the input tag.</span>
 <span class="pl-c">     * <span class="pl-k">@param</span> contextPlugin context object of plugin (core.context[plugin])</span>
 <span class="pl-c">     */</span>
-    <span class="pl-c1">_module_setRatio</span><span class="pl-kos">(</span><span class="pl-s1">contextPlugin</span>: <span class="pl-smi">Object</span><span class="pl-kos">)</span>: <span class="pl-smi"><span class="pl-k">void</span></span><span class="pl-kos">;</span>
+    <span class="pl-c1">module_setRatio</span><span class="pl-kos">(</span><span class="pl-s1">contextPlugin</span>: <span class="pl-smi">Object</span><span class="pl-kos">)</span>: <span class="pl-smi"><span class="pl-k">void</span></span><span class="pl-kos">;</span>
     
     <span class="pl-c">/**</span>
-<span class="pl-c">     * <span class="pl-k">@description</span> Revert size of element to origin size (plugin._origin_w, plugin._origin_h)</span>
+<span class="pl-c">     * <span class="pl-k">@description</span> Revert size of element to origin size (plugin.origin_w, plugin.origin_h)</span>
 <span class="pl-c">     * <span class="pl-k">@param</span> contextPlugin context object of plugin (core.context[plugin])</span>
 <span class="pl-c">     */</span>
-    <span class="pl-c1">_module_sizeRevert</span><span class="pl-kos">(</span><span class="pl-s1">contextPlugin</span>: <span class="pl-smi">Object</span><span class="pl-kos">)</span>: <span class="pl-smi"><span class="pl-k">void</span></span><span class="pl-kos">;</span>
+    <span class="pl-c1">module_sizeRevert</span><span class="pl-kos">(</span><span class="pl-s1">contextPlugin</span>: <span class="pl-smi">Object</span><span class="pl-kos">)</span>: <span class="pl-smi"><span class="pl-k">void</span></span><span class="pl-kos">;</span>
 
     <span class="pl-c">/**</span>
 <span class="pl-c">     * <span class="pl-k">@description</span> Save the size data (element.setAttribute("data-size"))</span>
 <span class="pl-c">     * Used at the "setSize" method</span>
 <span class="pl-c">     * <span class="pl-k">@param</span> contextPlugin context object of plugin (core.context[plugin])</span>
 <span class="pl-c">     */</span>
-    <span class="pl-c1">_module_saveCurrentSize</span><span class="pl-kos">(</span><span class="pl-s1">contextPlugin</span>: <span class="pl-smi">Object</span><span class="pl-kos">)</span>: <span class="pl-smi"><span class="pl-k">void</span></span><span class="pl-kos">;</span>
+    <span class="pl-c1">module_saveCurrentSize</span><span class="pl-kos">(</span><span class="pl-s1">contextPlugin</span>: <span class="pl-smi">Object</span><span class="pl-kos">)</span>: <span class="pl-smi"><span class="pl-k">void</span></span><span class="pl-kos">;</span>
 
     <span class="pl-c">/**</span>
 <span class="pl-c">     * <span class="pl-k">@description</span> Call the resizing module</span>

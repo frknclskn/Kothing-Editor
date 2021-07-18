@@ -7,7 +7,7 @@
  */
 
 export default function (core, change) {
-  const _w = core._w;
+  const _window = core._window;
   const util = core.util;
   const delayTime = core.options.historyStackDelayTime;
   let editor = core.context.element;
@@ -31,27 +31,39 @@ export default function (core, change) {
     core.focus();
 
     if (stackIndex === 0) {
-      if (undo) undo.setAttribute("disabled", true);
-      if (redo) redo.removeAttribute("disabled");
+      if (undo) {
+        undo.setAttribute("disabled", true);
+      }
+      if (redo) {
+        redo.removeAttribute("disabled");
+      }
     } else if (stackIndex === stack.length - 1) {
-      if (undo) undo.removeAttribute("disabled");
-      if (redo) redo.setAttribute("disabled", true);
+      if (undo) {
+        undo.removeAttribute("disabled");
+      }
+      if (redo) {
+        redo.setAttribute("disabled", true);
+      }
     } else {
-      if (undo) undo.removeAttribute("disabled");
-      if (redo) redo.removeAttribute("disabled");
+      if (undo) {
+        undo.removeAttribute("disabled");
+      }
+      if (redo) {
+        redo.removeAttribute("disabled");
+      }
     }
 
     core.controllersOff();
-    core._checkComponents();
-    core._setCharCount();
-    core._resourcesStateChange();
+    core.checkComponents();
+    core.setCharCount();
+    core.resourcesStateChange();
 
     // onChange
     change();
   }
 
   function pushStack() {
-    core._checkComponents();
+    core.checkComponents();
     const current = core.getContents(true);
     if (
       !current ||
@@ -60,11 +72,13 @@ export default function (core, change) {
       return;
 
     stackIndex++;
-    const range = core._variable._range;
+    const range = core._variable.range;
 
     if (stack.length > stackIndex) {
       stack = stack.slice(0, stackIndex);
-      if (redo) redo.setAttribute("disabled", true);
+      if (redo) {
+        redo.setAttribute("disabled", true);
+      }
     }
 
     if (!range) {
@@ -87,9 +101,11 @@ export default function (core, change) {
       };
     }
 
-    if (stackIndex === 1 && undo) undo.removeAttribute("disabled");
+    if (stackIndex === 1 && undo) {
+      undo.removeAttribute("disabled");
+    }
 
-    core._setCharCount();
+    core.setCharCount();
     // onChange
     change();
   }
@@ -108,7 +124,7 @@ export default function (core, change) {
      * @param {Boolean|Number} delay If true, Add stack without delay time.
      */
     push: function (delay) {
-      _w.setTimeout(core._resourcesStateChange.bind(core));
+      _window.setTimeout(core.resourcesStateChange.bind(core));
       const time =
         typeof delay === "number"
           ? delay > 0
@@ -119,15 +135,15 @@ export default function (core, change) {
           : delayTime;
 
       if (!time || pushDelay) {
-        _w.clearTimeout(pushDelay);
+        _window.clearTimeout(pushDelay);
         if (!time) {
           pushStack();
           return;
         }
       }
 
-      pushDelay = _w.setTimeout(function () {
-        _w.clearTimeout(pushDelay);
+      pushDelay = _window.setTimeout(function () {
+        _window.clearTimeout(pushDelay);
         pushDelay = null;
         pushStack();
       }, time);
@@ -167,11 +183,16 @@ export default function (core, change) {
      * @description Reset the history object
      */
     reset: function (ignoreChangeEvent) {
-      if (undo) undo.setAttribute("disabled", true);
-      if (redo) redo.setAttribute("disabled", true);
+      if (undo) {
+        undo.setAttribute("disabled", true);
+      }
+      if (redo) {
+        redo.setAttribute("disabled", true);
+      }
       core._variable.isChanged = false;
-      if (core.context.tool.save)
+      if (core.context.tool.save) {
         core.context.tool.save.setAttribute("disabled", true);
+      }
 
       stack.splice(0);
       stackIndex = 0;
@@ -189,27 +210,35 @@ export default function (core, change) {
         },
       };
 
-      if (!ignoreChangeEvent) change();
+      if (!ignoreChangeEvent) {
+        change();
+      }
     },
 
     /**
      * @description Reset the disabled state of the buttons to fit the current stack.
      * @private
      */
-    _resetCachingButton: function () {
+    resetCachingButton: function () {
       editor = core.context.element;
       undo = core.context.tool.undo;
       redo = core.context.tool.redo;
 
       if (stackIndex === 0) {
-        if (undo) undo.setAttribute("disabled", true);
-        if (redo && stackIndex === stack.length - 1)
+        if (undo) {
+          undo.setAttribute("disabled", true);
+        }
+        if (redo && stackIndex === stack.length - 1) {
           redo.setAttribute("disabled", true);
+        }
         core._variable.isChanged = false;
-        if (core.context.tool.save)
+        if (core.context.tool.save) {
           core.context.tool.save.setAttribute("disabled", true);
+        }
       } else if (stackIndex === stack.length - 1) {
-        if (redo) redo.setAttribute("disabled", true);
+        if (redo) {
+          redo.setAttribute("disabled", true);
+        }
       }
     },
 
@@ -217,8 +246,10 @@ export default function (core, change) {
      * @description Remove all stacks and remove the timeout function.
      * @private
      */
-    _destroy: function () {
-      if (pushDelay) _w.clearTimeout(pushDelay);
+    destroy: function () {
+      if (pushDelay) {
+        _window.clearTimeout(pushDelay);
+      }
       stack = null;
     },
   };

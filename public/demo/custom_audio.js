@@ -20,11 +20,11 @@ function userFunc_audioUpload(targetElement, index, state, info, remainingFilesC
 
   if (remainingFilesCount === 0) {
     console.log('audioList', audioList);
-    _setAudioList(audioList);
+    setAudioList(audioList);
   }
 }
 
-function _setAudioList() {
+function setAudioList() {
   let list = '';
 
   for (let i = 0, info; i < audioList.length; i++) {
@@ -53,15 +53,15 @@ export default {
   name: 'customAudio',
 
   /**
-     * @Required
-     * data display
-     */
+   * @Required
+   * data display
+   */
   display: 'dialog',
 
   /**
-     * @options
-     * You can also set from the toolbar item
-     */
+   * @options
+   * You can also set from the toolbar item
+   */
   title: 'Custom audio',
   buttonClass: '',
   innerHTML: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14,3.23V5.29C16.89,6.15 19,8.83 19,12C19,15.17 16.89,17.84 14,18.7V20.77C18,19.86 21,16.28 21,12C21,7.72 18,4.14 14,3.23M16.5,12C16.5,10.23 15.5,8.71 14,7.97V16C15.5,15.29 16.5,13.76 16.5,12M3,9V15H7L12,20V4L7,9H3Z" /></svg>',
@@ -77,21 +77,21 @@ export default {
     core.addModule([dialog, component, fileManager]);
 
     /**
-         * @Required
-         * Registering a namespace for caching as a plugin name in the context object
-         */
+     * @Required
+     * Registering a namespace for caching as a plugin name in the context object
+     */
     const context = core.context;
     context.customAudio = {
-      _infoList: [], // @Override fileManager
-      _infoIndex: 0, // @Override fileManager
-      _uploadFileLength: 0, // @Override fileManager
+      infoList: [], // @Override fileManager
+      infoIndex: 0, // @Override fileManager
+      uploadFileLength: 0, // @Override fileManager
       focusElement: null, // @Override // This element has focus when the dialog is opened.
       targetSelect: null,
       linkAnchorText: null,
       // @require @Override component
-      _element: null,
-      _cover: null,
-      _container: null,
+      element: null,
+      cover: null,
+      container: null,
     };
 
     // buton title
@@ -128,13 +128,13 @@ export default {
     context.customAudio.controller = audio_controller;
 
     /**
-         * @Required
-         * You must register the event propagation stop code in the "mousedown" event of the controller.
-         */
+     * @Required
+     * You must register the event propagation stop code in the "mousedown" event of the controller.
+     */
     audio_controller.addEventListener('mousedown', function (e) { e.stopPropagation(); }, false);
 
     /** add event listeners */
-    audio_dialog.querySelector('.ke-dialog-files-edge-button').addEventListener('click', this._removeSelectedFiles.bind(context.fileInput, context.urlInput));
+    audio_dialog.querySelector('.ke-dialog-files-edge-button').addEventListener('click', this.removeSelectedFiles.bind(context.fileInput, context.urlInput));
     audio_dialog.querySelector('.ke-btn-primary').addEventListener('click', this.submit.bind(core));
     audio_controller.addEventListener('click', this.onClick_controller.bind(core));
 
@@ -213,7 +213,7 @@ export default {
   },
 
   // Disable url input when uploading files
-  _removeSelectedFiles: function (urlInput) {
+  removeSelectedFiles: function (urlInput) {
     this.value = '';
     if (urlInput) { urlInput.removeAttribute('disabled'); }
   },
@@ -224,20 +224,20 @@ export default {
   fileTags: ['audio'],
 
   /**
-     * @Override core, fileManager, resizing
-     * @description It is called from core.selectComponent.
-     * @param {Element} element Target element
-     */
+   * @Override core, fileManager, resizing
+   * @description It is called from core.selectComponent.
+   * @param {Element} element Target element
+   */
   select: function (element) {
     this.plugins.customAudio.onModifyMode.call(this, element);
   },
 
   /**
-     * @Override fileManager, resizing 
-     * @param {Element} element Target element
-     */
+   * @Override fileManager, resizing 
+   * @param {Element} element Target element
+   */
   destroy: function (element) {
-    element = element || this.context.customAudio._element;
+    element = element || this.context.customAudio.element;
     const container = this.util.getParentElement(element, this.util.isComponent) || element;
     const dataIndex = element.getAttribute('data-index') * 1;
     const focusEl = (container.previousElementSibling || container.nextElementSibling);
@@ -269,34 +269,34 @@ export default {
   },
 
   /**
-     * @Override fileManager
-     */
+   * @Override fileManager
+   */
   resetFileInfo: function () {
     // (pluginName, data-index, "uploadEventHandler")
     this.plugins.fileManager.resetInfo.call(this, 'customAudio', userFunc_audioUpload);
   },
 
   /**
-     * @Required @Override dialog
-     * This method is called just before the dialog opens.
-     * @param {Boolean} update If "update" argument is true, it is not a new call, but a call to modify an already created element.
-     */
+   * @Required @Override dialog
+   * This method is called just before the dialog opens.
+   * @param {Boolean} update If "update" argument is true, it is not a new call, but a call to modify an already created element.
+   */
   on: function (update) {
     if (!update) {
       this.plugins.customAudio.init.call(this);
-    } else if (this.context.customAudio._element) {
+    } else if (this.context.customAudio.element) {
       // "update" and "this.context.dialog.updateModal" are always the same value.
       // This code is an exception to the "link" plugin.
       this.context.dialog.updateModal = true;
-      this.context.customAudio.urlInput.value = this.context.customAudio._element.src;
+      this.context.customAudio.urlInput.value = this.context.customAudio.element.src;
     }
   },
 
   /**
-     * @Required @Override dialog
-     * This method is called when the plugin button is clicked.
-     * Open the modal window here.
-     */
+   * @Required @Override dialog
+   * This method is called when the plugin button is clicked.
+   * Open the modal window here.
+   */
   open: function () {
     // open.call(core, pluginName, isModify)
     this.plugins.dialog.open.call(this, 'customAudio', 'customAudio' === this.currentControllerName);
@@ -340,12 +340,12 @@ export default {
     const context = this.context.customAudio;
     const audioPlugin = this.plugins.customAudio;
 
-    context._uploadFileLength = files.length;
+    context.uploadFileLength = files.length;
     const filesLen = this.context.dialog.updateModal ? 1 : files.length;
     const info = {
-      align: context._align,
+      align: context.align,
       isUpdate: this.context.dialog.updateModal,
-      element: context._element,
+      element: context.element,
     };
 
     // create formData
@@ -419,8 +419,8 @@ export default {
       const container = this.plugins.component.set_container.call(this, cover, '');
       this.insertComponent(container, false);
     } // update
-    else if (context._element.src !== src) {
-      element = context._element;
+    else if (context.element.src !== src) {
+      element = context.element;
       element.src = src;
     } // not changed
     else {
@@ -445,7 +445,7 @@ export default {
       }.bind(this.util));
 
     // clone element
-    context._element = element.cloneNode(false);
+    context.element = element.cloneNode(false);
     const cover = this.plugins.component.set_cover.call(this, element);
     const container = this.plugins.component.set_container.call(this, cover, 'ke-video-container');
 
@@ -457,10 +457,10 @@ export default {
   },
 
   /**
-     * @Required @Override fileManager, resizing
-     * @param {Element} selectionTag Selected element
-     * @param {Object} size Size object{w, h, t, 1} of "core.plugins.resizing.call_controller_resize" return value when if using "resizing" module
-     */
+   * @Required @Override fileManager, resizing
+   * @param {Element} selectionTag Selected element
+   * @param {Object} size Size object{w, h, t, 1} of "core.plugins.resizing.call_controller_resize" return value when if using "resizing" module
+   */
   onModifyMode: function (selectionTag) {
     const context = this.context.customAudio;
 
@@ -484,16 +484,16 @@ export default {
 
     // set modify mode context
     selectionTag.style.border = '1px solid #80bdff';
-    context._element = selectionTag;
-    context._cover = this.util.getParentElement(selectionTag, 'FIGURE');
-    context._container = this.util.getParentElement(selectionTag, this.util.isComponent);
+    context.element = selectionTag;
+    context.cover = this.util.getParentElement(selectionTag, 'FIGURE');
+    context.container = this.util.getParentElement(selectionTag, this.util.isComponent);
   },
 
   /**
-     * @Required @Override fileManager, resizing
-     */
+   * @Required @Override fileManager, resizing
+   */
   openModify: function (notOpen) {
-    this.context.customAudio.urlInput.value = this.context.customAudio._element.src;
+    this.context.customAudio.urlInput.value = this.context.customAudio.element.src;
     if (!notOpen) { this.plugins.dialog.open.call(this, 'customAudio', true); }
   },
 
@@ -501,31 +501,37 @@ export default {
     e.stopPropagation();
 
     const command = e.target.getAttribute('data-command');
-    if (!command) { return; }
+    if (!command) { 
+      return; 
+    }
 
     e.preventDefault();
 
     if (/update/.test(command)) {
       this.plugins.customAudio.openModify.call(this, false);
     } else { /** delete */
-      this.plugins.customAudio.destroy.call(this, this.context.customAudio._element);
+      this.plugins.customAudio.destroy.call(this, this.context.customAudio.element);
     }
 
     this.controllersOff();
   },
 
   /**
-     * @Required @Override dialog
-     * This method is called when the dialog window is closed.
-     * Initialize the properties.
-     */
+   * @Required @Override dialog
+   * This method is called when the dialog window is closed.
+   * Initialize the properties.
+   */
   init: function () {
-    if (this.context.dialog.updateModal) { return; }
+    if (this.context.dialog.updateModal) { 
+      return;
+    }
 
     const context = this.context.customAudio;
-    if (context._element) { context._element.style.border = ''; }
+    if (context.element) { 
+      context.element.style.border = ''; 
+    }
     context.controller.style.display = 'none';
-    context._element = null;
+    context.element = null;
     context.fileInput.value = '';
     context.urlInput.value = '';
   },

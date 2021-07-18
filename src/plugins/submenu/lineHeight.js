@@ -12,7 +12,7 @@ export default {
   add: function (core, targetElement) {
     const context = core.context;
     context.lineHeight = {
-      _sizeList: null,
+      sizeList: null,
       currentSize: -1,
     };
 
@@ -23,13 +23,14 @@ export default {
     /** add event listeners */
     listUl.addEventListener("click", this.pickup.bind(core));
 
-    context.lineHeight._sizeList = listUl.querySelectorAll("li button");
+    context.lineHeight.sizeList = listUl.querySelectorAll("li button");
 
     /** append target button menu */
     core.initMenuTarget(this.name, targetElement, listDiv);
 
     /** empty memory */
-    (listDiv = null), (listUl = null);
+    listDiv = null;
+    listUl = null;
   },
 
   setSubmenu: function (core) {
@@ -79,7 +80,7 @@ export default {
    */
   on: function () {
     const lineHeightContext = this.context.lineHeight;
-    const sizeList = lineHeightContext._sizeList;
+    const sizeList = lineHeightContext.sizeList;
     const format = this.util.getFormatElement(this.getSelectionNode());
     const currentSize = !format ? "" : format.style.lineHeight + "";
 
