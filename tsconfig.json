@@ -12,7 +12,11 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "noEmit": true
+    "noEmit": true,
+    "declaration": true,
+    "declarationMap": true,
+    "declarationDir": "./types",
+    "typeRoots" : ["./types"]
   },
   "include": ["src"]
 }
