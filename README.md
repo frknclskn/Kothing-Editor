@@ -102,11 +102,12 @@ You need to include "kothing-editor/css/kothing-editor.min.css" file.
 import 'kothing-editor/css/kothing-editor.min.css';
 import KothingEditor from 'kothing-editor';
 import { font, fontSize, fontColor, horizontalRule, list, image } from 'kothing-editor/lib/plugins';
+import lang from 'kothing-editor/lib/lang';
 
 KothingEditor.create('my-editor', {
   plugins: [font, fontSize, fontColor, horizontalRule, link, image],
   toolbarItem: [['font', 'fontSize'], ['fontColor'], ['horizontalRule'], ['link', 'image']],
-  lang: 'en',
+  lang: lang.zh_cn,
 });
 ```
 
@@ -114,6 +115,7 @@ KothingEditor.create('my-editor', {
 
 ```javascript
 import KothingEditor from 'kothing-editor';
+import lang from 'kothing-editor/lib/lang';
 import plugins from 'kothing-editor/lib/plugins';
 import 'kothing-editor/css/kothing-editor.min.css';
 import katex from 'katex';
@@ -122,7 +124,7 @@ import 'katex/dist/katex.min.css'
 KothingEditor.create('document', {
     width: '100%',
     height: 'auto',
-    lang: 'en',
+    lang: lang.en,
     plugins: plugins,
     katex: katex,
     toolbarItem: [
