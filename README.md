@@ -62,7 +62,7 @@ $ npm install --save kothing-editor
 ### 1. Include
 
 ```html
-<link href="./css/kothing-editor.min.css" rel="stylesheet" />
+<link href="./kothing-editor.min.css" rel="stylesheet" />
 <script src="./kothing-editor.min.js"></script>
 ```
 
@@ -91,7 +91,7 @@ KothingEditor.create(document.getElementById('my-editor'), {
 
 ```text
 When you display a document created by KothingEditor
-You need to include "kothing-editor/css/kothing-editor.min.css" file.
+You need to include "kothing-editor/kothing-editor.min.css" file.
 ```
 
 ## Use import statement
@@ -99,7 +99,7 @@ You need to include "kothing-editor/css/kothing-editor.min.css" file.
 ### 1. Load only what you want
 
 ```javascript
-import 'kothing-editor/css/kothing-editor.min.css';
+import 'kothing-editor/kothing-editor.min.css';
 import KothingEditor from 'kothing-editor';
 import { font, fontSize, fontColor, horizontalRule, list, image } from 'kothing-editor/lib/plugins';
 import lang from 'kothing-editor/lib/lang';
@@ -117,7 +117,7 @@ KothingEditor.create('my-editor', {
 import KothingEditor from 'kothing-editor';
 import lang from 'kothing-editor/lib/lang';
 import plugins from 'kothing-editor/lib/plugins';
-import 'kothing-editor/css/kothing-editor.min.css';
+import 'kothing-editor/kothing-editor.min.css';
 import katex from 'katex';
 import 'katex/dist/katex.min.css'
 
@@ -171,7 +171,7 @@ KothingEditor.create('my-editor', {
 ### 3. Plugins can be used directly in the toolbar item
 
 ```javascript
-import 'kothing-editor/css/kothing-editor.min.css';
+import 'kothing-editor/kothing-editor.min.css';
 import KothingEditor from 'kothing-editor';
 import {
   align,
@@ -214,7 +214,7 @@ The value of the option argument put in the "create" function call takes precede
 ```
 
 ```javascript
-import 'kothing-editor/css/kothing-editor.min.css';
+import 'kothing-editor/kothing-editor.min.css';
 import KothingEditor from 'kothing-editor';
 import plugins from 'kothing-editor/lib/plugins';
 
@@ -285,7 +285,7 @@ initEditor.create('my-editor_2', {
 ```
 
 ```javascript
-import 'kothing-editor/css/kothing-editor.min.css';
+import 'kothing-editor/kothing-editor.min.css';
 import KothingEditor from 'kothing-editor';
 // Import codeMirror
 import CodeMirror from 'codemirror';
@@ -312,7 +312,7 @@ KothingEditor.create('my-editor', {
 <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"></script>
 ```
 ```javascript
-import 'kothing-editor/dist/css/kothing-editor.min.css'
+import 'kothing-editor/dist/kothing-editor.min.css'
 import KothingEditor from 'kothing-editor'
 // Import katex
 import katex from 'katex'

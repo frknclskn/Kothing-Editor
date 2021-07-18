@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="author" content="https://github.com/JiHong88" />
-    <meta name="keywords" content="wysiwyg,editor,javascript,wysiwyg eidtor,rich text editor,html editor,contenteditable,위지위그 에디터 웹에디터">
+    <meta name="keywords" content="wysiwyg,editor,javascript,wysiwyg eidtor,rich text editor,html editor,contenteditable">
     <meta name="description" content="Pure javascript wysiwyg web editor" />
     <title>KothingEditor</title>
     <!-- sample css -->
@@ -12,7 +11,7 @@
     <link rel="stylesheet" href="../css/sample.css" media="all">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/3.0.1/github-markdown.min.css">
     <!-- kothing-editor -->
-    <link href="../../dist/css/kothing-editor.min.css" rel="stylesheet">
+    <link href="../../dist/kothing-editor.min.css" rel="stylesheet">
     <!-- codeMirror -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/codemirror@5.49.0/lib/codemirror.min.css">
     <!-- KaTeX -->
@@ -135,7 +134,7 @@
             <div>&amp;lt;<span style="color: rgb(107, 153, 0);">script</span> <span style="color: rgb(61, 0, 153);">src</span>=<span style="color: rgb(0, 51, 153);">"https://cdn.jsdelivr.net/npm/codemirror@5.49.0/mode/xml/xml.js"</span>&amp;gt;&amp;lt;/<span style="color: rgb(107, 153, 0);">script</span>&amp;gt;</div>
             <div>&amp;lt;<span style="color: rgb(107, 153, 0);">script</span> <span style="color: rgb(61, 0, 153);">src</span>=<span style="color: rgb(0, 51, 153);">"https://cdn.jsdelivr.net/npm/codemirror@5.49.0/mode/css/css.js"</span>&amp;gt;&amp;lt;/<span style="color: rgb(107, 153, 0);">script</span>&amp;gt;</div>
             <div><br></div>
-            <div><span style="color: rgb(255, 94, 0);">import</span> <span style="color: rgb(0, 51, 153);">'kothing-editor/dist/css/kothing-editor.min.css'</span></div>
+            <div><span style="color: rgb(255, 94, 0);">import</span> <span style="color: rgb(0, 51, 153);">'kothing-editor/dist/kothing-editor.min.css'</span></div>
             <div><span style="color: rgb(255, 94, 0);">import</span> <span style="color: rgb(0, 51, 153);">kothing-editor</span> <span style="color: rgb(255, 94, 0);">from</span> <span style="color: rgb(0, 51, 153);">'kothing-editor'</span></div>
             <div><span style="color: rgb(189, 189, 189);">// Import codeMirror</span></div>
             <div><span style="color: rgb(255, 94, 0);">import</span> CodeMirror <span style="color: rgb(255, 94, 0);">from</span> 'codemirror'</div>
@@ -344,10 +343,7 @@
         <p></p>
         <textarea id="imageManagement" style="display: none;">
             <p>cat</p>
-            <div class="ke-component ke-image-container __se__float-none" contenteditable="false"><figure style="margin: 0px;"><img src="http://KothingEditor.com/docs/s-cat.jpg" data-align="none" alt="" data-rotate="" data-proportion="true" data-rotatex="" data-rotatey="" origin-size="300,199" data-origin="300,199" data-file-name="s-cat.jpg" data-file-size="40500" style="width: 300px; transform: rotate(0deg); height: 198px;" data-size="300px,198px" data-index="0"></figure></div>
             <p>cat1</p>
-            <div class="ke-component ke-image-container __se__float-none" contenteditable="false"><figure style="margin: 0px; width: 300px;"><img src="http://#.com/docs/s-cat1.jpg" data-align="none" alt="" data-rotate="" data-proportion="true" data-rotatex="" data-rotatey="" origin-size="300,200" data-origin="300,200" data-file-name="s-cat1.jpg" data-file-size="52000" style="width: 300px; height: 174px; transform: rotate(0deg);" data-size="300px,174px" data-index="2"><figcaption style="margin-top: 0px;"><div>Insert description</div></figcaption></figure></div>
-            <p><br></p>
         </textarea>
         <div class="component-list">
             <div class="file-list-info">
@@ -570,7 +566,6 @@
 
     <footer>
         <p>KothingEditor distributed under the MIT license.</p>
-        <p><a href="https://github.com/JiHong88/KothingEditor" target="_blank" style="color:#f4b124;">Go to GitHub KothingEditor</a></p>
     </footer>
 </div>
 
@@ -683,47 +678,12 @@
         toolbarItem: [
             // default
             ['undo', 'redo'],
-            [':p-More Paragraph-default.more_paragraph', 'font', 'fontSize', 'formatBlock', 'paragraphStyle', 'blockquote'],
+            ['font', 'fontSize', 'formatBlock', 'paragraphStyle', 'blockquote'],
             ['bold', 'underline', 'italic', 'strike', 'subscript', 'superscript'],
             ['fontColor', 'hiliteColor', 'textStyle'],
             ['removeFormat'],
             ['outdent', 'indent'],
-            ['align', 'horizontalRule', 'list', 'lineHeight'],
-            ['-right', ':i-More Misc-default.more_vertical', 'fullScreen', 'showBlocks', 'codeView', 'preview', 'print', 'save', 'template'],
-            ['-right', ':r-More Rich-default.more_plus', 'table', 'math', 'imageGallery'],
-            ['-right', 'image', 'video', 'audio', 'link'],
-            // (min-width: 992)
-            ['%992', [
-                ['undo', 'redo'],
-                [':p-More Paragraph-default.more_paragraph', 'font', 'fontSize', 'formatBlock', 'paragraphStyle', 'blockquote'],
-                ['bold', 'underline', 'italic', 'strike'],
-                [':t-More Text-default.more_text', 'subscript', 'superscript', 'fontColor', 'hiliteColor', 'textStyle'],
-                ['removeFormat'],
-                ['outdent', 'indent'],
-                ['align', 'horizontalRule', 'list', 'lineHeight'],
-                ['-right', ':i-More Misc-default.more_vertical', 'fullScreen', 'showBlocks', 'codeView', 'preview', 'print', 'save', 'template'],
-                ['-right', ':r-More Rich-default.more_plus', 'table', 'link', 'image', 'video', 'audio', 'math', 'imageGallery']
-            ]],
-            // (min-width: 767)
-            ['%767', [
-                ['undo', 'redo'],
-                [':p-More Paragraph-default.more_paragraph', 'font', 'fontSize', 'formatBlock', 'paragraphStyle', 'blockquote'],
-                [':t-More Text-default.more_text', 'bold', 'underline', 'italic', 'strike', 'subscript', 'superscript', 'fontColor', 'hiliteColor', 'textStyle'],
-                ['removeFormat'],
-                ['outdent', 'indent'],
-                [':e-More Line-default.more_horizontal', 'align', 'horizontalRule', 'list', 'lineHeight'],
-                [':r-More Rich-default.more_plus', 'table', 'link', 'image', 'video', 'audio', 'math', 'imageGallery'],
-                ['-right', ':i-More Misc-default.more_vertical', 'fullScreen', 'showBlocks', 'codeView', 'preview', 'print', 'save', 'template']
-            ]],
-            // (min-width: 480)
-            ['%480', [
-                ['undo', 'redo'],
-                [':p-More Paragraph-default.more_paragraph', 'font', 'fontSize', 'formatBlock', 'paragraphStyle', 'blockquote'],
-                [':t-More Text-default.more_text', 'bold', 'underline', 'italic', 'strike', 'subscript', 'superscript', 'fontColor', 'hiliteColor', 'textStyle', 'removeFormat'],
-                [':e-More Line-default.more_horizontal', 'outdent', 'indent', 'align', 'horizontalRule', 'list', 'lineHeight'],
-                [':r-More Rich-default.more_plus', 'table', 'link', 'image', 'video', 'audio', 'math', 'imageGallery'],
-                ['-right', ':i-More Misc-default.more_vertical', 'fullScreen', 'showBlocks', 'codeView', 'preview', 'print', 'save', 'template']
-            ]]
+            ['align', 'horizontalRule', 'list', 'lineHeight']
         ]
     })
 
@@ -780,10 +740,12 @@
             ['image', 'video']
         ],
         width: '100%'
-    }
+    };
+
+    kothingEditor = KothingEditor.create("exampleFunction", options);
 
     function kothingEditor_setOptions() {
-        KothingEditor.setOptions({
+        kothingEditor.setOptions({
             mode: 'inline',
             minHeight: '300px',
             colorList: [
@@ -799,7 +761,7 @@
     }
 
     function kothingEditor_resetOptions() {
-        KothingEditor.setOptions({
+        kothingEditor.setOptions({
             mode: 'classic',
             minHeight: null,
             colorList: null,
@@ -819,105 +781,103 @@
     }
 
     function kothingEditor_setDefaultStyle() {
-        KothingEditor.setDefaultStyle('font-family: cursive; font-size: 10px;');
+        kothingEditor.setDefaultStyle('font-family: cursive; font-size: 10px;');
         ds1.style.display = 'none';
         ds2.style.display = 'inline-block';
     }
 
     function kothingEditor_resetDefaultStyle() {
-        KothingEditor.setDefaultStyle('');
+        kothingEditor.setDefaultStyle('');
         ds1.style.display = 'inline-block';
         ds2.style.display = 'none';
     }
 
     function kothingEditor_noticeOpen(message) {
-        KothingEditor.noticeOpen(message);
+        kothingEditor.noticeOpen(message);
     }
 
     function kothingEditor_noticeClose() {
-        KothingEditor.noticeClose();
+        kothingEditor.noticeClose();
     }
     
     function kothingEditor_save() {
-        KothingEditor.save();
+        kothingEditor.save();
     }
 
     function kothingEditor_getContext() {
-        console.log(KothingEditor.getContext());
+        console.log(kothingEditor.getContext());
     }
 
     function kothingEditor_getContents() {
-        alert(KothingEditor.getContents());
+        alert(kothingEditor.getContents());
     }
 
     function kothingEditor_getText() {
-        alert(KothingEditor.getText());
+        alert(kothingEditor.getText());
     }
 
     function kothingEditor_getImagesInfo() {
-        console.log(KothingEditor.getImagesInfo());
+        console.log(kothingEditor.getImagesInfo());
     }
 
     function kothingEditor_getFilesInfo(pluginName) {
-        console.log(KothingEditor.getFilesInfo(pluginName));
+        console.log(kothingEditor.getFilesInfo(pluginName));
     }
 
     function kothingEditor_insertImage() {
-        KothingEditor.insertImage(document.getElementById('example_files_input').files);
+        kothingEditor.insertImage(document.getElementById('example_files_input').files);
     }
 
     function kothingEditor_insertHTML(html) {
-        KothingEditor.insertHTML(html);
+        kothingEditor.insertHTML(html);
     }
 
     function kothingEditor_setContents(content) {
-        KothingEditor.setContents(content);
+        kothingEditor.setContents(content);
     }
 
     function kothingEditor_appendContents(content) {
-        KothingEditor.appendContents(content);
+        kothingEditor.appendContents(content);
     }
 
     function kothingEditor_disabled() {
-        KothingEditor.disabled();
+        kothingEditor.disabled();
     }
 
     function kothingEditor_enabled() {
-        KothingEditor.enabled();
+        kothingEditor.enabled();
     }
 
     function kothingEditor_show() {
-        KothingEditor.show();
+        kothingEditor.show();
     }
 
     function kothingEditor_hide() {
-        KothingEditor.hide();
+        kothingEditor.hide();
     }
 
     function kothingEditor_toolbar_disabled() {
-        KothingEditor.toolbar.disabled();
+        kothingEditor.toolbar.disabled();
     }
 
     function kothingEditor_toolbar_enabled() {
-        KothingEditor.toolbar.enabled();
+        kothingEditor.toolbar.enabled();
     }
 
     function kothingEditor_toolbar_show() {
-        KothingEditor.toolbar.show();
+        kothingEditor.toolbar.show();
     }
 
     function kothingEditor_toolbar_hide() {
-        KothingEditor.toolbar.hide();
+        kothingEditor.toolbar.hide();
     }
 
     function kothingEditor_destroy() {
-        KothingEditor.destroy();
+        kothingEditor.destroy();
         kothingEditor = null;
     }
 
     function kothingEditor_create() {
-        kothingEditor = KothingEditor.create('exampleFunction', options);
-
         KothingEditor.onload = function (core, reload) { console.log('onload-core', core); console.log('onload-reload', reload)}
         KothingEditor.onScroll = function (e) { console.log('onScroll', e); }
         KothingEditor.onMouseDown = function (e) { console.log('onMouseDown', e) }

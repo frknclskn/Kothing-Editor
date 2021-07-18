@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="author" content="https://github.com/JiHong88" />
-    <meta name="keywords" content="wysiwyg,editor,javascript,wysiwyg eidtor,rich text editor,html editor,contenteditable,위지위그 에디터 웹에디터">
+    <meta name="keywords" content="wysiwyg,editor,javascript,wysiwyg eidtor,rich text editor,html editor,contenteditable">
     <meta name="description" content="Pure javascript wysiwyg web editor" />
     <title>KothingEditor</title>
     <!-- sample css -->
@@ -12,7 +11,7 @@
     <link rel="stylesheet" href="../css/sample.css" media="all">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/3.0.1/github-markdown.min.css">
     <!-- KothingEditor -->
-    <link href="../../dist/css/kothing-editor.min.css" rel="stylesheet">
+    <link href="../../dist/kothing-editor.min.css" rel="stylesheet">
     <!-- codeMirror -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/codemirror@5.49.0/lib/codemirror.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/codemirror@5.49.0/addon/lint/lint.css">
@@ -482,7 +481,6 @@
 
     <footer>
         <p>KothingEditor distributed under the MIT license.</p>
-        <p><a href="https://github.com/JiHong88/KothingEditor" target="_blank" style="color:#f4b124;">Go to GitHub KothingEditor</a></p>
     </footer>
 </div>
 
@@ -508,25 +506,6 @@
     font-size: 13px;
 }
 </style>
-<!-- languages -->
-<script src="../../src/lang/ckb.js"></script>
-<script src="../../src/lang/da.js"></script>
-<script src="../../src/lang/de.js"></script>
-<script src="../../src/lang/en.js"></script>
-<script src="../../src/lang/es.js"></script>
-<script src="../../src/lang/fr.js"></script>
-<script src="../../src/lang/he.js"></script>
-<script src="../../src/lang/it.js"></script>
-<script src="../../src/lang/ja.js"></script>
-<script src="../../src/lang/ko.js"></script>
-<script src="../../src/lang/lv.js"></script>
-<script src="../../src/lang/pl.js"></script>
-<script src="../../src/lang/pt_br.js"></script>
-<script src="../../src/lang/ro.js"></script>
-<script src="../../src/lang/ru.js"></script>
-<script src="../../src/lang/se.js"></script>
-<script src="../../src/lang/ua.js"></script>
-<script src="../../src/lang/zh_cn.js"></script>
 <script>
 var langSelect = document.getElementById('language');
 var modeSelect = document.getElementById('mode');
@@ -684,7 +663,7 @@ function kothingEditor_create () {
             'fullScreen', 'showBlocks', 'codeView',
             'preview', 'print', 'save', 'template']
         ],
-        lang: KothingEditor_LANG[langSelect.options[langSelect.selectedIndex].value]
+        lang: langSelect.options[langSelect.selectedIndex].value
     };
     
     editorImageSample = KothingEditor.create('sample_editor', options);
